@@ -1,0 +1,30 @@
+MyMoney V7.5.1 — Credit Protector Plus + Late Payment Charges
+
+本升级包以用户上传的 MyMoney V7.5.0 独立信用卡页面 ZIP 为基础。
+
+本次修改：
+1) 负债 > 信用卡负债管理中新增 Credit Protector Plus 自动估算：每张卡独立开启/关闭保险及设置月费率（CIMB 参考值 0.60%），计费基数默认当前卡债加上预计新增 Finance Charges，也可手动覆盖。
+2) 新增 CIMB 迟还费计算：输入账单日、到期日、Statement Balance、Minimum Payment Due；系统读取已登记的信用卡还款并计算剩余最低应还。未足额时按适用的消费／预借未偿余额 1%，最低 RM10，最高 RM100。到期日逢周末自动加4个日历日，公共假期需勾选。未到期只显示风险预测，不自动收罚款。
+3) 新增每期账单保存与历史查看、银行实际保险费／迟还费核对入账；同一张卡同一期同类型费用防重复，费用同时增加卡债和费用支出，不扣银行卡余额；可删除错误费用以同时更正。
+4) 原有一般贷款、负债、收支、还款和 JSON 备份保留，新增数据也被导出／导入；更新 Service Worker 缓存版本。
+
+操作顺序：
+- 先用旧 MyMoney 导出 JSON 备份。
+- GitHub 仓库中仅覆盖 index.html 与 sw.js；不要删除其余配套 JS/CSS/图标文件。
+- 网页刷新后进入 负债 > 信用卡负债管理 V7.5.1；先选择/创建一张信用卡。
+- 保险费率：CIMB 卡默认 0.60%，点「保存本张卡的保险设置」。
+- 每一期账单：输入账单日、还款到期日、账单余额、账单的最低还款，点「保存本期账单与保险设置」。
+- 保存新的付款后，迟还试算会自动刷新。
+- 银行正式账单出现实际费用后，在「实际费用核对入账」填写实际保费/罚款并勾选已核对，才会真正记入卡债与支出。
+
+重要提醒：
+- 估算不等于 CIMB 银行最终收费。Late Charges 的计罚余额仅包含适用的零售／预借现金未付部分；若账单总额包含历史利息、罚款、保险等，需要在计罚适用余额栏提供更准确的数值。付款在银行入账的实际日期也可能有差别。
+- 信用卡还款表中的「本次包含额外利息」如已独立登记实际费用，一般请填 0，防止重复。
+- 若已经把包含费用的正式账单全部当成新期初欠款，不要再次登记同一笔实际费用。
+- 此 ZIP 只包含 index.html 与 sw.js（同原上传 ZIP）；独立部署仍需要原 GitHub 仓库中原有的其他静态资源。
+- 通过 JavaScript 语法检查和独立计算逻辑测试；完整网站依赖的外部脚本不在源 ZIP 内，未能完成完整浏览器端到端测试。
+
+CIMB 官方资料：
+https://www.cimb.com.my/en/personal/help-support/rates-charges/interest-rates-charges/fees-charges/credit-cards.html
+https://www.cimb.com.my/content/dam/cimb/personal/documents/cards/supplementary-card-application-form-eng.pdf
+https://www.cimb.com.my/content/dam/cimb/personal/documents/important-notices/bank-cardholder-tnc-eng-may-2024.pdf
