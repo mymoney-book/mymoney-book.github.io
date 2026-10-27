@@ -135,7 +135,24 @@ const D=[
 ['账单','Statement','Penyata'],
 ['查看／编辑','View / Edit','Lihat / Edit'],
 ['删除','Delete','Padam'],
-['例如：','e.g. ','Contoh: ']
+['例如：','e.g. ','Contoh: '],
+
+// V7.5.1 English cleanup — standalone UI labels and payment/debt empty states.
+['收入记录','Income Records','Rekod Pendapatan'],
+['支出记录','Expense Records','Rekod Perbelanjaan'],
+['暂无符合条件的收入记录','No matching income records found.','Tiada rekod pendapatan yang sepadan.'],
+['暂无符合条件的支出记录','No matching expense records found.','Tiada rekod perbelanjaan yang sepadan.'],
+['没有可还款的负债','No debts available for repayment.','Tiada hutang tersedia untuk bayaran balik.'],
+['🎨 自定义支出类别与图标','🎨 Customize Expense Categories & Icons','🎨 Sesuaikan Kategori & Ikon Perbelanjaan'],
+['仅供新增支出使用。既有自定义收入类别及历史交易资料仍保留，不会被删除。','For expense entries only. Existing custom income categories and transaction history will be preserved.','Untuk catatan perbelanjaan sahaja. Kategori pendapatan tersuai dan sejarah transaksi sedia ada akan dikekalkan.'],
+['▣ 新增账户与余额','▣ Add Account & Balance','▣ Tambah Akaun & Baki'],
+['新增账户与余额','Add Account & Balance','Tambah Akaun & Baki'],
+['点击负债清单中的「还款计划」查看逐期明细；记录部分还款后会重新计算剩余计划，未还差额优先补入下一期。预计计划不会自动扣款。','Click “Repayment Schedule” in the Debt List to view the details for each installment. After a partial repayment, the remaining schedule will be recalculated, with unpaid amounts carried forward to the next installment. The projected schedule does not automatically deduct payments.','Klik “Jadual Bayaran Balik” dalam Senarai Hutang untuk melihat butiran setiap ansuran. Selepas bayaran separa direkodkan, jadual baki akan dikira semula dan amaun tertunggak dibawa ke ansuran berikutnya. Jadual anggaran tidak membuat potongan automatik.'],
+['请选择关联账户','Select a Linked Account','Pilih Akaun Berkaitan'],
+['关联账户','Linked Account','Akaun Berkaitan'],
+['例如 2192.98','e.g. 2192.98','Contoh: 2192.98'],
+['例如 109.65','e.g. 109.65','Contoh: 109.65'],
+['留空按账单余额估算；如包含利息等费用建议填写银行适用余额','Leave blank to estimate from the statement balance; if it includes interest or other charges, enter the eligible balance specified by your bank.','Biarkan kosong untuk anggaran berdasarkan baki penyata; jika termasuk faedah atau caj lain, masukkan baki layak yang ditentukan oleh bank.'],
 ];
 const lookup=new Map();
 const aliases={
@@ -162,6 +179,35 @@ const aliases={
  '请选择Kad Kredit查看账单。':'请选择信用卡查看账单。',
  '按登记的Kad Kredit欠款与Tarikh Bayaran Balik计算简单日息：每天未还本金 × Kadar Faedah Tahunan ÷ 365。仅供预算参考，未计入新消费、免息期、保险、罚款或银行其他规则；':'按登记的信用卡欠款与还款日期计算简单日息：每天未还本金 × 年利率 ÷ 365。仅供预算参考，未计入新消费、免息期、保险、罚款或银行其他规则；'
 };
+
+// Partial word replacement by older language modules can leave hybrid strings.
+Object.assign(aliases,{
+ '请选择Credit Card':'请选择信用卡',
+ '请选择Kad Kredit':'请选择信用卡',
+ '暂无Credit CardDebts。请点击「＋ AddCredit Card」，完成后会自动显示在这里。':'暂无信用卡负债。请点击「＋ 新增信用卡」，完成后会自动显示在这里。',
+ '暂无Credit CardDebts。请点击「＋ Add Credit Card」，完成后会自动显示在这里。':'暂无信用卡负债。请点击「＋ 新增信用卡」，完成后会自动显示在这里。',
+ '暂无Credit CardRepayment History':'暂无信用卡还款记录',
+ '暂无Credit CardRekod Bayaran Balik':'暂无信用卡还款记录',
+ '请选择Credit Card查看费用。':'请选择信用卡查看费用。',
+ '请选择Credit Card查看账单。':'请选择信用卡查看账单。',
+ '例如：CIMB 11月Repayment':'例如：CIMB 11月还款',
+ '例如：CIMB 11月Bayaran Balik':'例如：CIMB 11月还款',
+ '留空：当前卡债＋预计Add Finance Charges':'留空：当前卡债＋预计新增 Finance Charges',
+ '留空：当前卡债＋预计New Finance Charges':'留空：当前卡债＋预计新增 Finance Charges',
+ '留空按账单Balance估算；如包含Interest等费用建议填写Bank适用Balance':'留空按账单余额估算；如包含利息等费用建议填写银行适用余额',
+ '留空按账单Balance估算；如包含Interest等费用建议填写Bank适用Balance':'留空按账单余额估算；如包含利息等费用建议填写银行适用余额',
+ '暂无符合条件的Income记录':'暂无符合条件的收入记录',
+ '暂无符合条件的Expense记录':'暂无符合条件的支出记录',
+ '没有可Repayment的Debts':'没有可还款的负债',
+ '没有可Repayment的Debt':'没有可还款的负债',
+ '仅供AddExpense使用。既有自定义IncomeCategory及历史交易资料仍保留，不会被Delete。':'仅供新增支出使用。既有自定义收入类别及历史交易资料仍保留，不会被删除。',
+ '🎨 自定义ExpenseCategory与图标':'🎨 自定义支出类别与图标',
+ '点击Debt List中的「Repayment Schedule」查看逐期Details；记录部分Repayment后会重新计算剩余计划，未还差额优先补入下一期。预计计划不会自动扣款。':'点击负债清单中的「还款计划」查看逐期明细；记录部分还款后会重新计算剩余计划，未还差额优先补入下一期。预计计划不会自动扣款。',
+ '▣ Add Account与Balance':'▣ 新增账户与余额',
+ 'Add Account与Balance':'新增账户与余额',
+ '例如 2192.98':'例如 2192.98',
+ '例如 109.65':'例如 109.65',
+});
 const normalize=s=>s.replace(/\s+/g,' ').trim();
 for(const d of D){for(const v of d)lookup.set(normalize(v),d)}
 for(const [k,v] of Object.entries(aliases)){const d=lookup.get(normalize(v));if(d)lookup.set(normalize(k),d)}
@@ -291,6 +337,66 @@ function fixEmptyCreditMessages(lang){
   }
  }
 }
+
+// Repair mixed-language UI leftovers without touching user-entered data or balances.
+function v751PatchStatic(lang){
+ const i=idx(lang);
+ const find=key=>lookup.get(normalize(key))?.[i];
+ const setText=(el,key)=>{
+  if(!el)return;
+  const val=find(key);if(!val)return;
+  // Do not replace child elements holding record amounts or account names.
+  const n=[...el.childNodes].find(n=>n.nodeType===3&&n.nodeValue.trim());
+  if(n&&n.nodeValue.trim()!==val)n.nodeValue=val;
+ };
+ const setPlain=(el,key)=>{
+  if(!el||el.children.length)return;
+  const val=find(key);if(val&&el.textContent.trim()!==val)el.textContent=val;
+ };
+ const title=document.getElementById('v7412RecordTitle');
+ if(title){
+  const text=title.textContent;
+  const expense=/支出|Expense|Perbelanjaan/i.test(text);
+  setPlain(title,expense?'支出记录':'收入记录');
+ }
+ const tx=document.getElementById('txList');
+ if(tx&&!tx.children.length){
+  const v=normalize(tx.textContent);
+  const isEmpty=/暂无|No matching (?:income|expense)|Tiada rekod (?:pendapatan|perbelanjaan)/i.test(v);
+  if(isEmpty)setPlain(tx,/支出|Expense|Perbelanjaan/i.test(v)?'暂无符合条件的支出记录':'暂无符合条件的收入记录');
+ }
+ const payDebt=document.querySelector('#payDebt option[value=""]');
+ if(payDebt&&/没有可|No debts available|Tiada hutang/i.test(payDebt.textContent))setPlain(payDebt,'没有可还款的负债');
+ setPlain(document.getElementById('v735AccountMode'),'▣ 新增账户与余额');
+ const cat=document.getElementById('v7412ExpenseCategoryEditor');
+ if(cat){setText(cat.querySelector('summary strong'),'🎨 自定义支出类别与图标');
+ setPlain(cat.querySelector('p.hint'),'仅供新增支出使用。既有自定义收入类别及历史交易资料仍保留，不会被删除。');}
+ const repayment=document.getElementById('debtRepayView');
+ if(repayment)setPlain(repayment.querySelector('.box > p.hint'),'点击负债清单中的「还款计划」查看逐期明细；记录部分还款后会重新计算剩余计划，未还差额优先补入下一期。预计计划不会自动扣款。');
+ // Existing credit card fields are dynamic: only modify empty options and placeholders.
+ const credit=document.getElementById('debtCreditView');if(!credit)return;
+ for(const select of credit.querySelectorAll('select')){
+  const option=select.querySelector('option[value=""]');if(!option)continue;
+  const text=normalize(option.textContent);
+  if(/请选择(?:信用卡|Credit Card|Kad Kredit)|Select a Credit Card|Sila pilih Kad Kredit/i.test(text))setPlain(option,'请选择信用卡');
+ }
+ const cardList=document.getElementById('v750CardList');
+ if(cardList&&!cardList.children.length&&/暂无|No credit card debts|Belum ada hutang kad kredit/i.test(cardList.textContent))setPlain(cardList,'暂无信用卡负债。请点击「＋ 新增信用卡」，完成后会自动显示在这里。');
+ const note=document.getElementById('v750PayNote');
+ if(note){const val=find('例如：CIMB 11月还款');if(val&&note.placeholder!==val)note.placeholder=val;}
+ const premium=document.getElementById('v751PremiumBase');
+ if(premium){const val=find('留空：当前卡债＋预计新增 Finance Charges');if(val&&premium.placeholder!==val)premium.placeholder=val;}
+ const statement=document.getElementById('v751StatementBalance');
+ if(statement&&/例如|e\.g\.|Contoh/.test(statement.placeholder)){const val=find('例如 2192.98');if(val&&statement.placeholder!==val)statement.placeholder=val;}
+ const minimum=document.getElementById('v751MinimumDue');
+ if(minimum&&/例如|e\.g\.|Contoh/.test(minimum.placeholder)){const val=find('例如 109.65');if(val&&minimum.placeholder!==val)minimum.placeholder=val;}
+ const eligible=document.getElementById('v751EligibleBase');
+ if(eligible){const val=find('留空按账单余额估算；如包含利息等费用建议填写银行适用余额');if(val&&eligible.placeholder!==val)eligible.placeholder=val;}
+ // Keep payment/account names untouched; only edit empty-state select options.
+ const linked=document.querySelector('#txAccount option[value=""]');
+ if(linked&&/请选择|Select a Linked Account|Pilih Akaun Berkaitan/i.test(linked.textContent))setPlain(linked,'请选择关联账户');
+}
+
 function render(){
  const root=document.getElementById('debtCreditView');if(!root)return;
  const lang=currentLang();
@@ -315,6 +421,7 @@ function render(){
  for(const [sel,key] of fixed)setFirst(document.querySelector(sel),key,lang);
  translateFields(lang);
  fixEmptyCreditMessages(lang);
+ v751PatchStatic(lang);
 }
 let scheduled=false;
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;render()})}
@@ -325,6 +432,11 @@ function init(){
  document.addEventListener('input',e=>{if(e.target.closest('#debtCreditView'))schedule()});
  const watcher=new MutationObserver(ms=>{if(ms.some(m=>m.type==='childList'||m.type==='characterData'))schedule()});
  watcher.observe(document.getElementById('debtCreditView')||document.body,{childList:true,characterData:true,subtree:true});
+ // These non-credit empty-state labels are generated on demand by the main app.
+ for(const id of ['txList','v7412RecordTitle','v7412ExpenseCategoryEditor','payDebt','debtRepayView','v735AccountMode']){
+   const el=document.getElementById(id);if(el)watcher.observe(el,{childList:true,characterData:true,subtree:true});
+ }
+
  // English/Malay settings can change from the Settings tab, outside the credit panel.
  const picker=document.getElementById('v604Language');if(picker)picker.addEventListener('change',()=>{schedule();requestAnimationFrame(schedule)});
 }
