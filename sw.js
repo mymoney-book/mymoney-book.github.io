@@ -1,6 +1,6 @@
 // MyMoney V7.5.1 — safe network-first update; preserve existing repository assets.
-const CACHE='mymoney-local-v751-cpp-late-v1';
-const ESSENTIAL=['./','./index.html'];
+const CACHE='mymoney-local-v751-en-ms-20261027';
+const ESSENTIAL=['./v751-credit-i18n.js','./','./index.html'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(async cache=>{
     await Promise.allSettled(ESSENTIAL.map(path=>cache.add(path)));
