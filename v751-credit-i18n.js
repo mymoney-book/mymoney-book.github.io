@@ -153,6 +153,7 @@ const D=[
 ['例如 2192.98','e.g. 2192.98','Contoh: 2192.98'],
 ['例如 109.65','e.g. 109.65','Contoh: 109.65'],
 ['留空按账单余额估算；如包含利息等费用建议填写银行适用余额','Leave blank to estimate from the statement balance; if it includes interest or other charges, enter the eligible balance specified by your bank.','Biarkan kosong untuk anggaran berdasarkan baki penyata; jika termasuk faedah atau caj lain, masukkan baki layak yang ditentukan oleh bank.'],
+['MyMoney NEXT · V7.5.1 · 财务资料仅储存于本机 · 请定期备份 JSON','MyMoney NEXT · V7.5.1 · Financial data is stored locally on this device · Back up your data regularly (JSON)','MyMoney NEXT · V7.5.1 · Data kewangan disimpan secara setempat pada peranti ini · Sila buat sandaran JSON secara berkala'],
 ];
 const lookup=new Map();
 const aliases={
@@ -207,6 +208,15 @@ Object.assign(aliases,{
  'Add Account与Balance':'新增账户与余额',
  '例如 2192.98':'例如 2192.98',
  '例如 109.65':'例如 109.65',
+ '填写账单和截止Date后自动计算.':'填写账单和截止日期后自动计算。',
+ '填写账单和截止Date后自动计算。':'填写账单和截止日期后自动计算。',
+ '填写账单和截止日期后自动计算.':'填写账单和截止日期后自动计算。',
+ '选择Credit Card和估算Date后计算.':'选择信用卡和估算日期后计算。',
+ '选择Credit Card和估算Date后计算。':'选择信用卡和估算日期后计算。',
+ '选择Credit Card和估算日期后计算.':'选择信用卡和估算日期后计算。',
+ '选择Credit Card和估算日期后计算。':'选择信用卡和估算日期后计算。',
+ 'MyMoney NEXT · V7.5.1 · 财务资料仅储存于本机 · 请定期Backup JSON':'MyMoney NEXT · V7.5.1 · 财务资料仅储存于本机 · 请定期备份 JSON',
+ 'MyMoney NEXT · V7.5.1 · Financial data is stored locally · 请定期Backup JSON':'MyMoney NEXT · V7.5.1 · 财务资料仅储存于本机 · 请定期备份 JSON',
 });
 const normalize=s=>s.replace(/\s+/g,' ').trim();
 for(const d of D){for(const v of d)lookup.set(normalize(v),d)}
@@ -392,6 +402,33 @@ function v751PatchStatic(lang){
  if(minimum&&/例如|e\.g\.|Contoh/.test(minimum.placeholder)){const val=find('例如 109.65');if(val&&minimum.placeholder!==val)minimum.placeholder=val;}
  const eligible=document.getElementById('v751EligibleBase');
  if(eligible){const val=find('留空按账单余额估算；如包含利息等费用建议填写银行适用余额');if(val&&eligible.placeholder!==val)eligible.placeholder=val;}
+  // The main program rewrites these messages when no card/dates are selected.
+  // Only translate the known prompts, never computed totals or saved results.
+  const knownPrompt=(id,key,extra)=>{
+    const el=document.getElementById(id),d=lookup.get(normalize(key));
+    if(!el||!d||el.children.length)return;
+    const current=normalize(el.textContent);
+    const variants=[...d,...extra].map(normalize);
+    if(variants.includes(current))setPlain(el,key);
+  };
+  knownPrompt('v751LateResult','填写账单和截止日期后自动计算。',[
+    '填写账单和截止Date后自动计算.','填写账单和截止Date后自动计算。',
+    '填写账单和截止日期后自动计算.'
+  ]);
+  knownPrompt('v750EstimateResult','选择信用卡和估算日期后计算。',[
+    '选择Credit Card和估算Date后计算.','选择Credit Card和估算Date后计算。',
+    '选择Credit Card和估算日期后计算.','选择Credit Card和估算日期后计算。'
+  ]);
+  // Footer sits outside the credit-card panel and was skipped by earlier versions.
+  const footer=document.querySelector('main > footer')||document.querySelector('footer');
+  const footerKey='MyMoney NEXT · V7.5.1 · 财务资料仅储存于本机 · 请定期备份 JSON';
+  if(footer&&!footer.children.length){
+    const old=normalize(footer.textContent),d=lookup.get(normalize(footerKey));
+    const variants=[...d,
+      'MyMoney NEXT · V7.5.1 · 财务资料仅储存于本机 · 请定期Backup JSON',
+      'MyMoney NEXT · V7.5.1 · Financial data is stored locally · 请定期Backup JSON'];
+    if(variants.map(normalize).includes(old))setPlain(footer,footerKey);
+  }
  // Keep payment/account names untouched; only edit empty-state select options.
  const linked=document.querySelector('#txAccount option[value=""]');
  if(linked&&/请选择|Select a Linked Account|Pilih Akaun Berkaitan/i.test(linked.textContent))setPlain(linked,'请选择关联账户');
@@ -437,6 +474,8 @@ function init(){
    const el=document.getElementById(id);if(el)watcher.observe(el,{childList:true,characterData:true,subtree:true});
  }
 
+ const footer=document.querySelector('main > footer')||document.querySelector('footer');
+ if(footer)watcher.observe(footer,{childList:true,characterData:true,subtree:true});
  // English/Malay settings can change from the Settings tab, outside the credit panel.
  const picker=document.getElementById('v604Language');if(picker)picker.addEventListener('change',()=>{schedule();requestAnimationFrame(schedule)});
 }
