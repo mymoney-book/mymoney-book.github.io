@@ -152,7 +152,15 @@ const aliases={
  '＋ 新增Kad Kredit':'＋ 新增信用卡',
  '保存Kad Kredit还款':'保存信用卡还款',
  '实际Tarikh Bayaran Balik':'实际还款日期',
- '实际Amaun Bayaran Balik (RM)':'实际还款金额（RM）'
+ '实际Amaun Bayaran Balik (RM)':'实际还款金额（RM）',
+ '已按账单入账的费用不能在还款时重复加算；Kad Kredit还款建议填0。':'已按账单入账的费用不能在还款时重复加算；信用卡还款建议填0。',
+ '暂无Kad KreditRekod Bayaran Balik':'暂无信用卡还款记录',
+ '暂无Kad Kredit Rekod Bayaran Balik':'暂无信用卡还款记录',
+ '选择Kad Kredit和估算日期后计算.':'选择信用卡和估算日期后计算。',
+ '选择Kad Kredit和估算日期后计算。':'选择信用卡和估算日期后计算。',
+ '请选择Kad Kredit查看费用。':'请选择信用卡查看费用。',
+ '请选择Kad Kredit查看账单。':'请选择信用卡查看账单。',
+ '按登记的Kad Kredit欠款与Tarikh Bayaran Balik计算简单日息：每天未还本金 × Kadar Faedah Tahunan ÷ 365。仅供预算参考，未计入新消费、免息期、保险、罚款或银行其他规则；':'按登记的信用卡欠款与还款日期计算简单日息：每天未还本金 × 年利率 ÷ 365。仅供预算参考，未计入新消费、免息期、保险、罚款或银行其他规则；'
 };
 const normalize=s=>s.replace(/\s+/g,' ').trim();
 for(const d of D){for(const v of d)lookup.set(normalize(v),d)}
@@ -172,6 +180,9 @@ const fixed=[
  ['#debtCreditView > .box:nth-child(2) > h2','我的信用卡负债'],
  ['#debtCreditView > .box:nth-child(3) > h2','💰 信用卡还款登记'],
  ['#debtCreditView > .box:nth-child(3) > p.hint','与现有负债还款记录共用同一份账目。选择付款账户后才会扣除对应银行／现金余额；不会生成第二笔普通支出。'],
+ ['#v750PayInterest + small.v751-small','已按账单入账的费用不能在还款时重复加算；信用卡还款建议填0。'],
+ ['#debtCreditView > .box:nth-child(4) > p.hint','按登记的信用卡欠款与还款日期计算简单日息：每天未还本金 × 年利率 ÷ 365。仅供预算参考，未计入新消费、免息期、保险、罚款或银行其他规则；'],
+ ['#debtCreditView > .box:nth-child(4) > p.hint > strong','不会自动生成实际费用'],
  ['#debtCreditView > .box:nth-child(4) > h2','🧮 Finance Charges 每日利息估算'],
  ['#debtCreditView > .box:nth-child(5) > h2','🛡️ Credit Protector Plus · 自动估算'],
  ['#debtCreditView > .box:nth-child(5) > p.hint','每张卡独立设置保险开关和月保费率；自动依据当前信用卡余额及预计新增 Finance Charges 估算。计算结果不会未经确认就重复入账。'],
@@ -259,6 +270,27 @@ function translateNode(n,lang){
  if(val===canonical)val=translateDynamicParts(canonical,lang);
  if(n.nodeValue!==val)n.nodeValue=val;
 }
+function fixEmptyCreditMessages(lang){
+ const slots=[
+  ['v750PaymentHistory','暂无信用卡还款记录'],
+  ['v750EstimateResult','选择信用卡和估算日期后计算。'],
+  ['v751FeeHistory','请选择信用卡查看费用。'],
+  ['v751StatementHistory','请选择信用卡查看账单。']
+ ];
+ for(const [id,key] of slots){
+  const el=document.getElementById(id),entry=lookup.get(normalize(key));
+  if(!el||!entry||el.children.length)continue;
+  const n=firstText(el);if(!n||!n.nodeValue.trim())continue;
+  // Only normalize UI prompts, never overwrite computed output or user records.
+  const text=normalize(n.nodeValue);
+  const variants=[...entry,'暂无Kad KreditRekod Bayaran Balik','暂无Kad Kredit Rekod Bayaran Balik',
+    '选择Kad Kredit和估算日期后计算.','选择Kad Kredit和估算日期后计算。',
+    '请选择Kad Kredit查看费用。','请选择Kad Kredit查看账单。'];
+  if(variants.some(v=>normalize(v)===text)){
+    const value=entry[idx(lang)];if(n.nodeValue!==value)n.nodeValue=value;
+  }
+ }
+}
 function render(){
  const root=document.getElementById('debtCreditView');if(!root)return;
  const lang=currentLang();
@@ -282,6 +314,7 @@ function render(){
  // Previous Malay translations can create mixed-language text; normalize the card summary labels.
  for(const [sel,key] of fixed)setFirst(document.querySelector(sel),key,lang);
  translateFields(lang);
+ fixEmptyCreditMessages(lang);
 }
 let scheduled=false;
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;render()})}
