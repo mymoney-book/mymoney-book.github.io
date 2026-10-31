@@ -1,5 +1,5 @@
-/* MyMoney NEXT V7.5.9 - network-first pages to avoid stale interface */
-const CACHE='mymoney-next-v759-pages';
+/* MyMoney NEXT V7.6.0 - network-first pages to avoid stale interface */
+const CACHE='mymoney-next-v760-pages';
 self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch',e=>{
