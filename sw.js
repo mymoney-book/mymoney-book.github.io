@@ -1,27 +1,21 @@
-// MyMoney V7.5.1 — safe network-first update; preserve existing repository assets.
-const CACHE='mymoney-local-v751-en-ms-20261027';
-const ESSENTIAL=['./v751-credit-i18n.js','./','./index.html'];
-self.addEventListener('install',event=>{
-  event.waitUntil(caches.open(CACHE).then(async cache=>{
-    await Promise.allSettled(ESSENTIAL.map(path=>cache.add(path)));
-    await self.skipWaiting();
-  }));
-});
-self.addEventListener('activate',event=>{
-  event.waitUntil(Promise.all([
-    caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('mymoney-local-')&&key!==CACHE).map(key=>caches.delete(key)))),
-    self.clients.claim()
-  ]));
-});
-self.addEventListener('fetch',event=>{
-  if(event.request.method!=='GET')return;
-  event.respondWith(fetch(event.request).then(response=>{
-    if(response.ok){const copy=response.clone();caches.open(CACHE).then(c=>c.put(event.request,copy)).catch(()=>{});}
-    return response;
-  }).catch(async()=>{
-    const existing=await caches.match(event.request);
-    if(existing)return existing;
-    if(event.request.mode==='navigate')return (await caches.match('./index.html'))||Response.error();
-    return Response.error();
-  }));
+/* MyMoney NEXT V7.5.8 - network-first pages to avoid stale interface */
+const CACHE='mymoney-next-v758-pages';
+self.addEventListener('install',e=>self.skipWaiting());
+self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
+self.addEventListener('fetch',e=>{
+  if(e.request.mode!=='navigate')return;
+  e.respondWith((async()=>{
+    try {
+      const response=await fetch(e.request,{cache:'no-store'});
+      if(response && response.ok) {
+        const c=await caches.open(CACHE);
+        await c.put(e.request,response.clone());
+      }
+      return response;
+    } catch(err) {
+      return (await caches.match(e.request)) ||
+             (await caches.match(new URL('./index.html',self.registration.scope).href)) ||
+             Response.error();
+    }
+  })());
 });
