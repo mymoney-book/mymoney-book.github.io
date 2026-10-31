@@ -81,7 +81,7 @@
 <div id="accountsEmbedded" class="v736-account-panel"><div class="box"><h2>账户</h2><p class="hint">在这里新增银行、现金及电子钱包账户。每笔收入、支出或转账都可选择对应账户。</p></div>
 <div class="box"><h2>新增账户</h2><form id="accountForm"><input type="hidden" id="accountId"><div class="grid">
 <div class="field"><label for="accountName">账户名称</label><input id="accountName" required placeholder="例如：Maybank 储蓄账户"></div>
-<div class="field"><label for="accountType">账户类别</label><select id="accountType"><option>银行</option><option>电子银行</option><option>电子钱包</option><option>现金</option><option>其他</option></select></div>
+<div class="field"><label for="accountType">账户类别</label><select id="accountType"><option>银行</option><option>电子钱包</option><option>现金</option><option>其他</option></select></div>
 <div class="field"><label for="accountOpening">启用时余额（RM）</label><input id="accountOpening" type="number" step="0.01" min="0" value="0" required></div>
 <div class="field full"><label>账户图标</label><div class="icon-controls"><button class="btn secondary small" type="button" id="chooseBrand">选择图标</button><button class="btn secondary small" type="button" id="uploadIcon">上传自己的图标</button><button class="btn secondary small" type="button" id="resetIcon">使用默认图标</button><span id="selectedAccountIcon">🏦 默认图标</span></div><input id="iconFile" type="file" accept="image/png,image/jpeg,image/webp" class="hidden"><input id="accountIcon" type="hidden"><div id="brandPicker" class="brand-picker hidden"></div></div><div class="field"><label for="accountNote">备注</label><input id="accountNote" placeholder="可选"></div></div>
 <p class="hint">首次建立账户时填当前实际余额。以前的收支记录不会自动归属到新账户，避免重复计算。日后可在收支记录中选择账户。</p>
