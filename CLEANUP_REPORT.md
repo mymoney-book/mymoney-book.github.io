@@ -1,0 +1,92 @@
+# MyMoney NEXT V8.1.1 — 文件清理报告
+
+基于用户上传的 ZIP 原样清理。**仅清除不被运行时使用的历史说明和审查文件，保留财务模块、CSS、图标、Service Worker、manifest、GitHub Actions 和三语言脚本。**
+
+## 清理汇总
+- 原始文件数：164
+- 删除历史说明／过期检查文件：75
+- 保留：89
+
+## 删除清单
+- `README_V640.txt`
+- `V6_TEST_README.txt`
+- `RELEASE_V720_OFFICIAL.txt`
+- `README_V720_STAGE2.txt`
+- `README_V745_TEST.txt`
+- `V811_STATIC_REMAINING.csv`
+- `README_V737_ENTERPRISE_TEST.txt`
+- `README_V714_BM.txt`
+- `README_V630.txt`
+- `README_V720_STAGE5.txt`
+- `#U5347#U7ea7#U8bf4#U660e.txt`
+- `V6_0_3_README.txt`
+- `README_V690.txt`
+- `README_V730_TEST.txt`
+- `README_V720_STAGE7.txt`
+- `README_V717.txt`
+- `TRANSLATION_SOURCE_INVENTORY.json`
+- `README_V747_TEST.txt`
+- `README_V620.txt`
+- `README_V719.txt`
+- `README_V670.txt`
+- `README_V650.txt`
+- `README_V700.txt`
+- `TRANSLATION_AUDIT_7105.md`
+- `TRANSLATION_AUDIT.md`
+- `README_V713_BM.txt`
+- `README_V720_STAGE3.txt`
+- `RELEASE_V7412_OFFICIAL.txt`
+- `README_V608.txt`
+- `README_V730_MENU_CLEANUP.txt`
+- `README_V7116.txt`
+- `README_V720_STAGE4.txt`
+- `README_V720.txt`
+- `README_V740_NEXT_TEST.txt`
+- `README_V734_TEST.txt`
+- `README_V7113.txt`
+- `README_V7111.txt`
+- `README_V7114.txt`
+- `README_V720_STAGE6.txt`
+- `README_V610.txt`
+- `README_V736_ENTERPRISE_TEST.txt`
+- `README_V607.txt`
+- `V800_BUILD_CHECK.json`
+- `V7112_VALIDATION.md`
+- `README_V7112.txt`
+- `README_V700_LABEL_FIX.txt`
+- `README_V7411_MALAY_COLLECTION.txt`
+- `V801_VALIDATION.md`
+- `V7113_VALIDATION.md`
+- `README_V715.txt`
+- `V811_VALIDATION.md`
+- `README_V748_MALAY_TEST.txt`
+- `README_V711_LABEL.txt`
+- `README_V743_ENGLISH_FIX.txt`
+- `README_V718.txt`
+- `README_V7115.txt`
+- `V6_0_5_README.txt`
+- `README_V744_ENGLISH_FIX.txt`
+- `TRANSLATION_VALIDATION.md`
+- `README_V7410_MALAY_FIX.txt`
+- `README_V7412_MALAY_FIX.txt`
+- `README_V720_CUSTOM_CATEGORIES.txt`
+- `README_V660.txt`
+- `README_V712_BM.txt`
+- `README_V730_CSV_TEST.txt`
+- `README_V7110.txt`
+- `V6_0_6_README.txt`
+- `V800_TRANSLATION_TEST.md`
+- `README_V716.txt`
+- `V810_VALIDATION.md`
+- `README_V749_MALAY_FIX.txt`
+- `TRANSLATION_SOURCE_AUDIT.csv`
+- `V6_0_4_README.txt`
+- `README_V710.txt`
+- `brand-icons/test.txt`
+
+## 注意事项
+- `v60.js` 等版本号较旧的 JS 是仍由 index.html 加载的财务功能模块，不可仅按版本号删除。
+- `brand-icons/` 图片可能由运行时代码拼接资源路径，因此保留全部品牌图标。
+- `upgrade-v5.html` 是旧版本升级工具，考虑到历史资料迁移需求予以保留。
+- 此次清理**未修改**任何 JS、HTML、CSS、manifest 或缓存逻辑；数据计算功能保持原样。
+- 语法通过不等于三语言覆盖100%或浏览器端到端验证。
