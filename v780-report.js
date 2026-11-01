@@ -1,4 +1,4 @@
-/* V7.8.8: read-only yearly report, references existing shared data; no mutations */
+/* V7.8.9: read-only yearly report, references existing shared data; no mutations */
 (()=>{'use strict';
 const el=id=>document.getElementById(id),num=x=>Number(x||0)||0,fmt=x=>'RM '+num(x).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -16,14 +16,29 @@ for(const l of loans.filter(l=>String(l.date||'').startsWith(m)&&l.accountId&&in
 for(const p of loanPays.filter(p=>String(p.date||'').startsWith(m)&&p.accountId&&inScope(p.accountId))){const loan=loans.find(l=>l.id===p.loanId);if(loan?.direction==='borrow')v.borrowRepay+=num(p.amount);else if(loan?.direction==='lend')v.lendBack+=num(p.amount)}
 for(const p of recPays.filter(p=>String(p.date||'').startsWith(m)&&p.accountId&&inScope(p.accountId)))v.receivableIn+=num(p.amount);
 v.net=v.income-v.expense-v.debtRepay+v.transferIn-v.transferOut+v.borrowIn-v.lendOut-v.borrowRepay+v.lendBack+v.receivableIn;return v}
-const start=yr+'-01-01';let opening=sum(acc.map(a=>a.opening));const historicMonths=new Set();
-for(const collection of [tx,debtPays,ts,loans,loanPays,recPays])for(const x of collection){if(dateBefore(x.date,start.slice(0,7)))historicMonths.add(String(x.date).slice(0,7))}
-for(const m of [...historicMonths].sort())opening+=flows(m).net;
-let running=opening;last=Array.from({length:12},(_,i)=>{const m=yr+'-'+String(i+1).padStart(2,'0'),v=flows(m);const record={month:m,opening:running,...v,closing:running+v.net};running=record.closing;return record});
+// The account opening balance is the first known end-of-month snapshot (October 2026).
+// Earlier months are unknown, not zero. Roll forward only from November 2026.
+const firstClosingMonth='2026-10',firstRollingMonth='2026-11';
+const snapshot=sum(acc.map(a=>a.opening));
+const historicMonths=new Set();
+for(const collection of [tx,debtPays,ts,loans,loanPays,recPays])for(const x of collection){
+  const m=String(x.date||'').slice(0,7);
+  if(m>=firstRollingMonth && m<yr+'-01')historicMonths.add(m);
+}
+let running=snapshot;
+for(const m of [...historicMonths].sort())running+=flows(m).net;
+const opening=yr==='2026'?null:running;
+last=Array.from({length:12},(_,i)=>{
+  const m=yr+'-'+String(i+1).padStart(2,'0'),v=flows(m);
+  if(m<firstClosingMonth)return {month:m,opening:null,...v,closing:null};
+  if(m===firstClosingMonth){running=snapshot;return {month:m,opening:null,...v,closing:running};}
+  const record={month:m,opening:running,...v,closing:running+v.net};
+  running=record.closing;return record;
+});
 const total=key=>sum(last.map(r=>r[key]));let kpis=[['年初账户余额',opening],['全年收入',total('income')],['普通支出',total('expense')],['负债还款',total('debtRepay')],['借入到账',total('borrowIn')],['借出款项',total('lendOut')],['借入归还',total('borrowRepay')],['借出收回',total('lendBack')],['旧应收收款',total('receivableIn')],['年末账户余额',running]];
-el('v780Kpis').innerHTML=kpis.map(([n,v])=>`<div class="card"><div class="sub">${esc(n)}</div><strong>${fmt(v)}</strong></div>`).join('');
+el('v780Kpis').innerHTML=kpis.map(([n,v])=>`<div class="card"><div class="sub">${esc(n)}</div><strong>${v==null?'—':fmt(v)}</strong></div>`).join('');
 const columns=[['month','月份'],['opening','期初'],['income','收入'],['expense','支出'],['debtRepay','负债还款'],['borrowIn','借入'],['lendOut','借出'],['borrowRepay','借入归还'],['lendBack','借出收回'],['receivableIn','旧应收收款'],['transferIn','转入'],['transferOut','转出'],['closing','期末']];
-const row=r=>'<tr>'+columns.map(([k])=>`<td style="padding:8px;white-space:nowrap;border-bottom:1px solid var(--line,#dde4ef)">${k==='month'?esc(r[k]):fmt(r[k])}</td>`).join('')+'</tr>';
+const row=r=>'<tr>'+columns.map(([k])=>`<td style="padding:8px;white-space:nowrap;border-bottom:1px solid var(--line,#dde4ef)">${k==='month'?esc(r[k]):r[k]==null?'—':fmt(r[k])}</td>`).join('')+'</tr>';
 el('v780Table').innerHTML=`<table style="width:100%;font-size:12px;border-collapse:collapse"><thead><tr>${columns.map(([k,n])=>`<th style="text-align:left;padding:8px;white-space:nowrap">${n}</th>`).join('')}</tr></thead><tbody>${last.map(row).join('')}</tbody></table>`;
 const cats={};for(const x of tx.filter(x=>String(x.date||'').startsWith(yr)&&x.accountId&&inScope(x.accountId))) {const key=(x.type==='income'?'收入':'支出')+' · '+(x.category||'未分类');cats[key]=(cats[key]||0)+num(x.amount)}
 el('v780Cats').innerHTML=Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([name,v])=>`<div class="item"><span>${esc(name)}</span><strong>${fmt(v)}</strong></div>`).join('')||'<p class="hint">所选年度没有关联账户的收支分类记录。</p>';
