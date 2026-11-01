@@ -1,4 +1,4 @@
-/* MyMoney V7.9.2 English UI compatibility: translate UI labels, not user entered records. */
+/* MyMoney V7.9.4: English UI plus display-only alias translations. */
 (()=>{'use strict';
 const map={
 '借款管理功能':'Loan Management','借款管理':'Loan Management','借入管理':'Borrowed Funds','借出管理':'Money Lent','收款与还款记录':'Collections & Repayment History',
@@ -35,15 +35,63 @@ const phrases=[
 ['转账仅在账户之间移动余额，不计入收入或支出。手续费请另外记为支出并选择付款账户。','Transfers move money between accounts and are not income or expenses. Record fees separately as expenses.'],
 ['这里自动列出已经保存的所有银行、电子银行、电子钱包和现金账户，防止重复新增。点击「编辑」可修改账户资料。','All saved bank, digital bank, e-wallet and cash accounts appear here. Select Edit to update an account.']
 ];
+// User-entered Chinese name display aliases (source records remain unchanged).
+// Only known, explicitly recognizable names are mapped; unknown names are not guessed.
+const userNameAliases={
+ '欠妈妈':'Loan from Mom','欠媽咪':'Loan from Mom','欠妈咪':'Loan from Mom',
+ '欠mama':'Loan from Mom','欠Mama':'Loan from Mom',
+ '欠二姐借款':'Loan from Second Sister','欠二姐':'Loan from Second Sister',
+ '欠爸爸':'Loan from Dad','欠父亲':'Loan from Dad','欠朋友':'Loan from Friend',
+ '汽车贷款':'Car Loan','汽車貸款':'Car Loan'
+};
+const extraPhrases=[
+ ['上月结转Account Balance','Previous Month Closing Account Balance'],
+ ['本月月末Total Outstanding Debt','Month-end Total Outstanding Debt'],
+ ['本月月末剩余总负债','Month-end Total Outstanding Debt'],
+ ['显示Monthly Summary','Show Monthly Summary'],['隐藏Monthly Summary','Hide Monthly Summary'],
+ ['隐藏Debt Overview','Hide Debt Overview'],['显示Debt Overview','Show Debt Overview'],
+ ['Home统计月份','Home Reporting Month'],['返回本月','Return to Current Month'],
+ ['当月月份：本月 · 切换月份只影响Home显示，不修改任何记录。','Reporting month: current month. Changing it only changes the Home display; no records are modified.'],
+ ['当前月份：本月 · 切换月份只影响Home显示，不修改任何记录。','Reporting month: current month. Changing it only changes the Home display; no records are modified.'],
+ ['上月结转','Previous Month Carryover'],['本月月末','Month-end'],
+ ['所选月份','Selected Month'],['本月结余（含借款收付）','Monthly Balance (Including Loan Cash Flows)'],
+ ['隐藏','Hide'],['显示','Show'],['截至','As of'],
+ ['本月全部交易','All Transactions This Month'],['本月交易','Transactions This Month'],
+ ['本月负债概览','Monthly Debt Overview'],['负债还款','Debt Repayments'],
+ ['借出款项','Loans Given'],['借入归还','Borrowing Repayments'],
+ ['借入到账','Borrowed Funds Received'],['借出收回','Loan Repayments Received'],
+ ['年度收支分类','Annual Income & Expense Categories'],['年末账户明细','Year-end Account Details'],
+ ['年末负债与借款概览','Year-end Debts & Loans Overview'],
+ ['每月收支、借款与期末余额','Monthly Cash Flows, Loans & Closing Balances'],
+ ['每日收支日历','Daily Income & Expense Calendar'],['月度收支分析','Monthly Cash Flow Analysis'],
+ ['导出详细年度 CSV','Export Detailed Annual CSV'],
+ ['当前月份','Current Month'],['全年','Annual'],['年末','Year-end']
+];
 const isEn=()=>{try{const p=JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}');return /^en/i.test(p.lang||'')}catch(e){return /^en/i.test(document.documentElement.lang||'')}};
 const originals=new WeakMap();let busy=false;
+function translatedText(source, isUserName){
+ const trimmed=source.trim();
+ if(isUserName){return userNameAliases[trimmed]||trimmed;}
+ let v=map[trimmed];
+ if(!v){v=trimmed;
+  for(const [zh,en] of extraPhrases)v=v.replaceAll(zh,en);
+  for(const [zh,en] of phrases)v=v.replaceAll(zh,en);
+  for(const [zh,en] of Object.entries(map).sort((a,b)=>b[0].length-a[0].length))if(zh.length>=3)v=v.replaceAll(zh,en);
+ }
+ return v;
+}
+
 function walk(root){if(!isEn()||busy)return;busy=true;try{
  const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
  while(n=tw.nextNode()){
   if(!n.nodeValue||!/[\u3400-\u9fff]/.test(n.nodeValue))continue;
-  const el=n.parentElement;if(!el||el.closest('script,style,textarea,[contenteditable="true"],#txList,#debtList,#paymentList,#loanList,#v58History,#v58Plan'))continue;
-  const original=originals.get(n)||n.nodeValue;const trimmed=original.trim();let translated=map[trimmed];
-  if(!translated){translated=trimmed;for(const [zh,en] of phrases)translated=translated.replaceAll(zh,en);for(const [zh,en] of Object.entries(map).sort((a,b)=>b[0].length-a[0].length))if(zh.length>=3)translated=translated.replaceAll(zh,en);}
+  const el=n.parentElement;if(!el||el.closest('script,style,textarea,[contenteditable="true"],[data-no-translate]'))continue;
+  const original=originals.get(n)||n.nodeValue;
+  const trimmed=original.trim();
+  const recordContext=!!el.closest('#txList,#debtList,#paymentList,#loanList,#v58History,#v58Plan');
+  // For record cards, only translate a known Chinese title; never translate notes, amounts, or inputs.
+  if(recordContext&&!userNameAliases[trimmed])continue;
+  const translated=translatedText(original,recordContext);
   if(translated!==trimmed){originals.set(n,original);n.nodeValue=original.replace(trimmed,translated)}
  }
  for(const el of root.querySelectorAll?.('[placeholder],[aria-label],[title]')||[]){for(const a of ['placeholder','aria-label','title']){const val=el.getAttribute(a);if(!val||!/[\u3400-\u9fff]/.test(val))continue;let v=val;for(const [zh,en] of Object.entries(map).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);el.setAttribute(a,v)}}
@@ -67,6 +115,6 @@ document.addEventListener('DOMContentLoaded',()=>{
  document.addEventListener('click',()=>scheduleUpdate(),{passive:true});
  document.addEventListener('change',()=>scheduleUpdate(),{passive:true});
  // Low-frequency fallback for dynamic text edits.
- setInterval(()=>{if(!document.hidden&&Date.now()-last>=4500)scheduleUpdate()},5000);
+ setInterval(()=>{if(!document.hidden&&Date.now()-last>=10000)scheduleUpdate()},12000);
 })
 })();
