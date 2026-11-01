@@ -1,4 +1,4 @@
-/* V7.8.4: read-only yearly report; monthly opening is prior month closing */
+/* V7.8.0: read-only yearly report, references existing shared data; no mutations */
 (()=>{'use strict';
 const el=id=>document.getElementById(id),num=x=>Number(x||0)||0,fmt=x=>'RM '+num(x).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -19,8 +19,7 @@ v.net=v.income-v.expense-v.debtRepay+v.transferIn-v.transferOut+v.borrowIn-v.len
 const start=yr+'-01-01';let opening=sum(acc.map(a=>a.opening));const historicMonths=new Set();
 for(const collection of [tx,debtPays,ts,loans,loanPays,recPays])for(const x of collection){if(dateBefore(x.date,start.slice(0,7)))historicMonths.add(String(x.date).slice(0,7))}
 for(const m of [...historicMonths].sort())opening+=flows(m).net;
-const cents=v=>Math.round((num(v)+Number.EPSILON)*100)/100;
-let running=cents(opening);last=Array.from({length:12},(_,i)=>{const m=yr+'-'+String(i+1).padStart(2,'0'),v=flows(m);const monthOpening=i===0?running:last[i-1].closing;const record={month:m,opening:monthOpening,...v,closing:cents(monthOpening+v.net)};running=record.closing;return record});
+let running=opening;last=Array.from({length:12},(_,i)=>{const m=yr+'-'+String(i+1).padStart(2,'0'),v=flows(m);const record={month:m,opening:running,...v,closing:running+v.net};running=record.closing;return record});
 const total=key=>sum(last.map(r=>r[key]));let kpis=[['年初账户余额',opening],['全年收入',total('income')],['普通支出',total('expense')],['负债还款',total('debtRepay')],['借入到账',total('borrowIn')],['借出款项',total('lendOut')],['借入归还',total('borrowRepay')],['借出收回',total('lendBack')],['旧应收收款',total('receivableIn')],['年末账户余额',running]];
 el('v780Kpis').innerHTML=kpis.map(([n,v])=>`<div class="card"><div class="sub">${esc(n)}</div><strong>${fmt(v)}</strong></div>`).join('');
 const columns=[['month','月份'],['opening','期初'],['income','收入'],['expense','支出'],['debtRepay','负债还款'],['borrowIn','借入'],['lendOut','借出'],['borrowRepay','借入归还'],['lendBack','借出收回'],['receivableIn','旧应收收款'],['transferIn','转入'],['transferOut','转出'],['closing','期末']];
