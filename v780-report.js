@@ -1,4 +1,4 @@
-/* V7.8.0: read-only yearly report, references existing shared data; no mutations */
+/* V7.8.8: read-only yearly report, references existing shared data; no mutations */
 (()=>{'use strict';
 const el=id=>document.getElementById(id),num=x=>Number(x||0)||0,fmt=x=>'RM '+num(x).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
