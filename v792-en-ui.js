@@ -50,5 +50,23 @@ function walk(root){if(!isEn()||busy)return;busy=true;try{
  }finally{busy=false}}
 function restore(){const t=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;while(n=t.nextNode()){const v=originals.get(n);if(v!==undefined){n.nodeValue=v;originals.delete(n)}}}
 function update(){if(isEn())walk(document.body);else restore()}
-document.addEventListener('DOMContentLoaded',()=>{update();new MutationObserver(()=>{if(!busy)update()}).observe(document.body,{childList:true,subtree:true,characterData:true});setInterval(update,1500)})
+// Throttled translations: do not observe characterData, as writing translated text
+// into the DOM can trigger a self-sustaining mutation/translation loop.
+let scheduled=false, last=0;
+function scheduleUpdate(){
+ if(scheduled)return; scheduled=true;
+ setTimeout(()=>{scheduled=false;last=Date.now();update()},350);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+ update();
+ new MutationObserver(mutations=>{
+  if(!isEn())return;
+  // Changes to text nodes caused by our own translations are intentionally ignored.
+  if(mutations.some(m=>[...m.addedNodes].some(n=>n.nodeType===1)))scheduleUpdate();
+ }).observe(document.body,{childList:true,subtree:true});
+ document.addEventListener('click',()=>scheduleUpdate(),{passive:true});
+ document.addEventListener('change',()=>scheduleUpdate(),{passive:true});
+ // Low-frequency fallback for dynamic text edits.
+ setInterval(()=>{if(!document.hidden&&Date.now()-last>=4500)scheduleUpdate()},5000);
+})
 })();
