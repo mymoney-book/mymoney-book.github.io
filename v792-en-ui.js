@@ -1,4 +1,4 @@
-/* MyMoney V7.9.5: English UI plus display-only alias translations. */
+/* MyMoney V7.9.6: English UI plus display-only alias translations. */
 (()=>{'use strict';
 const map={
 '借款管理功能':'Loan Management','借款管理':'Loan Management','借入管理':'Borrowed Funds','借出管理':'Money Lent','收款与还款记录':'Collections & Repayment History',
@@ -94,13 +94,59 @@ const fixes=[
  ['暂 ','No '],['欠二姐借款','Loan from Second Sister'],
  ['PPB 汽车货款','PPB Car Loan'],['PPB 汽车贷款','PPB Car Loan']
 ];
+// V7.9.6: precise additional English translations. These affect display only.
+const completeEnglish={
+'欠maan':'Loan from Maan','欠爸爸':'Loan from Dad','欠妈咪':'Loan from Mom',
+'不知开销':'Unspecified Expense','10份供期':'10 Installments','10月分':'October',
+'选择操作Type':'Select Transaction Type','Hide记录 ▲':'Hide Records ▲',
+'扣款':'Deduction','选择Bank':'Select Bank','Credit Card名称／Notes':'Credit Card Name / Notes',
+'起始Record Date':'Opening Record Date','保险月费率（%）':'Monthly Insurance Rate (%)',
+'迟还费率（%）':'Late Payment Fee Rate (%)','迟还费最低（RM）':'Minimum Late Fee (RM)',
+'迟还费最高（RM）':'Maximum Late Fee (RM)','周末／假期额外宽限天数':'Additional Grace Days for Weekends / Holidays',
+'此卡参加Credit Card保险（启用Automatic Estimate）':'Enable Credit Card Insurance (Automatic Estimate)',
+'SaveCredit Card及Bank设置清空／Add另一张卡':'Save Credit Card and Bank Settings / Add Another Card',
+'月末Total Account Balance':'Month-end Total Account Balance',
+'登记Repayment / 收款':'Record Repayment / Collection',
+'借款概览':'Loan Overview','待还借入':'Borrowed Amount Outstanding','待收借出':'Loans Receivable',
+'借入与借出记录':'Borrowing and Lending Records','借出 · Jess':'Lent to Jess',
+'原Amount':'Original Amount','已归还':'Amount Repaid','剩余':'Remaining',
+'登记Repayment / 收款':'Record Repayment / Collection',
+'暂无Repayment或Collection Records':'No repayment or collection records',
+'Repayment / 收款Date':'Repayment / Collection Date',
+'归还Amount (RM)':'Repayment Amount (RM)',
+'借款Repayment历史':'Loan Repayment History',
+'Save Repayment / 收款':'Save Repayment / Collection',
+'上期结转Balance':'Previous Statement Closing Balance',
+'本期AddCredit Card消费':'New Credit Card Purchases This Period',
+'本期Repayment（Principal）':'Principal Repaid This Period',
+'已Confirm实际收费':'Confirmed Actual Charges',
+'本期Add期初Debts':'Opening Debt Added This Period',
+'本期实际记录Balance':'Current Recorded Balance',
+'计息基数（Statement Balance 减PrincipalRepayment）':'Interest Basis (Statement Balance Less Principal Repayment)',
+'预计 Finance Charges（Statement Balance 减Repayment，固定30天）':'Estimated Finance Charges (Statement Balance Less Repayment, Fixed 30 Days)',
+'预计保险费':'Estimated Insurance Fee',
+'预计迟还费（仅根据已Save账单）':'Estimated Late Fee (Based on Saved Statements)',
+'预计结转总额（不入账）':'Estimated Carryover Total (Not Posted)',
+'Credit Card Repayment · Credit CardRepayment History':'Credit Card Repayment · Repayment History',
+'Finance Charges · Interest自动计算':'Finance Charges · Automatic Interest Calculation',
+'Bank实际费用核对入账 · 保险费':'Bank Fee Reconciliation · Insurance Fee',
+'Bank实际费用核对入账 · 逾期费':'Bank Fee Reconciliation · Late Fee',
+'Credit Protector Plus · 自动估算':'Credit Protector Plus · Automatic Estimate',
+'每张Credit Card独立SaveBank、年利率、保险及迟还费规则。Bank预设仅供参考，请以你的Bank正式条款和账单为准。':'Save each credit card’s bank, interest rate, insurance rate and late-fee rules separately. Bank defaults are for reference only; follow your bank’s official terms and statements.',
+'现有Credit Card可通过下方「EditBank规则」修改；不会DeleteRepayment历史。AddCredit Card时填写当前实际未还欠款，不要重复导入已有债务。':'Use Edit Bank Rules below to update an existing credit card without deleting repayment history. When adding a card, enter only the actual outstanding balance; do not import existing debt twice.',
+'点击Debt List中的「Repayment Schedule」查看逐期Details；记录部分Repayment后会重新计算Remaining计划，未还差额优先补入下一期。预计计划不会自动扣款。':'Select Repayment Schedule in the Debt List to view installment details. Partial repayments recalculate the remaining schedule, and unpaid amounts carry forward to the next installment. Planned payments are not deducted automatically.'
+};
+// Avoid translating arbitrary user notes or financial amounts. Translate only known aliases and system labels.
+const aliasEnglish={'欠maan':'Loan from Maan','欠爸爸':'Loan from Dad','欠妈咪':'Loan from Mom','欠妈妈':'Loan from Mom','欠二姐借款':'Loan from Second Sister','PPB 汽车货款':'PPB Car Loan'};
 const isEn=()=>{try{const p=JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}');return /^en/i.test(p.lang||'')}catch(e){return /^en/i.test(document.documentElement.lang||'')}};
 const originals=new WeakMap();let busy=false;
 function translatedText(source, isUserName){
  const trimmed=source.trim();
- if(isUserName){return userNameAliases[trimmed]||trimmed;}
+ if(isUserName){return aliasEnglish[trimmed]||userNameAliases[trimmed]||trimmed;}
+ if(completeEnglish[trimmed])return completeEnglish[trimmed];
  let v=map[trimmed];
  if(!v){v=trimmed;
+  for(const [zh,en] of Object.entries(completeEnglish).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of fixes)v=v.replaceAll(zh,en);
   for(const [zh,en] of extraPhrases)v=v.replaceAll(zh,en);
   for(const [zh,en] of phrases)v=v.replaceAll(zh,en);
@@ -118,8 +164,8 @@ function walk(root){if(!isEn()||busy)return;busy=true;try{
   const trimmed=original.trim();
   const recordContext=!!el.closest('#txList,#debtList,#paymentList,#loanList,#v58History,#v58Plan,#v776AllTransactions');
   // For record cards, only translate a known Chinese title; never translate notes, amounts, or inputs.
-  if(recordContext&&!userNameAliases[trimmed]&&!fixes.some(([zh])=>trimmed.includes(zh)))continue;
-  const translated=translatedText(original,recordContext && !!userNameAliases[trimmed]);
+  if(recordContext&&!aliasEnglish[trimmed]&&!userNameAliases[trimmed]&&!Object.keys(completeEnglish).some(zh=>trimmed.includes(zh))&&!fixes.some(([zh])=>trimmed.includes(zh)))continue;
+  const translated=translatedText(original,recordContext && !!(aliasEnglish[trimmed]||userNameAliases[trimmed]));
   if(translated!==trimmed){originals.set(n,original);n.nodeValue=original.replace(trimmed,translated)}
  }
  for(const el of root.querySelectorAll?.('[placeholder],[aria-label],[title]')||[]){for(const a of ['placeholder','aria-label','title']){const val=el.getAttribute(a);if(!val||!/[\u3400-\u9fff]/.test(val))continue;let v=val;for(const [zh,en] of Object.entries(map).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);el.setAttribute(a,v)}}
