@@ -44,6 +44,25 @@ Object.assign(map,{
  'Year-end账户明细':'Year-end Account Details',
  'Year-end负债与借款概览':'Year-end Debts & Loans Overview'
 });
+// V7.10.7 — full-sentence priority translations for dynamically mixed English/Chinese text.
+// Exact matches run before partial word replacements to avoid "Annual Reports查看" artifacts.
+const v7107English={
+ '充值':'Top-up',
+ 'Annual Reports查看Annual结转、分类、账户和借款；Monthly Analytics查看每日收支与Category Breakdown。':'Annual Reports shows annual carryovers, categories, accounts and loans. Monthly Analytics shows daily income and expenses and category breakdowns.',
+ 'Annual Reports查看Annual结转、分类、账户和借款；Monthly Analytics查看每日收支与Category Breakdown。':'Annual Reports shows annual carryovers, categories, accounts and loans. Monthly Analytics shows daily income and expenses and category breakdowns.',
+ 'Annual Reports查看Annual结转、分类、账户和借款；Monthly Analytics查看每日收支与Category Breakdown。':'Annual Reports shows annual carryovers, categories, accounts and loans. Monthly Analytics shows daily income and expenses and category breakdowns.',
+ 'Annual Reports查看全年结转、分类、账户和借款；Monthly Analytics查看每日收支与Category Breakdown。':'Annual Reports shows annual carryovers, categories, accounts and loans. Monthly Analytics shows daily income and expenses and category breakdowns.',
+ '年度报表查看全年结转、分类、账户和借款；月度分析查看每日收支与类别占比。':'Annual Reports shows annual carryovers, categories, accounts and loans. Monthly Analytics shows daily income and expenses and category breakdowns.',
+ 'Monthly收支Analytics · 每日Details':'Monthly Income & Expense Analysis · Daily Details',
+ '月度收支分析 · 每日明细':'Monthly Income & Expense Analysis · Daily Details',
+ '与Annual Reports集中管理：按月份查看Income、Expenses Only、Debt Repayments、借款收付、每日收支与分类占比。':'Integrated with Annual Reports: view income, regular expenses, debt repayments, borrowing and lending transactions, daily cash flow and category breakdowns by month.',
+ '与年度报表集中管理：按月份查看收入、普通支出、负债还款、借款收付、每日收支与分类占比。':'Integrated with Annual Reports: view income, regular expenses, debt repayments, borrowing and lending transactions, daily cash flow and category breakdowns by month.',
+ '普通Income':'Regular Income',
+ '普通收入':'Regular Income',
+ '普通Expenses':'Regular Expenses',
+ '普通Expenses Only':'Regular Expenses',
+ '普通支出':'Regular Expenses'
+};
 const phrases=[
 ['🔒 数据只保存在当前浏览器/设备。清除浏览器数据或换手机前，请先到「备份」导出 JSON 文件。','🔒 Your data is saved only in this browser/device. Export a JSON backup before clearing browser data or changing phones.'],
 ['在这里新增银行、现金及电子钱包账户。每笔收入、支出或转账都可选择对应账户。','Add bank, cash and e-wallet accounts here. Link each transaction to its account.'],
@@ -198,6 +217,7 @@ function translatedText(source, isUserName){
  if(/^\d{4}年$/.test(trimmed))return trimmed.slice(0,4);
 
  if(isUserName){return aliasEnglish[trimmed]||userNameAliases[trimmed]||trimmed;}
+ if(v7107English[trimmed])return v7107English[trimmed];
  if(v7103ExactEnglish[trimmed])return v7103ExactEnglish[trimmed];
  if(auditedEnglish[trimmed])return auditedEnglish[trimmed];
  if(v799English[trimmed])return v799English[trimmed];
@@ -206,6 +226,7 @@ function translatedText(source, isUserName){
  if(completeEnglish[trimmed])return completeEnglish[trimmed];
  let v=map[trimmed];
  if(!v){v=trimmed;
+  for(const [zh,en] of Object.entries(v7107English).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of Object.entries(v7103ExactEnglish).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of Object.entries(auditedEnglish).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of Object.entries(v799English).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
@@ -223,7 +244,7 @@ function translatedText(source, isUserName){
 function walk(root){if(!isEn()||busy)return;busy=true;try{
  const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
  while(n=tw.nextNode()){
-  if(!n.nodeValue||(!/[\u3400-\u9fff]/.test(n.nodeValue)&&!/(?:AnnualReports|MonthlyAnalytics)/.test(n.nodeValue)))continue;
+  if(!n.nodeValue||(!/[\u3400-\u9fff]/.test(n.nodeValue)&&!/(?:AnnualReports|MonthlyAnalytics|普通Income|普通Expenses|Monthly收支Analytics)/.test(n.nodeValue)))continue;
   const el=n.parentElement;if(!el||el.closest('script,style,textarea,[contenteditable="true"],[data-no-translate],input'))continue;
   const original=originals.get(n)||n.nodeValue;
   const trimmed=original.trim();
