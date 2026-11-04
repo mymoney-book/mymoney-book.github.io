@@ -311,11 +311,18 @@ const v7112English={
  "已保存账单": "Saved Statements",
  "Bank Fee Reconciliation · Late Fee": "Bank Fee Reconciliation · Late Fee"
 };
+const v7113Critical={
+ '自动预计不直接改变欠款。只有核对所属银行正式账单后，才输入实际 Credit Protector Plus / Late Charges 并确认入账；同一卡同一期同类费用不可重复记账。如果你已经把包含这些费用的完整新账单设为新的期初欠款，不要再次记入费用。':'Estimated charges do not change your outstanding balance. Check the official bank statement before recording actual Credit Protector Plus premiums or late fees. Do not record the same charge twice in one statement period. If already included in the opening balance, do not record it again.',
+ '例如 13.08':'Example: 13.08',
+ '例如 20.13；无罚款可留空':'Example: 20.13; leave blank if no late fee',
+ '例如：超市消费':'Example: Supermarket purchase'
+};
 const isEn=()=>{try{const p=JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}');return /^en/i.test(p.lang||'')}catch(e){return /^en/i.test(document.documentElement.lang||'')}};
 const originals=new WeakMap();let busy=false;
 function translatedText(source, isUserName){
  const trimmed=source.trim();
  // V7.10.12: prioritize full labels and complete descriptions over word fragments.
+ if(v7113Critical[trimmed])return v7113Critical[trimmed];
  if(v7112English[trimmed])return v7112English[trimmed];
 
  if(/^\d{4}年$/.test(trimmed))return trimmed.slice(0,4);
@@ -364,7 +371,7 @@ function walk(root){if(!isEn()||busy)return;busy=true;try{
  while(n=tw.nextNode()){
   if(!n.nodeValue||(!/[\u3400-\u9fff]/.test(n.nodeValue)&&!/(?:AnnualReports|MonthlyAnalytics|普通Income|普通Expenses|Monthly收支Analytics)/.test(n.nodeValue)))continue;
   const el=n.parentElement;if(!el||el.closest('script,style,textarea,[contenteditable="true"],[data-no-translate],input'))continue;
-  const original=originals.get(n)||n.nodeValue;
+  const original=(originals.has(n) && n.nodeValue===translatedText(originals.get(n),false))?originals.get(n):n.nodeValue;
   const trimmed=original.trim();
   const recordContext=!!el.closest('#txList,#debtList,#paymentList,#loanList,#v58History,#v58Plan,#v776AllTransactions');
   // For record cards, only translate a known Chinese title; never translate notes, amounts, or inputs.
