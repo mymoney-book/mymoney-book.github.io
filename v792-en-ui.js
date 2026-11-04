@@ -210,6 +210,32 @@ const v799English={
 };
 const auditedEnglish={"点击负债清单中的「还款计划」查看逐期明细；记录部分还款后会重新计算剩余计划，未还差额优先补入下一期。预计计划不会自动扣款。": "Open Repayment Schedule in the Debt List to see each installment. After a partial repayment is recorded, the remaining schedule is recalculated, with any shortfall carried into the next installment first. Scheduled payments are estimates only and are not deducted automatically.", "此卡参加信用卡保险（启用自动估算）": "This Card Is Enrolled in Credit Card Insurance (Enable Automatic Estimates)", "保存信用卡及银行设置": "Save Credit Card and Bank Settings", "清空／新增另一张卡": "Clear Form / Add Another Card", "现有信用卡可通过下方「编辑银行规则」修改；不会删除还款历史。新增信用卡时填写当前实际未还欠款，不要重复导入已有债务。": "Use Edit Bank Rules below to update an existing card without deleting repayment history. When adding a card, enter only its actual outstanding balance; do not import existing debt twice.", "账期从上月结单日到本月结单日前一天；例如结单日20号，对应上月20日至本月19日。利息按固定30天基准估算。Finance Charges 是简化的余额日息估算，未还款利息及银行免息规则可能导致差异。旧版已录入的原始欠款视为期初欠款；旧消费不要再次添加。保险及迟还费预览不入账。": "The billing cycle runs from the previous statement date to the day before the current statement date. For a statement date of the 20th, the period is the 20th of the previous month through the 19th of this month. Finance charges use a simplified fixed 30-day interest estimate; outstanding interest and bank-specific interest-free rules can cause differences. Legacy outstanding debt is treated as the opening balance; do not add old purchases again. Estimated insurance premiums and late fees are not posted automatically.", "填写收入金额、日期及类别，并选择关联账户后保存。": "Enter income amount, date and category, select a linked account, then save.", "填写支出金额、日期及类别，保存后会记录为支出。": "Enter the expense amount, date and category, then save it as an expense.", "新增或编辑银行、现金及电子钱包账户。账户月度结转请点击「余额」。": "Add or edit bank, cash and e-wallet accounts. Open Balances to see monthly carryovers.", "按账户与月份查看余额及上月结转，不会重复记账。": "View balances and previous-month carryovers by account and month. No duplicate entries are created.", "这里会显示全部账户当前余额，以及各银行／钱包／现金账户的独立余额。": "This section shows current balances for all accounts and for each individual bank, e-wallet or cash account.", "每个账户独立显示：上月结转、本月收入、本月支出、内部转账、负债还款、收款到账及月底余额。结转只用于查看，不会新增重复收入。": "Each account shows its previous-month carryover, monthly income, expenses, internal transfers, debt repayments, collections received and month-end balance. Carryovers are for viewing only; they never create duplicate income.", "月度账户独立结转": "Individual Monthly Account Carryovers", "银行账户独立月度结转": "Individual Monthly Bank Account Carryovers", "隐藏账户清单": "Hide Account List", "显示账户清单": "Show Account List", "返回本月": "Return to This Month", "所选月份结余（含借款收付）": "Selected Month Closing Balance (Including Loan Cash Flows)", "本月全部交易": "All Transactions This Month", "显示全部交易 ▼": "Show All Transactions ▼", "隐藏全部交易 ▲": "Hide All Transactions ▲", "选择操作类型": "Select Transaction Type", "花红": "Bonus", "津贴": "Allowance", "汽车维修": "Car Maintenance", "电子银行": "Digital Bank", "不知开销": "Miscellaneous Expenses", "10份供期": "10 Installments", "本期实际记录余额": "Actual Recorded Balance This Period", "本期新增信用卡消费": "New Credit Card Purchases This Period", "本期已记录本金还款": "Principal Repaid This Period", "本期预计 Finance Charges": "Estimated Finance Charges This Period", "借款概览": "Loan Overview", "借入与借出记录": "Borrowing and Lending Records", "暂无还款或收款记录": "No Repayment or Collection Records", "账单最低还款": "Statement Minimum Payment", "本期已登记还款": "Payments Recorded This Period", "还差最低还款": "Remaining Minimum Payment", "适用计罚日期": "Applicable Late-Fee Date", "暂估未付消费／预借计罚余额": "Estimated Unpaid Purchases / Cash Advance Balance", "已满足最低还款，预计无迟还费。": "Minimum payment satisfied; no late fee is currently estimated.", "例如：超市消费": "Example: Supermarket purchase", "例如：CIMB 11月还款": "Example: CIMB November repayment", "留空：当前卡债＋预计新增 Finance Charges": "Leave blank to use the current outstanding balance plus estimated finance charges.", "例如 20.13；无罚款可留空": "Example: 20.13; leave blank if there is no late fee.", "欠二姐借款": "Loan from Second Sister", "欠爸爸": "Loan from Dad", "欠妈咪": "Loan from Mom", "欠maan": "Loan from Maan", "PPB 汽车货款": "PPB Car Loan", "本月转入": "Transfers In This Month", "本月转出": "Transfers Out This Month", "本月收入": "Monthly Income", "本月支出": "Monthly Expenses", "月底余额": "Month-end Balance", "收款到账": "Collections Received", "旧应收收款": "Legacy Receivables Collected", "结余（含借款收付）": "Closing Balance (Including Loan Cash Flows)", "账户月度结转": "Monthly Account Carryovers", "年度收支分类": "Annual Income & Expense Categories", "年末账户明细": "Year-End Account Details", "年末负债与借款概览": "Year-End Debts and Loans Overview", "每月收支、借款与期末余额": "Monthly Income, Expenses, Loans and Closing Balances", "这里会自动列出已保存的所有银行、电子银行、电子钱包和现金账户，防止重复新增。点击「编辑」可修改账户资料。": "All saved bank, digital bank, e-wallet and cash accounts are listed here to prevent duplicates. Select Edit to change account details.", "本月总流出包含普通支出、所有负债还款，以及本月关联账户的借出款项与借入归还。如信用卡消费已记入普通支出，再将还款计入总流出可能重复计算；本表借款收付仅统计关联账户的流水；没有关联账户的借款不会计入账户结余。结余属于现金流估算，不是会计利润。": "Monthly total outflow includes ordinary expenses, all debt repayments, loans given from linked accounts, and repayments of borrowed funds from linked accounts. If credit card purchases are recorded as expenses, counting repayments as outflows again may double-count spending. Only loan payments linked to accounts affect the balance shown. This is a cash-flow estimate, not accounting profit.", "点击Debt List中的「Repayment Schedule」查看逐期Details；Records部分Repayment后会重新计算Remaining计划，未还差额优先补入下一期。预计计划不会自动Deduction。": "Open Repayment Schedule in the Debt List to see each installment. After a partial repayment is recorded, the remaining schedule is recalculated, with any shortfall carried into the next installment first. Scheduled payments are estimates only and are not deducted automatically.", "此卡参加Credit Card保险（启用Automatic Estimate）": "This Card Is Enrolled in Credit Card Insurance (Enable Automatic Estimates)", "已Add Account": "Added Accounts", "请Select Account": "Select Account", "返回This Month": "Return to This Month", "This MonthAll交易": "All Transactions This Month", "ShowAll交易 ▼": "Show All Transactions ▼", "账单最低Repayment": "Statement Minimum Payment", "显示Monthly Summary": "Show Monthly Summary", "隐藏Monthly Summary": "Hide Monthly Summary", "当前Credit CardOutstanding Balance": "Current Credit Card Outstanding Balance", "加：预计Add Finance Charges": "Add: Estimated Finance Charges", "预估Amount，不代表实际收取. 已包含在当前欠款中的旧保费不应再次入账": "This is an estimate, not an actual charge. Do not record insurance premiums already included in outstanding debt again.", "账单 RM": "Statement RM", "原定Monthly Payment": "Original Scheduled Monthly Payment"};
 const v7103ExactEnglish={"点击Debt List中的「Repayment Schedule」查看逐期Details；Records部分Repayment后会重新计算Remaining计划，未还差额优先补入下一期。预计计划不会自动Debit。": "Open Repayment Schedule in the Debt List to view installments. After a partial repayment, the schedule is recalculated and any shortfall is added to the next installment. Planned payments are not debited automatically.", "此卡参加Credit Card保险（启用Automatic Estimate）": "This card has credit card insurance (enable automatic estimates)", "原定Monthly Payment": "Original monthly payment", "登记Repayment": "Record repayment", "EditDebts": "Edit debt", "EditBank规则": "Edit bank rules", "上月结转Account Balance": "Previous month closing account balance", "当月净变动": "Net change this month", "请Select Account": "Select account", "不知开销": "Miscellaneous expenses", "10份供期": "10 installments", "原Amount": "Original amount", "已归还": "Repaid", "余额": "Balance", "贷款": "Loan", "暂无Repayment或Collection Records": "No repayment or collection records", "账期从上月结单日到本月结单日前一天": "The billing cycle runs from the previous statement date through the day before the current statement date"};
+// V7.10.10: exact full-text translations for debt and credit-card details.
+// These are applied before the old word-by-word translator.
+const v7110English={
+ '点击Debt List中的「Repayment Schedule」查看逐期Details；Records部分Repayment后会重新计算Remaining计划，未还差额优先补入下一期。预计计划不会自动Debit。':'Open Repayment Schedule in the Debt List to view each installment. After a partial repayment, the remaining schedule is recalculated and any shortfall carries forward to the next installment. Scheduled repayments are estimates and are not deducted automatically.',
+ '点击Debt List中的「Repayment Schedule」查看逐期Details；Records部分Repayment后会重新计算Remaining计划，未还差额优先补入下一期。预计计划不会自动Deduction。':'Open Repayment Schedule in the Debt List to view each installment. After a partial repayment, the remaining schedule is recalculated and any shortfall carries forward to the next installment. Scheduled repayments are estimates and are not deducted automatically.',
+ '点击负债清单中的「还款计划」查看逐期明细；记录部分还款后会重新计算剩余计划，未还差额优先补入下一期。预计计划不会自动扣款。':'Open Repayment Schedule in the Debt List to view each installment. After a partial repayment, the remaining schedule is recalculated and any shortfall carries forward to the next installment. Scheduled repayments are estimates and are not deducted automatically.',
+ '此卡参加Credit Card保险（启用Automatic Estimate）':'Credit Card Insurance (Enable Automatic Estimates)',
+ '此卡参加信用卡保险（启用自动估算）':'Credit Card Insurance (Enable Automatic Estimates)',
+ '例如：超市消费':'Example: Supermarket purchase',
+ '原定Monthly Payment':'Original Monthly Payment',
+ '原定月供':'Original Monthly Payment',
+ '每月30号':'30th of Each Month',
+ '每月30号。':'30th of Each Month.',
+ '每月30号：':'30th of Each Month:',
+ '账单周期':'Statement Period',
+ 'Statement Period':'Statement Period',
+};
+function v7110DynamicEnglish(text){
+ let t=text;
+ // Date ranges are dynamic (their dates come from the saved card statement).
+ t=t.replace(/(Statement Period\s*[:：]\s*\d{4}-\d{2}-\d{2})\s*至\s*(\d{4}-\d{2}-\d{2})/g,'$1 to $2');
+ t=t.replace(/(结算周期\s*[:：]\s*\d{4}-\d{2}-\d{2})\s*至\s*(\d{4}-\d{2}-\d{2})/g,(_,a,b)=>a.replace('结算周期','Statement Period')+' to '+b);
+ t=t.replace(/(原定(?:Monthly Payment|月供))(?=\s*[:：])/g,'Original Monthly Payment');
+ t=t.replace(/每月\s*(\d{1,2})\s*号/g,(_,day)=>'Day '+day+' of Each Month');
+ return t;
+}
 const isEn=()=>{try{const p=JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}');return /^en/i.test(p.lang||'')}catch(e){return /^en/i.test(document.documentElement.lang||'')}};
 const originals=new WeakMap();let busy=false;
 function translatedText(source, isUserName){
@@ -217,6 +243,9 @@ function translatedText(source, isUserName){
  if(/^\d{4}年$/.test(trimmed))return trimmed.slice(0,4);
 
  if(isUserName){return aliasEnglish[trimmed]||userNameAliases[trimmed]||trimmed;}
+ if(v7110English[trimmed])return v7110English[trimmed];
+ const dyn=v7110DynamicEnglish(trimmed);
+ if(dyn!==trimmed){return translatedTextWithoutDynamic(dyn);}
  if(v7107English[trimmed])return v7107English[trimmed];
  if(v7103ExactEnglish[trimmed])return v7103ExactEnglish[trimmed];
  if(auditedEnglish[trimmed])return auditedEnglish[trimmed];
@@ -224,8 +253,9 @@ function translatedText(source, isUserName){
  if(latestEnglish[trimmed])return latestEnglish[trimmed];
  if(comprehensiveEnglish[trimmed])return comprehensiveEnglish[trimmed];
  if(completeEnglish[trimmed])return completeEnglish[trimmed];
- let v=map[trimmed];
+ let v=v7110English[trimmed]||map[trimmed];
  if(!v){v=trimmed;
+  for(const [zh,en] of Object.entries(v7110English).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of Object.entries(v7107English).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of Object.entries(v7103ExactEnglish).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of Object.entries(auditedEnglish).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
@@ -241,6 +271,15 @@ function translatedText(source, isUserName){
  return v;
 }
 
+function translatedTextWithoutDynamic(text){
+ let result=text;
+ for(const [a,b] of Object.entries(v7110English).sort((x,y)=>y[0].length-x[0].length))result=result.replaceAll(a,b);
+ for(const dict of [v7107English,v7103ExactEnglish,auditedEnglish,v799English,latestEnglish,comprehensiveEnglish,completeEnglish,map]){
+  if(dict[result])return dict[result];
+  for(const [a,b] of Object.entries(dict).sort((x,y)=>y[0].length-x[0].length))if(a.length>=3)result=result.replaceAll(a,b);
+ }
+ return result;
+}
 function walk(root){if(!isEn()||busy)return;busy=true;try{
  const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
  while(n=tw.nextNode()){
