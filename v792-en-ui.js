@@ -26,6 +26,24 @@ const map={
 '编辑':'Edit','删除':'Delete','取消':'Cancel','保存':'Save','确认':'Confirm','显示':'Show','隐藏':'Hide','查看':'View','返回':'Back','新增':'Add','开启':'Enabled','关闭':'Disabled','自动估算':'Automatic Estimate','利息自动计算':'Automatic Interest Calculation','逾期费用自动计算':'Automatic Late Fee Calculation','银行实际费用核对入账':'Bank Fee Reconciliation & Posting',
 '收款记录':'Collection Records','收款与Repayment History':'Collections & Repayment History','请定期备份 JSON':'Back up JSON regularly'
 };
+// V7.10.6: audited English aliases for mixed-language reporting and selectors.
+Object.assign(map,{
+ '财务Reports':'Financial Reports','财务报表':'Financial Reports',
+ '充值':'Top-up',
+ 'SGD — 新加坡元':'SGD — Singapore Dollar',
+ 'USD — 美元':'USD — US Dollar',
+ 'CNY — 人民币':'CNY — Chinese Yuan',
+ '新加坡元':'Singapore Dollar','美元':'US Dollar','人民币':'Chinese Yuan',
+ '繁體中文':'Traditional Chinese','简体中文':'Simplified Chinese',
+ 'AnnualReports':'Annual Reports','MonthlyAnalytics':'Monthly Analytics',
+ 'AnnualReports查看Annual结转、分类、账户和借款；MonthlyAnalytics查看每日收支与Category Breakdown。':'Annual Reports provides year-end summaries, category breakdowns, account details, and debt overviews. Monthly Analytics provides daily income and expense analysis, along with category breakdowns.',
+ 'AnnualReports查看全年结转、分类、账户和借款；MonthlyAnalytics查看每日收支与Category Breakdown。':'Annual Reports provides year-end summaries, category breakdowns, account details, and debt overviews. Monthly Analytics provides daily income and expense analysis, along with category breakdowns.',
+ '年度报表查看全年结转、分类、账户和借款；月度分析查看每日收支与类别占比。':'Annual Reports provides year-end summaries, category breakdowns, account details, and debt overviews. Monthly Analytics provides daily income and expense analysis, along with category breakdowns.',
+ 'Year-end账户Details':'Year-end Account Details',
+ 'Year-endDebts与Loan Overview':'Year-end Debts & Loans Overview',
+ 'Year-end账户明细':'Year-end Account Details',
+ 'Year-end负债与借款概览':'Year-end Debts & Loans Overview'
+});
 const phrases=[
 ['🔒 数据只保存在当前浏览器/设备。清除浏览器数据或换手机前，请先到「备份」导出 JSON 文件。','🔒 Your data is saved only in this browser/device. Export a JSON backup before clearing browser data or changing phones.'],
 ['在这里新增银行、现金及电子钱包账户。每笔收入、支出或转账都可选择对应账户。','Add bank, cash and e-wallet accounts here. Link each transaction to its account.'],
@@ -62,6 +80,9 @@ const extraPhrases=[
  ['本月负债概览','Monthly Debt Overview'],['负债还款','Debt Repayments'],
  ['借出款项','Loans Given'],['借入归还','Borrowing Repayments'],
  ['借入到账','Borrowed Funds Received'],['借出收回','Loan Repayments Received'],
+ ['AnnualReports','Annual Reports'],['MonthlyAnalytics','Monthly Analytics'],
+ ['Year-end账户Details','Year-end Account Details'],['Year-endDebts与Loan Overview','Year-end Debts & Loans Overview'],
+ ['财务Reports','Financial Reports'],
  ['年度收支分类','Annual Income & Expense Categories'],['年末账户明细','Year-end Account Details'],
  ['年末负债与借款概览','Year-end Debts & Loans Overview'],
  ['每月收支、借款与期末余额','Monthly Cash Flows, Loans & Closing Balances'],
@@ -174,6 +195,8 @@ const isEn=()=>{try{const p=JSON.parse(localStorage.getItem('mymoney-v604-prefer
 const originals=new WeakMap();let busy=false;
 function translatedText(source, isUserName){
  const trimmed=source.trim();
+ if(/^\d{4}年$/.test(trimmed))return trimmed.slice(0,4);
+
  if(isUserName){return aliasEnglish[trimmed]||userNameAliases[trimmed]||trimmed;}
  if(v7103ExactEnglish[trimmed])return v7103ExactEnglish[trimmed];
  if(auditedEnglish[trimmed])return auditedEnglish[trimmed];
@@ -200,7 +223,7 @@ function translatedText(source, isUserName){
 function walk(root){if(!isEn()||busy)return;busy=true;try{
  const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
  while(n=tw.nextNode()){
-  if(!n.nodeValue||!/[\u3400-\u9fff]/.test(n.nodeValue))continue;
+  if(!n.nodeValue||(!/[\u3400-\u9fff]/.test(n.nodeValue)&&!/(?:AnnualReports|MonthlyAnalytics)/.test(n.nodeValue)))continue;
   const el=n.parentElement;if(!el||el.closest('script,style,textarea,[contenteditable="true"],[data-no-translate],input'))continue;
   const original=originals.get(n)||n.nodeValue;
   const trimmed=original.trim();
