@@ -236,10 +236,88 @@ function v7110DynamicEnglish(text){
  t=t.replace(/每月\s*(\d{1,2})\s*号/g,(_,day)=>'Day '+day+' of Each Month');
  return t;
 }
+const v7112English={
+ "点击Debt List中的「Repayment Schedule」查看逐期Details；Records部分Repayment后会重新计算Remaining计划，未还差额优先补入下一期。预计计划不会自动Debit。": "Open Repayment Schedule from the Debt List to view each installment. After a partial repayment is recorded, the remaining schedule is recalculated and any shortfall is carried forward to the next installment. Estimated payments are not deducted automatically.",
+ "点击Debt List中的「Repayment Schedule」查看逐期Details；Records部分Repayment后会重新计算Remaining计划，未还差额优先补入下一期。预计计划不会自动扣款。": "Open Repayment Schedule from the Debt List to view each installment. After a partial repayment is recorded, the remaining schedule is recalculated and any shortfall is carried forward to the next installment. Estimated payments are not deducted automatically.",
+ "点击负债清单中的「还款计划」查看逐期明细；记录部分还款后会重新计算剩余计划，未还差额优先补入下一期。预计计划不会自动扣款。": "Open Repayment Schedule from the Debt List to view each installment. After a partial repayment is recorded, the remaining schedule is recalculated and any shortfall is carried forward to the next installment. Estimated payments are not deducted automatically.",
+ "原定Monthly Payment": "Original Monthly Payment",
+ "原定月供": "Original Monthly Payment",
+ "自动预计不直接改变欠款。只有核对所属银行正式账单后，才输入实际 Credit Protector Plus / Late Charges 并确认入账；同一卡同一期同类费用不可重复记账。如果你已经把包含这些费用的完整新账单设为新的期初欠款，不要再次记入费用。": "Estimated charges do not change your outstanding balance. After checking the official bank statement, enter the actual Credit Protector Plus premium and late fees, then confirm posting. Do not post the same fee twice for the same card and statement period. If these charges are already included in an opening balance, do not add them again.",
+ "例如 13.08": "Example: 13.08",
+ "例如 20.13；无罚款可留空": "Example: 20.13; leave blank if no late fee",
+ "例如：13.08": "Example: 13.08",
+ "例如：20.13；无罚款可留空": "Example: 20.13; leave blank if no late fee",
+ "账单": "Statement",
+ "账单最低还款": "Minimum Payment Due",
+ "还差最低还款": "Remaining Minimum Payment Due",
+ "适用计罚日期": "Applicable Late-Fee Date",
+ "暂估未付消费／预借计罚余额": "Estimated Eligible Unpaid Purchases / Cash Advances",
+ "目前信用卡剩余欠款": "Current Credit Card Outstanding Balance",
+ "加：预计新增 Finance Charges": "Add: Estimated Finance Charges",
+ "保险计费基数（自动）": "Insurance Premium Base (Automatic)",
+ "保险计费基数（手动）": "Insurance Premium Base (Manual)",
+ "保险状态／费率": "Insurance Status / Rate",
+ "自动预计 Credit Protector Plus": "Estimated Credit Protector Plus",
+ "预估金额，不代表实际收取。已包含在当前欠款中的旧保费不应再次入账。": "This is an estimate, not an actual charge. Do not post insurance premiums already included in the outstanding balance again.",
+ "已满足最低还款，预计无迟还费": "Minimum payment met; no late fee is expected",
+ "尚未超过计罚日期：如到期仍不足，可能产生迟还费": "The late-fee date has not passed; a late fee may apply if the minimum remains unpaid",
+ "选定的未来日期超过计罚日期：假设期间没有新增还款，可能产生迟还费": "The selected future date is beyond the late-fee date; a fee may apply if no further payments are made",
+ "计罚日期已过且最低还款不足：预计可能产生迟还费": "The late-fee date has passed and the minimum payment is not met; a late fee may apply",
+ "已按银行账单确认": "Confirmed against bank statement",
+ "截止：": "Due: ",
+ "最低应还": "Minimum Due",
+ "本期已登记还款（截至": "Repayments Recorded This Period (as of",
+ "限到期前有效）": "only payments made by the due date count)",
+ "（按银行设置宽限）": " (bank grace-period rule applied)",
+ "预计可能收取 Late Charges": "Estimated Late Charges",
+ "到期仍未足额时的预计 Late Charges": "Estimated Late Charges if Underpaid at Due Date",
+ "注意：目前按整张账单余额估算，包含旧利息、保险等非适用款项时罚款可能有偏差；请填写准确的零售／预借计罚余额。": "Note: This estimate uses the full statement balance. It may overstate the fee if it includes interest or insurance; enter the eligible retail-purchase and cash-advance balance for accuracy.",
+ "计罚基数按你填写的适用余额估算。": "The fee is calculated using the eligible balance you entered.",
+ "系统只根据已登记还款计算，银行实际入账日和付款分配方式可能不同。": "The app calculates using recorded payments only. The bank posting date and allocation of payments may differ.",
+ "以下使用本张Credit CardSave的Bank规则。输入 Statement Date、Due Date 和 Minimum Payment；自动依据已Record repayment判断是否达到最低Repayment，并预计迟还费。每一期账单分别Save，不同Bank的最低付款、宽限期与计罚基数可能不同，请核对正式条款。": "The calculation uses the selected credit card’s saved bank rules. Enter the statement date, due date and minimum payment. Recorded repayments are checked against the minimum due to estimate any late fee. Save each statement separately and confirm the bank’s official conditions.",
+ "以下使用本张信用卡保存的银行规则。输入 Statement Date、Due Date 和 Minimum Payment；自动依据已登记还款判断是否达到最低还款，并预计迟还费。每一期账单分别保存，不同银行的最低付款、宽限期与计罚基数可能不同，请核对正式条款。": "The calculation uses the selected credit card’s saved bank rules. Enter the statement date, due date and minimum payment. Recorded repayments are checked against the minimum due to estimate any late fee. Save each statement separately and confirm the bank’s official conditions.",
+ "迟还费按照所选Credit Card的费率、上下限估算；CIMB 常见示例为1%、最低 RM10、最高 RM100。未到期Show「风险预测」，不代表Bank已收费。周末4日宽限自动处理，公共假期请勾选；Bank实际入账时间可能影响结果。": "Late fees are estimated using the selected card’s rate and limits. A CIMB example is 1%, minimum RM10 and maximum RM100. Before the due date, this is a risk estimate, not a bank charge. Weekend grace days are handled automatically; select the public-holiday option if applicable. Actual bank posting dates can affect the result.",
+ "迟还费按照所选信用卡的费率、上下限估算；CIMB 常见示例为1%、最低 RM10、最高 RM100。未到期显示「风险预测」，不代表银行已收款。周末4日宽限自动处理，公共假期请勾选；银行实际入账时间可能影响结果。": "Late fees are estimated using the selected card’s rate and limits. A CIMB example is 1%, minimum RM10 and maximum RM100. Before the due date, this is a risk estimate, not a bank charge. Weekend grace days are handled automatically; select the public-holiday option if applicable. Actual bank posting dates can affect the result.",
+ "留空按账单Balance估算；如包含Interest等费用建议填写Bank适用Balance": "Leave blank to estimate from statement balance; enter the bank-eligible balance if the statement includes interest or other fees",
+ "留空按账单余额估算；如包含利息等费用建议填写银行适用余额": "Leave blank to estimate from statement balance; enter the bank-eligible balance if the statement includes interest or other fees",
+ "账单最低Repayment": "Minimum Payment Due",
+ "本期已登记Repayment": "Repayments Recorded This Period",
+ "还差最低Repayment": "Remaining Minimum Payment Due",
+ "暂估未付消费／预借计罚Balance": "Estimated Eligible Unpaid Purchases / Cash Advances",
+ "已满足最低Repayment，预计无迟还费": "Minimum payment met; no late fee is expected",
+ "原定Monthly Payment：": "Original Monthly Payment:",
+ "目前Credit CardOutstanding Balance": "Current Credit Card Outstanding Balance",
+ "加：预计Add Finance Charges": "Add: Estimated Finance Charges",
+ "Insurance Status / Rate": "Insurance Status / Rate",
+ "开启": "Enabled",
+ "关闭": "Disabled",
+ "估计Amount，不代表实际收取。已包含在当前欠款中的旧保费不应再次入账。": "This is an estimate, not an actual charge. Do not post an insurance premium already included in your balance again.",
+ "预估Amount，不代表实际收取。已包含在当前欠款中的旧保费不应再次入账。": "This is an estimate, not an actual charge. Do not post an insurance premium already included in your balance again.",
+ "优先根据已Save的 Statement Balance 减去已登记PrincipalRepayment：（Statement Balance − Principal Repaid）× Annual Interest Rate × 30 ÷ 365。包含已登记新消费、已Confirm收费和已登记PrincipalRepayment；根据每张卡的每月结单日划分账期，并以固定30天基准估算，同时Show账期实际自然日数。未模拟Bank免息期、交易入账日与特殊条款；": "The estimate starts with the saved statement balance less recorded principal repayments: (Statement Balance − Principal Repaid) × Annual Interest Rate × 30 ÷ 365. Statement periods follow each card’s closing date, using a fixed 30-day interest basis while also showing actual calendar days. Bank interest-free periods, transaction posting dates and special terms are not modeled;",
+ "优先依据已保存的 Statement Balance 减去已登记本金还款：（Statement Balance − 已还本金）× 年利率 × 30 ÷ 365。包含已登记新消费、已确认收费和已登记本金还款；根据每张卡的每月结单日划分账期，并以固定30天基准估算，同时显示账期实际自然日数。未模拟银行免息期、交易入账日与特殊条款；": "The estimate starts with the saved statement balance less recorded principal repayments: (Statement Balance − Principal Repaid) × Annual Interest Rate × 30 ÷ 365. Statement periods follow each card’s closing date, using a fixed 30-day interest basis while also showing actual calendar days. Bank interest-free periods, transaction posting dates and special terms are not modeled;",
+ "选择Credit Card和估算Date后计算；和Monthly预览采用同一Calculation Method。": "Select a credit card and estimate dates to calculate interest using the same method as the monthly forecast.",
+ "选择信用卡和估算日期后计算；和月度预览采用同一计算方式。": "Select a credit card and estimate dates to calculate interest using the same method as the monthly forecast.",
+ "例如：CIMB 11月Repayment": "Example: CIMB November repayment",
+ "例如：CIMB 11月还款": "Example: CIMB November repayment",
+ "留空：当前卡债＋预计Add Finance Charges": "Leave blank to use the current card balance plus estimated finance charges",
+ "留空：当前卡债＋预计新增 Finance Charges": "Leave blank to use the current card balance plus estimated finance charges",
+ "保险计费基数（RM，可选覆盖自动数值）": "Insurance Premium Base (RM, optional manual override)",
+ "已满足最低Repayment，预计无迟还费；注意：": "Minimum repayment met; no late fee expected. Note:",
+ "本期已登记Repayment（截至": "Repayments Recorded This Period (as of",
+ "已确认费用": "Confirmed charges",
+ "实际收费": "Actual charges",
+ "暂估金额": "Estimated amount",
+ "请先选择信用卡，并填写完整的账单日期、到期日、账单余额和最低还款额。": "Select a credit card and complete the statement date, due date, balance and minimum payment.",
+ "已保存账单": "Saved Statements",
+ "Bank Fee Reconciliation · Late Fee": "Bank Fee Reconciliation · Late Fee"
+};
 const isEn=()=>{try{const p=JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}');return /^en/i.test(p.lang||'')}catch(e){return /^en/i.test(document.documentElement.lang||'')}};
 const originals=new WeakMap();let busy=false;
 function translatedText(source, isUserName){
  const trimmed=source.trim();
+ // V7.10.12: prioritize full labels and complete descriptions over word fragments.
+ if(v7112English[trimmed])return v7112English[trimmed];
+
  if(/^\d{4}年$/.test(trimmed))return trimmed.slice(0,4);
 
  if(isUserName){return aliasEnglish[trimmed]||userNameAliases[trimmed]||trimmed;}
@@ -255,6 +333,7 @@ function translatedText(source, isUserName){
  if(completeEnglish[trimmed])return completeEnglish[trimmed];
  let v=v7110English[trimmed]||map[trimmed];
  if(!v){v=trimmed;
+  for(const [zh,en] of Object.entries(v7112English).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of Object.entries(v7110English).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of Object.entries(v7107English).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
   for(const [zh,en] of Object.entries(v7103ExactEnglish).sort((a,b)=>b[0].length-a[0].length))v=v.replaceAll(zh,en);
@@ -291,7 +370,7 @@ function walk(root){if(!isEn()||busy)return;busy=true;try{
   // For record cards, only translate a known Chinese title; never translate notes, amounts, or inputs.
   if(recordContext&&!aliasEnglish[trimmed]&&!userNameAliases[trimmed]&&!Object.keys(completeEnglish).some(zh=>trimmed.includes(zh))&&!fixes.some(([zh])=>trimmed.includes(zh))&&!Object.keys(comprehensiveEnglish).some(zh=>trimmed.includes(zh))&&!Object.keys(latestEnglish).some(zh=>trimmed.includes(zh))&&!Object.keys(v799English).some(zh=>trimmed.includes(zh))&&!Object.keys(auditedEnglish).some(zh=>trimmed.includes(zh))&&!Object.keys(v7103ExactEnglish).some(zh=>trimmed.includes(zh)))continue;
   const translated=translatedText(original,recordContext && !!(aliasEnglish[trimmed]||userNameAliases[trimmed]));
-  if(translated!==trimmed){originals.set(n,original);n.nodeValue=original.replace(trimmed,translated)}
+  if(translated!==trimmed){const wanted=original.replace(trimmed,translated);if(n.nodeValue!==wanted){originals.set(n,original);n.nodeValue=wanted}}
  }
  for(const el of root.querySelectorAll?.('[placeholder],[aria-label],[title]')||[]){for(const a of ['placeholder','aria-label','title']){const val=el.getAttribute(a);if(!val||!/[\u3400-\u9fff]/.test(val))continue;let v=translatedText(val,false);if(v!==val)el.setAttribute(a,v)}}
  }finally{busy=false}}
@@ -309,8 +388,8 @@ document.addEventListener('DOMContentLoaded',()=>{
  new MutationObserver(mutations=>{
   if(!isEn())return;
   // Changes to text nodes caused by our own translations are intentionally ignored.
-  if(mutations.some(m=>[...m.addedNodes].some(n=>n.nodeType===1)))scheduleUpdate();
- }).observe(document.body,{childList:true,subtree:true});
+  if(mutations.some(m=>(m.type==='characterData' && /[\u3400-\u9fff]/.test(m.target.nodeValue||'')) || (m.type==='childList' && [...m.addedNodes].some(n=>n.nodeType===1 || (n.nodeType===3 && /[\u3400-\u9fff]/.test(n.nodeValue||''))))))scheduleUpdate();
+ }).observe(document.body,{childList:true,characterData:true,subtree:true});
  document.addEventListener('click',()=>scheduleUpdate(),{passive:true});
  document.addEventListener('change',()=>scheduleUpdate(),{passive:true});
  // Low-frequency fallback for dynamic text edits.
