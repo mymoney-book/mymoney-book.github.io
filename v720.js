@@ -12,17 +12,55 @@ const tx=x=>D[lang()][x];
 // V8.1.10: budgets are kept outside the application ledger and mirrored on save.
 // Never use a versioned budget key: older saved monthly budgets must remain readable.
 function safeObject(raw){try{const x=JSON.parse(raw||'{}');return x&&typeof x==='object'&&!Array.isArray(x)?x:{}}catch{return {}}}
-function writeBudgets(all){localStorage.setItem(KEY,JSON.stringify(all));try{localStorage.setItem(MIRROR,JSON.stringify(all))}catch(e){/* main save succeeded; mirror best effort */}}
+const HISTORY='mymoney-v8111-budget-snapshots';
+// Preserve multiple distinct versions before an import or save can replace them.
+function snapshot(all){
+ try{
+  const history=safeObject(localStorage.getItem(HISTORY));let changed=false;
+  for(const [ym,entry] of Object.entries(all||{})){
+   if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(ym)||!entry||!entry.categories||!Object.keys(entry.categories).length)continue;
+   const versions=Array.isArray(history[ym])?history[ym]:[];
+   const data={total:entry.total||0,categories:{...entry.categories}};
+   if(!versions.some(v=>JSON.stringify(v.data)===JSON.stringify(data))){
+     versions.push({at:new Date().toISOString(),data});
+     history[ym]=versions.slice(-12);changed=true;
+   }
+  }
+  if(changed)localStorage.setItem(HISTORY,JSON.stringify(history));
+ }catch(e){/* best-effort extra history; never block the main budget save */}
+}
+function writeBudgets(all){
+ // Save snapshots before changing the primary budget key.
+ snapshot(safeObject(localStorage.getItem(KEY)));
+ snapshot(safeObject(localStorage.getItem(MIRROR)));
+ snapshot(all);
+ localStorage.setItem(KEY,JSON.stringify(all));
+ try{localStorage.setItem(MIRROR,JSON.stringify(all))}catch(e){/* main save succeeded; mirror best effort */}
+}
 function read(){
- const original=safeObject(localStorage.getItem(KEY)),backup=safeObject(localStorage.getItem(MIRROR));
- if(!Object.keys(original).length&&Object.keys(backup).length){
-   try{localStorage.setItem(KEY,JSON.stringify(backup))}catch(e){};
-   return backup;
+ const main=safeObject(localStorage.getItem(KEY)),mirror=safeObject(localStorage.getItem(MIRROR));
+ if(!Object.keys(main).length&&!Object.keys(mirror).length)return {};
+ // A crash/import may leave one copy incomplete. Never overwrite a richer saved copy with a shorter one.
+ const all={...main};let changed=false;
+ for(const [ym,old] of Object.entries(mirror)){
+  if(!all[ym]){all[ym]=old;changed=true;continue;}
+  const current=all[ym];if(!current||typeof current!=='object'||!old||typeof old!=='object')continue;
+  const existing=current.categories||{},prior=old.categories||{};
+  const missing=Object.keys(prior).filter(n=>!Object.prototype.hasOwnProperty.call(existing,n));
+  if(missing.length){
+   const combined={...existing};for(const name of missing)combined[name]=prior[name];
+   const sum=Object.values(combined).reduce((v,n)=>v+(Number(n)>0?Number(n):0),0);
+   all[ym]={...current,categories:combined,total:Math.max(Number(current.total)||0,sum)};
+   changed=true;
+  }
  }
- if(Object.keys(original).length&&JSON.stringify(original)!==JSON.stringify(backup)){
-   try{localStorage.setItem(MIRROR,JSON.stringify(original))}catch(e){}
+ // Historical snapshots are offered as an explicit recovery action, not automatically
+ // restored: the user may have intentionally removed a category.
+ if(changed||JSON.stringify(main)!==JSON.stringify(mirror)){
+  // This also snapshots both original copies before reconciliation.
+  try{writeBudgets(all)}catch(e){}
  }
- return original;
+ return all;
 }
 function budgetTotal(b){
  if(!b||typeof b!=='object')return 0;
@@ -47,19 +85,97 @@ function ledger(){try{const x=JSON.parse(localStorage.getItem(LEDGER)||'{}');ret
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 const fmt=n=>'RM '+Number(n||0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
 const now=new Date();let month=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
-root.innerHTML='<div class="box"><h2 id="v720Title"></h2><div class="v720-tools"><label><span id="v720MonthLabel"></span><input id="v720Month" type="month"></label><label><span id="v720TotalLabel"></span><input id="v720Total" type="number" min="0" step="0.01" inputmode="decimal"></label></div><p class="hint" id="v720Hint"></p><div class="actions"><button type="button" class="btn" id="v720Save"></button><button type="button" class="btn secondary" id="v720Copy"></button></div><p id="v720Status" class="hint" role="status"></p><p id="v8110CarryStatus" class="hint"></p></div><div class="box"><div class="v720-grid" id="v720Summary"></div></div><div class="box"><h2 id="v720CatTitle"></h2><div id="v720Categories"></div><div id="v720Unbudgeted" class="v720-unbudgeted"></div><div class="v720-add"><label for="v720NewName" id="v720NewLabel"></label><div class="v720-add-row"><input id="v720NewName" type="text" maxlength="60" list="v720Suggested"><datalist id="v720Suggested"></datalist><button type="button" class="btn secondary" id="v720Add"></button></div></div><p class="hint" id="v720Backup"></p></div><div class="box"><h2 id="v720MonthlyTitle"></h2><p class="hint" id="v720CompareHint"></p><div class="v720-table-wrap"><table class="v720-table"><thead id="v720MonthlyHead"></thead><tbody id="v720MonthlyBody"></tbody></table></div></div><div class="box"><h2 id="v720CompareTitle"></h2><div class="v720-table-wrap"><table class="v720-table"><thead id="v720CategoryHead"></thead><tbody id="v720CategoryBody"></tbody></table></div><h3 id="v720OverTitle"></h3><div id="v720OverList"></div></div><div class="box"><h2 id="v720AnnualTitle"></h2><div class="v720-grid" id="v720AnnualSummary"></div><p class="hint" id="v720CoverageHint"></p></div>';
+root.innerHTML='<div class="box"><h2 id="v720Title"></h2><div class="v720-tools"><label><span id="v720MonthLabel"></span><input id="v720Month" type="month"></label><label><span id="v720TotalLabel"></span><input id="v720Total" type="number" min="0" step="0.01" inputmode="decimal"></label></div><p class="hint" id="v720Hint"></p><div class="actions"><button type="button" class="btn" id="v720Save"></button><button type="button" class="btn secondary" id="v720Copy"></button></div><p id="v720Status" class="hint" role="status"></p><p id="v8110CarryStatus" class="hint"></p></div><div class="box"><div class="v720-grid" id="v720Summary"></div></div><div class="box"><h2 id="v720CatTitle"></h2><div id="v8111RestoreBox" style="display:none;margin:8px 0 14px;padding:10px;border:1px solid #d3e3f5;border-radius:10px"><p id="v8111RestoreHint" class="hint" style="margin:0 0 8px"></p><button type="button" class="btn secondary" id="v8111Restore"></button></div><div id="v8111BudgetImportBox" style="margin:8px 0 14px;padding:10px;border:1px solid #d3e3f5;border-radius:10px"><p class="hint" id="v8111ImportHelp" style="margin:0 0 8px"></p><input id="v8111ImportFile" type="file" accept=".json,application/json" style="max-width:380px"/><button type="button" class="btn secondary" id="v8111Import" style="margin:6px 0 0"></button></div><div id="v720Categories"></div><div id="v720Unbudgeted" class="v720-unbudgeted"></div><div class="v720-add"><label for="v720NewName" id="v720NewLabel"></label><div class="v720-add-row"><input id="v720NewName" type="text" maxlength="60" list="v720Suggested"><datalist id="v720Suggested"></datalist><button type="button" class="btn secondary" id="v720Add"></button></div></div><p class="hint" id="v720Backup"></p></div><div class="box"><h2 id="v720MonthlyTitle"></h2><p class="hint" id="v720CompareHint"></p><div class="v720-table-wrap"><table class="v720-table"><thead id="v720MonthlyHead"></thead><tbody id="v720MonthlyBody"></tbody></table></div></div><div class="box"><h2 id="v720CompareTitle"></h2><div class="v720-table-wrap"><table class="v720-table"><thead id="v720CategoryHead"></thead><tbody id="v720CategoryBody"></tbody></table></div><h3 id="v720OverTitle"></h3><div id="v720OverList"></div></div><div class="box"><h2 id="v720AnnualTitle"></h2><div class="v720-grid" id="v720AnnualSummary"></div><p class="hint" id="v720CoverageHint"></p></div>';
 $('v720Month').value=month;
 let draft=null;let dirty=false;let draftTotal=null;
 function categories(){const transactions=ledger().filter(x=>x.type==='expense'&&typeof x.date==='string'&&x.date.startsWith(month));const used={};for(const t of transactions){const name=String(t.category||tx('uncat'));used[name]=(used[name]||0)+(Number(t.amount)||0)}const config=read()[month]||{};if(!draft||draft.month!==month)draft={month,names:Object.keys(config.categories||{}),values:{...(config.categories||{})}};return {used,config,keys:draft.names}}
+// Missing categories from an earlier month may be offered for recovery without overwriting current limits.
+function recoveryPlan(){
+ const all=read(),current=all[month]||{},own=current.categories||{};
+ const history=safeObject(localStorage.getItem(HISTORY));
+ const versions=Array.isArray(history[month])?history[month]:[];
+ const richer=versions.map(v=>v&&v.data).filter(v=>v&&v.categories)
+   .map(v=>Object.entries(v.categories).filter(([k,value])=>!Object.prototype.hasOwnProperty.call(own,k)&&Number(value)>0))
+   .sort((a,b)=>b.length-a.length)[0];
+ if(richer&&richer.length)return {source:month+' (saved history)',missing:richer};
+ const candidates=Object.entries(all).filter(([ym,config])=>
+  /^\d{4}-(0[1-9]|1[0-2])$/.test(ym)&&ym<month&&ym>=monthShift(month,-12)&&config&&config.categories)
+  .sort((a,b)=>b[0].localeCompare(a[0]));
+ for(const [source,config] of candidates){
+  const missing=Object.entries(config.categories).filter(([k,v])=>!Object.prototype.hasOwnProperty.call(own,k)&&Number(v)>0);
+  if(missing.length)return {source,missing};
+ }
+ return null;
+}
+function renderRecovery(){
+ const plan=recoveryPlan(),box=$('v8111RestoreBox'),btn=$('v8111Restore'),hint=$('v8111RestoreHint');
+ box.style.display=plan?'block':'none';if(!plan)return;
+ const n=plan.missing.length,langKey=lang();
+ const desc={
+  'zh-CN':`发现 ${n} 个本月未设置、但 ${plan.source} 曾设置的类别预算：${plan.missing.map(x=>x[0]).join('、')}。可以恢复缺失类别，不覆盖当前已设置的金额。`,
+  'zh-TW':`發現 ${n} 個本月未設定、但 ${plan.source} 曾設定的類別預算：${plan.missing.map(x=>x[0]).join('、')}。只補回缺失類別，不覆蓋現有金額。`,
+  'en':`Found ${n} missing category budgets saved in ${plan.source}: ${plan.missing.map(x=>x[0]).join(', ')}. Existing current-month amounts stay unchanged.`,
+  'ms':`Ditemui ${n} kategori bajet yang belum ditetapkan bulan ini tetapi ada pada ${plan.source}: ${plan.missing.map(x=>x[0]).join(', ')}. Amaun semasa tidak akan diganti.`
+ };
+ hint.textContent=desc[langKey];
+ btn.textContent=({'zh-CN':'恢复缺失类别预算','zh-TW':'還原缺失類別預算','en':'Restore Missing Budgets','ms':'Pulihkan Bajet Kategori yang Hilang'})[langKey];
+}
+function restoreMissingBudgets(){
+ if(dirty&&!save())return;
+ const plan=recoveryPlan();if(!plan)return;
+ const names=plan.missing.map(([name,value])=>name+' '+fmt(value)).join('\n');
+ const ask=({'zh-CN':'确认从 '+plan.source+' 补回缺失预算？不会覆盖现有类别：\n',
+ 'zh-TW':'確認從 '+plan.source+' 補回缺失預算？不會覆蓋現有類別：\n',
+ 'en':'Restore missing budgets from '+plan.source+' without replacing current categories?\n',
+ 'ms':'Pulihkan bajet yang hilang dari '+plan.source+' tanpa mengganti kategori semasa?\n'})[lang()];
+ if(!confirm(ask+names))return;
+ const all=read(),item=all[month]||{},categories={...(item.categories||{})};
+ for(const [name,value] of plan.missing){if(!Object.prototype.hasOwnProperty.call(categories,name))categories[name]=value}
+ const sum=Object.values(categories).reduce((v,n)=>v+(Number(n)>0?Number(n):0),0);
+ all[month]={...item,categories,total:Math.max(Number(item.total)||0,sum)};
+ try{writeBudgets(all);draft=null;dirty=false;draftTotal=null;render();$('v720Status').textContent=({'zh-CN':'已恢复缺失预算，原有金额保持不变','zh-TW':'已還原缺失預算，原有金額不變','en':'Missing budgets restored. Existing amounts were preserved.','ms':'Bajet yang hilang telah dipulihkan. Amaun sedia ada dikekalkan.'})[lang()];}
+ catch(e){$('v720Status').textContent=e.message}
+}
+function renderImportHelp(){
+ const texts={
+  'zh-CN':['从预算恢复文件补回缺失类别；不覆盖已设置的类别金额。','导入预算恢复文件'],
+  'zh-TW':['從預算還原檔案補回缺失類別；不覆蓋現有類別金額。','匯入預算還原檔案'],
+  'en':['Restore only missing category budgets from a budget JSON file; existing values will not be replaced.','Import Budget Recovery File'],
+  'ms':['Pulihkan hanya bajet kategori yang hilang daripada fail JSON; amaun semasa tidak diganti.','Import Fail Pemulihan Bajet']
+ };const v=texts[lang()];$('v8111ImportHelp').textContent=v[0];$('v8111Import').textContent=v[1];
+}
+async function importBudgetFile(){
+ const input=$('v8111ImportFile'),file=input.files&&input.files[0];
+ if(!file){$('v720Status').textContent=({'zh-CN':'请先选择预算 JSON 文件','zh-TW':'請先選擇預算 JSON 檔案','en':'Choose a budget JSON file first','ms':'Sila pilih fail JSON bajet dahulu'})[lang()];return}
+ if(file.size>1024*1024){$('v720Status').textContent='Budget file too large';return}
+ try{
+  const x=JSON.parse(await file.text());
+  if(!x||x.schema!=='mymoney-budget-restore-v1'||x.month!==month||!x.categories||typeof x.categories!=='object'||Array.isArray(x.categories))throw Error('Budget file format or month does not match the selected month');
+  const pairs=Object.entries(x.categories);
+  if(!pairs.length||pairs.length>100||pairs.some(([k,v])=>!k||k.length>80||['__proto__','prototype','constructor'].includes(k)||!Number.isFinite(Number(v))||Number(v)<0))throw Error('Invalid budget category or amount');
+  if(dirty&&!save())return;
+  const all=read(),existing=all[month]||{},own=existing.categories||{};
+  const missing=pairs.filter(([k])=>!Object.prototype.hasOwnProperty.call(own,k));
+  if(!missing.length){$('v720Status').textContent=({'zh-CN':'此文件的预算类别已全部存在，没有覆盖任何金额','zh-TW':'此檔案的預算類別已存在，沒有覆蓋任何金額','en':'All budget categories already exist; no amounts were changed','ms':'Semua kategori bajet sudah wujud; tiada amaun diubah'})[lang()];return}
+  const ask=({'zh-CN':'确认恢复以下缺失预算，不覆盖现有金额？\n','zh-TW':'確認還原以下缺失預算，不覆蓋現有金額？\n','en':'Restore missing budgets without overwriting current amounts?\n','ms':'Pulihkan bajet yang hilang tanpa mengganti amaun semasa?\n'})[lang()];
+  if(!confirm(ask+missing.map(([k,v])=>k+' '+fmt(v)).join('\n')))return;
+  const categories={...own};for(const [k,v] of missing)categories[k]=Number(v);
+  const total=Math.max(Number(existing.total)||0,Object.values(categories).reduce((v,n)=>v+(Number(n)>0?Number(n):0),0));
+  all[month]={...existing,categories,total};writeBudgets(all);
+  draft=null;dirty=false;draftTotal=null;render();
+  $('v720Status').textContent=({'zh-CN':'已补回 '+missing.length+' 个缺失类别，现有预算金额保持不变','zh-TW':'已補回 '+missing.length+' 個缺失類別，原有金額不變','en':'Restored '+missing.length+' missing categories without replacing existing values','ms':'Berjaya memulihkan '+missing.length+' kategori yang hilang tanpa menggantikan amaun sedia ada'})[lang()];
+  input.value='';
+ }catch(e){$('v720Status').textContent=String(e.message||e)}
+}
 function captureDraft(){if(!draft)return;for(const el of root.querySelectorAll('[data-budget-category]'))draft.values[el.dataset.budgetCategory]=el.value}
-function render(){const oldTotal=$('v720Total').value;if(dirty)draftTotal=oldTotal;nav.textContent='▤ '+tx('tab');$('v720Title').textContent=tx('title');$('v720MonthLabel').textContent=tx('month');$('v720TotalLabel').textContent=tx('total');$('v720Save').textContent=tx('save');$('v720Copy').textContent=tx('copy');$('v720Hint').textContent=tx('hint');$('v720CatTitle').textContent=tx('cat');$('v720NewLabel').textContent=tx('name');$('v720NewName').placeholder=tx('namePlaceholder');$('v720Add').textContent=tx('add');$('v720Backup').textContent=tx('backup');const {used,config,keys}=categories();$('v720Total').value=dirty&&draftTotal!==null?draftTotal:(budgetTotal(config)||config.total||'');$('v8110CarryStatus').textContent=config.carriedFrom?({'en':'Budget carried forward from ','ms':'Bajet dibawa dari ','zh-TW':'預算沿用自 ','zh-CN':'预算自动结转自 '}[lang()]+config.carriedFrom):'';const spent=Object.values(used).reduce((a,b)=>a+b,0),total=Number(dirty&&draftTotal!==null?draftTotal:budgetTotal(config)),remaining=total-spent,pct=total>0?spent/total*100:0;
+function render(){const oldTotal=$('v720Total').value;if(dirty)draftTotal=oldTotal;nav.textContent='▤ '+tx('tab');$('v720Title').textContent=tx('title');$('v720MonthLabel').textContent=tx('month');$('v720TotalLabel').textContent=tx('total');$('v720Save').textContent=tx('save');$('v720Copy').textContent=tx('copy');$('v720Hint').textContent=tx('hint');$('v720CatTitle').textContent=tx('cat');$('v720NewLabel').textContent=tx('name');$('v720NewName').placeholder=tx('namePlaceholder');$('v720Add').textContent=tx('add');$('v720Backup').textContent=tx('backup');renderImportHelp();const {used,config,keys}=categories();$('v720Total').value=dirty&&draftTotal!==null?draftTotal:(budgetTotal(config)||config.total||'');$('v8110CarryStatus').textContent=config.carriedFrom?({'en':'Budget carried forward from ','ms':'Bajet dibawa dari ','zh-TW':'預算沿用自 ','zh-CN':'预算自动结转自 '}[lang()]+config.carriedFrom):'';const spent=Object.values(used).reduce((a,b)=>a+b,0),total=Number(dirty&&draftTotal!==null?draftTotal:budgetTotal(config)),remaining=total-spent,pct=total>0?spent/total*100:0;
 const summary=[[tx('sum'),total?fmt(total):tx('unset')],[tx('spent'),fmt(spent)],[tx('left'),total?fmt(remaining):tx('unset')],[tx('rate'),total?pct.toFixed(1)+'%':tx('unset')]];
 $('v720Summary').innerHTML=summary.map(([k,v])=>'<div class="v720-card"><small>'+esc(k)+'</small><strong>'+esc(v)+'</strong></div>').join('');
 $('v720Suggested').innerHTML=Object.keys(used).filter(n=>!keys.includes(n)).sort((a,b)=>a.localeCompare(b)).map(n=>'<option value="'+esc(n)+'"></option>').join('');
 const unmatched=Object.entries(used).filter(([n,amount])=>!keys.includes(n)&&amount!==0).sort((a,b)=>b[1]-a[1]);
 $('v720Unbudgeted').innerHTML=unmatched.length?'<h3>'+esc(tx('unbudgeted'))+'</h3><div class="v720-muted">'+unmatched.map(([n,amount])=>'<div class="v720-unmatched-row"><span>'+esc(n)+'</span><strong>'+esc(fmt(amount))+'</strong><button type="button" class="btn secondary v720-quick-add" data-quick-category="'+esc(n)+'" aria-label="'+esc(tx('quickAdd')+' '+n)+'">'+esc(tx('quickAdd'))+'</button></div>').join('')+'</div>':'';
 $('v720Categories').innerHTML=keys.length?keys.map((name,i)=>{const actual=used[name]||0,raw=draft.values[name],cap=Number(raw||0),percent=cap>0?actual/cap*100:0;return '<div class="v720-row"><div><label for="v720Cat'+i+'"><strong>'+esc(name)+'</strong></label><div class="v720-muted">'+esc(tx('actual'))+': '+esc(fmt(actual))+(cap>0?' / '+esc(fmt(cap)):'')+(cap>0&&actual>cap?' · '+esc(tx('over')):cap>0&&percent>=80?' · '+esc(tx('warn')):'')+'</div>'+(cap>0?'<div class="v720-bar"><div class="v720-fill '+(percent>100?'over':percent>=80?'warn':'')+'" style="width:'+Math.min(100,percent)+'%"></div></div>':'')+'</div><input id="v720Cat'+i+'" data-budget-category="'+esc(name)+'" type="number" min="0" step="0.01" inputmode="decimal" aria-label="'+esc(tx('limit')+' '+name)+'" value="'+esc(raw??'')+'" placeholder="'+esc(tx('limit'))+'"><button type="button" class="btn secondary v720-edit" data-edit-category="'+esc(name)+'" aria-label="'+esc(tx('edit')+' '+name)+'">'+esc(tx('edit'))+'</button><button type="button" class="btn secondary v720-remove" data-remove-category="'+esc(name)+'" aria-label="'+esc(tx('remove')+' '+name)+'">'+esc(tx('remove'))+'</button></div>'}).join(''):'<p class="hint">'+esc(tx('emptyCats'))+'</p>';
-renderInsights();
+renderRecovery();renderInsights();
 }
 function monthShift(ym,delta){const [y,m]=ym.split('-').map(Number);const d=new Date(y,m-1+delta,1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
 function totalsByMonth(ym){const used={};for(const t of ledger()){if(t.type!=='expense'||typeof t.date!=='string'||!t.date.startsWith(ym))continue;const name=String(t.category||tx('uncat'));const amount=Number(t.amount);if(!Number.isFinite(amount))continue;used[name]=(used[name]||0)+amount}return {used,spent:Object.values(used).reduce((a,b)=>a+b,0)}}
@@ -102,7 +218,7 @@ if(remove){if(!confirm(tx('removeAsk')))return;const name=remove.dataset.removeC
 $('v720Categories').addEventListener('input',e=>{if(e.target.matches('[data-budget-category]')){dirty=true;captureDraft()}});
 $('v720Total').addEventListener('input',()=>{dirty=true;draftTotal=$('v720Total').value;});
 $('v720Categories').addEventListener('change',e=>{if(e.target.matches('[data-budget-category]')){captureDraft();render()}});
-$('v720Save').addEventListener('click',save);$('v720Copy').addEventListener('click',copy);
+$('v8111Restore').addEventListener('click',restoreMissingBudgets);$('v8111Import').addEventListener('click',importBudgetFile);$('v720Save').addEventListener('click',save);$('v720Copy').addEventListener('click',copy);
 nav.addEventListener('click',()=>{render()});document.addEventListener('click',e=>{if(e.target.closest('[data-tab]')&&e.target!==nav){nav.textContent='▤ '+tx('tab')}});
 // Read fresh ledger on tab opening, avoiding observers or repeated DOM writes.
 carryCurrentBudget();render();// Preserve the current app header; budget module must not overwrite it.
