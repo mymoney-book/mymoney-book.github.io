@@ -46,7 +46,16 @@ el('v780Accounts').innerHTML=acc.map(a=>{
 // Resolve each account closing balance using its native account entries and loan-linked movements.
 function balanceAt(a){let v=num(a.opening),id=a.id,end=yr+'-12-31';for(const x of tx)if(x.accountId===id&&x.date<=end)v+=(x.type==='income'?1:-1)*num(x.amount);for(const p of debtPays)if(p.accountId===id&&p.date<=end)v-=num(p.amount);for(const t of ts)if(t.date<=end){if(t.from===id)v-=num(t.amount);if(t.to===id)v+=num(t.amount)}for(const l of loans)if(l.accountId===id&&l.date<=end)v+=(l.direction==='borrow'?1:-1)*num(l.amount);for(const p of loanPays)if(p.accountId===id&&p.date<=end){let l=loans.find(x=>x.id===p.loanId);if(l)v+=(l.direction==='borrow'?-1:1)*num(p.amount)}for(const p of recPays)if(p.accountId===id&&p.date<=end)v+=num(p.amount);return v}
 return `<div class="item"><div>${esc(a.name)} <span class="pill">${esc(a.type||'账户')}</span></div><strong>${fmt(balanceAt(a))}</strong></div>`}).join('')||'<p class="hint">没有账户。</p>';
-const debtRows=(data.debts||[]).map(d=>{let b=num(d.original);for(const p of debtPays)if(p.debtId===d.id&&p.date<=yr+'-12-31')b-=num(p.principal??p.amount);return `${esc(d.name)}：${fmt(Math.max(0,b))}`});
+const debtRows=(data.debts||[]).map(d=>{
+let b=num(d.original),end=yr+'-12-31';
+for(const x of (d.additionalCharges||[]))if(x.date<=end)b+=num(x.amount);
+if(d.type==='信用卡'){
+for(const x of (data.creditCardPurchases||[]))if(x.debtId===d.id&&x.date<=end)b+=num(x.amount);
+for(const x of (data.creditCardFees||[]))if(x.debtId===d.id&&(x.statementDate||x.date)<=end)b+=num(x.amount);
+}
+for(const p of debtPays)if(p.debtId===d.id&&p.date<=end)b-=num(p.principal??p.amount);
+return `${esc(d.name)}：${fmt(Math.max(0,b))}`;
+});
 const loanRows=loans.map(l=>{let b=num(l.amount)-sum(loanPays.filter(p=>p.loanId===l.id&&p.date<=yr+'-12-31').map(p=>p.amount));return `${l.direction==='borrow'?'借入':'借出'} · ${esc(l.person||l.name||'未命名')}：${fmt(Math.max(0,b))}`});
 el('v780Debts').innerHTML=[...debtRows,...loanRows].map(v=>`<div class="item">${v}</div>`).join('')||'<p class="hint">没有相关记录。</p>';
 el('v780Explain').textContent='统计口径：只计入已关联账户的收支与借款流水；未关联账户的记录保留在原始明细。账户余额与现金流不是会计利润。信用卡费用与债务余额请以原始负债模块及银行正式账单核对。单独筛选账户时，内部转账只算该账户的转入／转出。';
