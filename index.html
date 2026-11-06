@@ -2,7 +2,7 @@
 
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.16</title>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.17</title>
 <style>
 :root{--green:#176b57;--bg:#f3f6f5;--card:#fff;--text:#182522;--muted:#64736e;--line:#e1e9e5;--red:#bd3d3d;--blue:#275d9c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}header{background:var(--green);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:5}header h1{font-size:22px;margin:0 0 4px}header p{font-size:12px;margin:0;opacity:.85}.wrap{max-width:760px;margin:auto;padding:14px 12px 40px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--text);padding:10px 13px;border-radius:12px;font-size:14px}.tabs button.active{background:var(--green);color:white;border-color:var(--green)}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:12px}.metric,.box{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px}.metric span{font-size:12px;color:var(--muted);display:block}.metric strong{font-size:20px;display:block;margin-top:6px;overflow-wrap:anywhere}.box{margin-bottom:12px}.box h2{font-size:16px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}input,select,textarea{font:inherit;width:100%;border:1px solid #cfdcd5;background:#fff;border-radius:10px;padding:11px;color:var(--text);min-width:0}textarea{min-height:66px;resize:vertical}.field{margin-bottom:10px}.full{grid-column:1/-1}.btn{border:0;border-radius:10px;padding:11px 13px;background:var(--green);color:white;font-weight:600;font-size:14px;cursor:pointer}.btn.secondary{background:#e6efeb;color:var(--green)}.btn.danger{background:#fff0f0;color:var(--red)}.btn.small{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.item{border-top:1px solid var(--line);padding:12px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.item:first-child{border-top:0}.item .name{font-weight:650;font-size:14px}.sub{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}.amount{font-weight:700;white-space:nowrap;text-align:right}.income{color:var(--green)}.expense{color:var(--red)}.empty{color:var(--muted);font-size:13px;padding:8px 0}.hint{font-size:12px;color:var(--muted);line-height:1.6}.notice{background:#fff8df;border:1px solid #f1df9d;border-radius:12px;padding:11px;font-size:12px;line-height:1.5;margin-bottom:12px}.hidden{display:none!important}.month-row{display:flex;gap:10px;align-items:end;margin-bottom:12px}.month-row .field{flex:1;margin:0}.pill{display:inline-block;border-radius:30px;padding:3px 8px;background:#e6efeb;color:var(--green);font-size:11px}.debt-balance{font-size:18px;font-weight:750;margin:5px 0}.progress{height:6px;border-radius:9px;background:#e8eeeb;overflow:hidden;margin:9px 0}.progress span{height:100%;display:block;background:var(--green)}footer{text-align:center;color:var(--muted);font-size:11px;padding:8px}
 @media(min-width:600px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.metric strong{font-size:22px}}
@@ -57,13 +57,13 @@
 #debtCreditView .v751-check input{width:auto;min-width:16px;height:16px}
 @media(max-width:550px){#debtCreditView .v750-money{font-size:18px}#debtCreditView .v751-grid{grid-template-columns:1fr}}
 #v753Result .line{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:8px 0;font-size:13px}#v753MonthlyBox h3{margin:8px 0 12px}
-/* V8.1.16: same action order and names on desktop, tablet, and phone. */
+/* V8.1.17: same action order and names on desktop, tablet, and phone. */
 #transactions .v732-entry-buttons{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important}
 #transactions .v732-entry-btn{min-width:0;min-height:78px;white-space:normal;overflow-wrap:anywhere;display:flex;align-items:center;justify-content:center;text-align:center}
 @media(max-width:767px){#transactions .v732-entry-buttons{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}#transactions .v732-entry-btn{min-height:64px;padding:12px 6px;font-size:14px}}
 @media(min-width:768px) and (max-width:1100px){#transactions .v732-entry-buttons{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 
-/* V8.1.16 - expense history: 12 independent category buttons. */
+/* V8.1.17 - expense history: 12 independent category buttons. */
 .v812-expense-categories{margin-top:14px;border-top:1px solid var(--line);padding-top:13px}
 .v812-expense-top{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:10px}
 .v812-expense-top strong{font-size:14px}
@@ -120,7 +120,7 @@
 @media(max-width:580px){.v812-expense-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.v812-expense-chip{min-height:100px;padding:8px 4px}.v812-expense-chip[aria-pressed="true"]{padding:7px 3px}}
 @media(max-width:360px){.v812-expense-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-/* V8.1.16: monthly home transactions use the same category grid as Expense Records. */
+/* V8.1.17: monthly home transactions use the same category grid as Expense Records. */
 .v818-home-categories{margin-top:10px}
 .v818-home-detail{margin-top:12px}
 .v818-home-detail .item{border:1px solid var(--line);border-radius:15px;padding:13px;margin-bottom:5px;background:var(--card)}
@@ -216,7 +216,7 @@
 <div class="hidden" id="v816PaymentListPanel"><div class="empty" id="paymentList" style="margin-top:12px">暂无还款记录</div></div></div><div class="box"><h2>📒 每笔负债详细还款记录</h2><p class="hint">选择一笔负债，查看历次实际还款的日期、金额、本金、利息、还款后余额、付款账户和备注。历史记录只供查看，不会重复扣款。</p><div class="field"><label for="v58HistoryDebt">查看哪笔负债</label><select id="v58HistoryDebt"><option value="">请选择负债</option></select></div><div class="empty" id="v58History">请选择一笔负债查看详细还款记录</div></div><div class="box"><h2>独立还款计划与详细明细</h2><p class="hint">点击负债清单中的「还款计划」查看逐期明细；记录部分还款后会重新计算剩余计划，未还差额优先补入下一期。预计计划不会自动扣款。</p><div class="empty" id="v58Plan">请选择一笔负债查看</div></div></div>
 <div class="hidden" id="debtCreditView">
 <div class="box v750-section">
-<h2>💳 信用卡负债管理 <span class="v750-version">V8.1.16 · 多银行信用卡</span></h2>
+<h2>💳 信用卡负债管理 <span class="v750-version">V8.1.17 · 多银行信用卡</span></h2>
 <p class="hint">信用卡独立查看、登记还款、计算保险与迟还费；银行实际费用核对后才记入总欠款。沿用原有负债与还款资料，不自动扣款。</p>
 <div class="cards" id="v750CreditSummary"><div class="metric"><span>信用卡数量</span><strong>0</strong></div><div class="metric"><span>信用卡欠款</span><strong>RM 0.00</strong></div></div>
 <div class="actions"><button class="btn" id="v750AddCard" type="button">＋ 新增信用卡</button></div>
@@ -239,7 +239,7 @@
 <div class="actions"><button class="btn" type="submit">保存信用卡及银行设置</button><button class="btn secondary" id="v752Cancel" type="button">清空／新增另一张卡</button></div></form>
 <p class="v751-small">现有信用卡可通过下方「编辑银行规则」修改；不会删除还款历史。新增信用卡时填写当前实际未还欠款，不要重复导入已有债务。</p></div>
 <div class="box v750-section" id="v753MonthlyBox">
-<h2>📆 V8.1.16 · 每月自动结算与结转</h2>
+<h2>📆 V8.1.17 · 每月自动结算与结转</h2>
 <p class="hint">按每张卡的账单日自动生成每期预览，上期余额自动结转。新增消费登记在此卡的负债账本，不会同时扣除银行／现金余额。预计收费不会自动记入真实欠款，核对正式账单后再确认。</p>
 <div class="grid">
 <div class="field full"><label for="v753Card">选择信用卡</label><select id="v753Card"><option value="">请选择信用卡</option></select></div>
@@ -363,7 +363,7 @@
 <div data-v775-panel="legacy" hidden><div id="receivables" class="v775-legacy-receivables" hidden style="display:none"><div class="box"><h2>收款总览</h2><p class="hint">记录别人欠你的钱及分次收款。收款可自行选择是否同步增加银行或现金余额；不会算作普通收入。</p><div class="cards" id="v73Summary"></div></div><div class="box"><h2>新增欠款人 / 欠款记录</h2><form id="v73DebtForm"><div class="grid"><div class="field"><label>欠款人姓名</label><input id="v73Name" maxlength="80" required=""/></div><div class="field"><label>欠款金额 (RM)</label><input id="v73Amount" min="0.01" required="" step="0.01" type="number"/></div><div class="field"><label>借款日期</label><input id="v73Date" required="" type="date"/></div><div class="field"><label>约定还款日期（可选）</label><input id="v73Due" type="date"/></div><div class="field full"><label>备注</label><input id="v73Note" maxlength="250"/></div></div><button class="btn" type="submit">保存欠款记录</button></form></div><div class="box"><h2>记录收款</h2><form id="v73PaymentForm"><div class="grid"><div class="field full"><label>选择欠款记录</label><select id="v73Choose" required=""></select></div><div class="field"><label>收款金额 (RM)</label><input id="v73Paid" min="0.01" required="" step="0.01" type="number"/></div><div class="field"><label>收款日期</label><input id="v73PaidDate" required="" type="date"/></div><div class="field full"><label class="v73-sync-inline" for="v73Sync"><input id="v73Sync" type="checkbox"/><span>同步增加银行或现金账户余额（可选）</span></label></div><div class="field full" hidden="" id="v73AccountWrap"><label>选择实际收款账户</label><select id="v73Account"></select></div><div class="field full"><label>备注</label><input id="v73PayNote" maxlength="250"/></div></div><button class="btn" type="submit">保存收款</button></form></div><div class="box"><h2>欠款清单及收款历史</h2><div id="v73List"></div></div></div></div>
 </section>
 <section class="panel" id="backup"><div class="box"><h2>数据备份与恢复</h2><p class="hint">JSON 文件会包含收支、负债、还款、账户和转账记录，可用于恢复完整数据。建议定期备份，并把文件保存在安全的位置。</p><div class="actions"><button class="btn" id="exportJson">下载完整备份（JSON）</button><button class="btn secondary" id="importBtn">导入备份（JSON）</button><input accept="application/json,.json" class="hidden" id="importFile" type="file"/></div><p class="hint" id="backupMsg"></p></div><div aria-hidden="true" class="box" hidden="" style="display:none"><h2>导出交易记录</h2><p class="hint">将收支记录导出为 CSV，可用 Excel 打开。此文件只包含日常收入和支出，不包含负债还款或内部转账记录。</p><button class="btn" id="exportCsv">下载交易记录（CSV）</button></div><div class="box" id="v731CsvBox"><h2>自定义 CSV 导出（三组）</h2><p class="hint">选择需要导出的组别，每组生成一个 Excel 可打开的 CSV 文件。导出不会修改财务记录；完整 JSON 备份功能继续保留。</p><div class="grid"><div class="field"><label for="v731Start">开始日期</label><input id="v731Start" type="date" value="2026-01-01"/></div><div class="field"><label for="v731End">结束日期</label><input id="v731End" type="date" value="2026-12-31"/></div></div><div class="field"><label style="display:flex;align-items:center;gap:9px"><input checked="" id="v731Group1" style="width:auto" type="checkbox"/>第 1 组：日常收支与转账记录（收入、支出、内部转账）</label></div><div class="field"><label style="display:flex;align-items:center;gap:9px"><input checked="" id="v731Group2" style="width:auto" type="checkbox"/>第 2 组：负债与还款记录（负债、负债还款）</label></div><div class="field"><label style="display:flex;align-items:center;gap:9px"><input checked="" id="v731Group3" style="width:auto" type="checkbox"/>第 3 组：欠款人与收款记录（欠款人、收款）</label></div><div class="actions"><button class="btn" id="v731ExportSelected" type="button">导出勾选的组别</button><button class="btn secondary" id="v731Export1" type="button">仅导出第 1 组</button><button class="btn secondary" id="v731Export2" type="button">仅导出第 2 组</button><button class="btn secondary" id="v731Export3" type="button">仅导出第 3 组</button></div><p aria-live="polite" class="hint" id="v731CsvStatus">默认日期：2026-01-01 至 2026-12-31。每组 CSV 均包含记录类型栏，金额单位 MYR。</p></div><div class="box"><h2>清除本机数据</h2><p class="hint">此操作会删除当前浏览器保存的全部记录（包括账户和转账），且无法撤销。请先备份。</p><button class="btn danger" id="clearData">清除全部数据</button></div><div class="box"><h2>使用提示</h2><ul class="hint"><li>只在当前浏览器/设备保存，不会自动同步到其他手机。</li><li>换手机、换浏览器或清除浏览数据前，请先下载 JSON 备份。</li><li>关联扣款账户的还款会减少负债与账户余额，并计入总览的本月总流出，但不会自动生成普通支出记录。</li><li>若要在手机上安装为应用，需要将网页发布到支持 HTTPS 的网站，再用浏览器「添加到主屏幕」。</li></ul></div></section>
-<footer>MyMoney NEXT · V8.1.16 · 财务资料仅储存于本机 · 请定期备份 JSON</footer></main>
+<footer>MyMoney NEXT · V8.1.17 · 财务资料仅储存于本机 · 请定期备份 JSON</footer></main>
 <script>
 (()=>{'use strict';const KEY='mymoney-local-v1';const $=id=>document.getElementById(id);const today=()=>new Date().toLocaleDateString('en-CA');const monthNow=()=>today().slice(0,7);const money=n=>'RM '+Number(n||0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);let data={transactions:[],debts:[],payments:[],accounts:[],transfers:[],categories:[],debtCategories:[],receivables:[],receivablePayments:[],creditCardStatements:[],creditCardFees:[],creditCardPurchases:[],creditCardSettings:{},loans:[],loanPayments:[]};window.__mymoneyReportSnapshot=()=>data;function load(){try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');data={transactions:Array.isArray(d.transactions)?d.transactions:[],debts:Array.isArray(d.debts)?d.debts:[],payments:Array.isArray(d.payments)?d.payments:[],accounts:Array.isArray(d.accounts)?d.accounts:[],transfers:Array.isArray(d.transfers)?d.transfers:[],categories:Array.isArray(d.categories)?d.categories:[],debtCategories:Array.isArray(d.debtCategories)?d.debtCategories:[],receivables:Array.isArray(d.receivables)?d.receivables:[],receivablePayments:Array.isArray(d.receivablePayments)?d.receivablePayments:[],creditCardStatements:Array.isArray(d.creditCardStatements)?d.creditCardStatements:[],creditCardFees:Array.isArray(d.creditCardFees)?d.creditCardFees:[],creditCardPurchases:Array.isArray(d.creditCardPurchases)?d.creditCardPurchases:[],creditCardSettings:(d.creditCardSettings&&typeof d.creditCardSettings==="object"&&!Array.isArray(d.creditCardSettings))?d.creditCardSettings:{},loans:Array.isArray(d.loans)?d.loans:[],loanPayments:Array.isArray(d.loanPayments)?d.loanPayments:[]}}catch(e){data={transactions:[],debts:[],payments:[],accounts:[],transfers:[],categories:[],debtCategories:[],receivables:[],receivablePayments:[],creditCardStatements:[],creditCardFees:[],creditCardPurchases:[],creditCardSettings:{},loans:[],loanPayments:[]}}}function save(){localStorage.setItem(KEY,JSON.stringify(data));render();window.dispatchEvent(new Event("mymoney-v73-update"))}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function accountBalance(id){const a=data.accounts.find(x=>x.id===id);if(!a)return 0;let cents=Math.round(Number(a.opening||0)*100);for(const x of data.transactions){if(x.accountId===id)cents+=(x.type==='income'?1:-1)*Math.round(Number(x.amount)*100)}for(const p of data.payments){if(p.accountId===id)cents-=Math.round(Number(p.amount)*100)}for(const t of data.transfers){if(t.from===id)cents-=Math.round(Number(t.amount)*100);if(t.to===id)cents+=Math.round(Number(t.amount)*100)}for(const r of data.receivablePayments||[]){if(r.accountId===id)cents+=Math.round(Number(r.amount)*100)}return cents/100+loanBalanceDelta(id)}
 function accountName(id){return data.accounts.find(a=>a.id===id)?.name||'已删除账户'}
@@ -374,7 +374,7 @@ function v759RenderSavedAccounts(){
  list.innerHTML=data.accounts.length?data.accounts.map((a,i)=>`<div class="item"><div style="min-width:0"><div class="name">${iconMarkup(a.icon)} ${esc(a.name)} <span class="pill">${esc(a.type||'银行')}</span></div><div class="sub">账户 ${i+1} · ${a.note?esc(a.note):'已保存'}</div></div><button type="button" class="btn secondary small" data-edit-account="${esc(a.id)}">编辑</button></div>`).join(''):'<p class="hint">暂无已新增账户，保存新账户后会自动显示在这里。</p>';
 }
 function renderAccounts(){const opts='<option value="">请选择账户</option>'+data.accounts.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}</option>`).join('');for(const id of ['transferFrom','transferTo']){const sel=$(id),prev=sel.value;sel.innerHTML=opts;sel.value=prev}const txSel=$('txAccount'),old=txSel.value;txSel.innerHTML='<option value="">'+'请选择关联账户'+'</option>'+data.accounts.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}</option>`).join('');txSel.value=old;const paySel=$('payAccount'),payOld=paySel.value;paySel.innerHTML='<option value="">选择账户</option>'+data.accounts.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}</option>`).join('');paySel.value=payOld;const total=data.accounts.reduce((v,a)=>v+accountBalance(a.id),0);$('accountTotals').innerHTML=`<div class="metric" style="margin-bottom:12px"><span>账户总余额（不扣除负债）</span><strong>${money(total)}</strong></div>`;const rows=data.accounts.map(a=>`<div class="item"><div><div class="name">${iconMarkup(a.icon)}${esc(a.name)} <span class="pill">${esc(a.type)}</span></div><div class="sub">初始余额：${money(a.opening)}${a.note?' · '+esc(a.note):''}</div><div class="actions" style="margin-top:7px"><button class="btn secondary small" data-edit-account="${esc(a.id)}">编辑</button><button class="btn danger small" data-del-account="${esc(a.id)}">删除</button></div></div><div class="amount">${money(accountBalance(a.id))}</div></div>`);$('accountList').innerHTML=rows.join('')||'暂无账户';$('homeAccounts').innerHTML=rows.length?`<div class="item"><strong>全部账户余额</strong><strong>${money(total)}</strong></div>`+data.accounts.map(a=>`<div class="item"><div>${iconMarkup(a.icon)}${esc(a.name)}</div><strong>${money(accountBalance(a.id))}</strong></div>`).join(''):'暂无账户';$('transferList').innerHTML=[...data.transfers].sort((a,b)=>b.date.localeCompare(a.date)).map(t=>`<div class="item"><div><div class="name">${esc(accountName(t.from))} → ${esc(accountName(t.to))}</div><div class="sub">${esc(t.date)}${t.note?' · '+esc(t.note):''}</div><button class="btn danger small" data-del-transfer="${esc(t.id)}">删除转账</button></div><strong>${money(t.amount)}</strong></div>`).join('')||'暂无转账';v759RenderSavedAccounts();v755Render()}
-/* V8.1.16: Extra purchases and amounts owed are kept as dated debt entries, not ordinary expenses. */
+/* V8.1.17: Extra purchases and amounts owed are kept as dated debt entries, not ordinary expenses. */
 function v813Extras(d){return Array.isArray(d?.additionalCharges)?d.additionalCharges:[]}
 function v813ChargeSum(d,end){return v813Extras(d).filter(x=>!end||x.date<=end).reduce((sum,x)=>sum+Number(x.amount||0),0)}
 function v813ChargeRecords(d){
@@ -382,7 +382,7 @@ function v813ChargeRecords(d){
  const card=d.type==='信用卡'?(data.creditCardPurchases||[]).filter(x=>x.debtId===d.id).map(x=>({...x,kind:'credit'})):[];
  return [...added,...card].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
 }
-/* V8.1.16: collapsible purchase entry, saved purchases and custom debt categories. */
+/* V8.1.17: collapsible purchase entry, saved purchases and custom debt categories. */
 function v814SetExpanded(buttonId,panelId,show){
  const b=$(buttonId),p=$(panelId);if(!b||!p)return;
  p.classList.toggle('hidden',!show);b.setAttribute('aria-expanded',String(show));
@@ -416,7 +416,7 @@ function v813RenderCharges(){
  `<p class="hint">${esc(t('暂无新增消费／欠款记录','No added purchase / debt records yet','Tiada rekod pembelian / hutang tambahan'))}</p>`;
  v814RefreshToggleLabels();
 }
-function paid(debtId){return data.payments.filter(p=>p.debtId===debtId).reduce((s,p)=>s+(p.principal===undefined?Number(p.amount):Number(p.principal)),0)}function balance(d){const fees=d.type==='信用卡'?(data.creditCardFees||[]).filter(f=>f.debtId===d.id).reduce((s,f)=>s+Number(f.amount||0),0):0;const purchases=d.type==='信用卡'?(data.creditCardPurchases||[]).filter(x=>x.debtId===d.id).reduce((s,x)=>s+Number(x.amount||0),0):0;return Math.max(0,Number(d.original)-paid(d.id)+fees+purchases+v813ChargeSum(d))}function txTotals(month){let t=data.transactions.filter(x=>x.date.startsWith(month));return {income:t.filter(x=>x.type==='income').reduce((s,x)=>s+Number(x.amount),0),expense:t.filter(x=>x.type==='expense').reduce((s,x)=>s+Number(x.amount),0),items:t}}function paymentTotals(month){return data.payments.filter(p=>typeof p.date==='string'&&p.date.startsWith(month)).reduce((sum,p)=>sum+Number(p.amount||0),0)}function itemTx(x,actions=true){return `<div class="item"><div><div class="name">${esc(x.category)} <span class="pill">${x.type==='income'?'收入':'支出'}</span></div><div class="sub">${esc(x.date)} · ${esc(x.payment||'')}${x.accountId?' · '+esc(accountName(x.accountId)):''} ${x.note?'· '+esc(x.note):''}</div>${actions?`<div class="actions" style="margin-top:7px"><button class="btn secondary small" data-edit-tx="${x.id}">编辑</button><button class="btn danger small" data-del-tx="${x.id}">删除</button></div>`:''}</div><div class="amount ${x.type==='income'?'income':'expense'}">${x.type==='income'?'+':'−'}${money(x.amount)}</div></div>`}/* V8.1.16: Expense record category buttons only filter transactions; original records are unchanged. */
+function paid(debtId){return data.payments.filter(p=>p.debtId===debtId).reduce((s,p)=>s+(p.principal===undefined?Number(p.amount):Number(p.principal)),0)}function balance(d){const fees=d.type==='信用卡'?(data.creditCardFees||[]).filter(f=>f.debtId===d.id).reduce((s,f)=>s+Number(f.amount||0),0):0;const purchases=d.type==='信用卡'?(data.creditCardPurchases||[]).filter(x=>x.debtId===d.id).reduce((s,x)=>s+Number(x.amount||0),0):0;return Math.max(0,Number(d.original)-paid(d.id)+fees+purchases+v813ChargeSum(d))}function txTotals(month){let t=data.transactions.filter(x=>x.date.startsWith(month));return {income:t.filter(x=>x.type==='income').reduce((s,x)=>s+Number(x.amount),0),expense:t.filter(x=>x.type==='expense').reduce((s,x)=>s+Number(x.amount),0),items:t}}function paymentTotals(month){return data.payments.filter(p=>typeof p.date==='string'&&p.date.startsWith(month)).reduce((sum,p)=>sum+Number(p.amount||0),0)}function itemTx(x,actions=true){return `<div class="item"><div><div class="name">${esc(x.category)} <span class="pill">${x.type==='income'?'收入':'支出'}</span></div><div class="sub">${esc(x.date)} · ${esc(x.payment||'')}${x.accountId?' · '+esc(accountName(x.accountId)):''} ${x.note?'· '+esc(x.note):''}</div>${actions?`<div class="actions" style="margin-top:7px"><button class="btn secondary small" data-edit-tx="${x.id}">编辑</button><button class="btn danger small" data-del-tx="${x.id}">删除</button></div>`:''}</div><div class="amount ${x.type==='income'?'income':'expense'}">${x.type==='income'?'+':'−'}${money(x.amount)}</div></div>`}/* V8.1.17: Expense record category buttons only filter transactions; original records are unchanged. */
 const V812_EXPENSE_CATEGORIES=[
  ['餐饮','🍽️','Dining','Makan & Minum'],
  ['交通','🚌','Transport','Pengangkutan'],
@@ -1374,7 +1374,7 @@ window.mymoneyV73={getData:()=>data,save:()=>save()};load();initLoans();refreshD
 </script><script defer="" src="v60.js?v=7.4.12-titlefix1"></script><script defer="" src="v604.js?v=7.1.4"></script><script defer="" src="v608.js?v=7.2.0-official2"></script><script defer="" src="v610.js?v=7.1.4"></script><link href="v620.css?v=7.0.0" rel="stylesheet"/><script defer="" src="v620.js?v=7.1.4"></script><link href="v650.css?v=7.1.0" rel="stylesheet"/><script defer="" src="v650.js?v=7.1.4"></script><script defer="" src="v660.js?v=8.1.10-budget-fix"></script><script defer="" src="v670.js?v=7.1.4"></script><script defer="" src="v690.js?v=7.1.4"></script><script defer="" src="v710.js?v=7.1.4"></script><script defer="" src="v715.js?v=7.1.5"></script><script defer="" src="v716.js?v=7.1.8"></script><script defer="" src="v7111.js?v=7.1.11"></script><script defer="" src="v7112.js?v=7.1.12"></script><script defer="" src="v7113.js?v=7.1.14"></script><script defer="" src="v7115.js?v=7.1.16"></script>
 <script defer="" src="v7116.js?v=7.1.16"></script><script defer="" src="v720.js?v=8.1.12-budget-save"></script><script defer="" src="v730.js?v=7.3.0-test3"></script><script defer="" src="v731csv.js?v=7.3.0-csv1"></script>
 <script>
-/* V8.1.16: dedicated account creation and balance modes. */
+/* V8.1.17: dedicated account creation and balance modes. */
 (function(){
   function init(){
     const btn=document.getElementById('v735AccountMode');
@@ -1437,7 +1437,7 @@ window.mymoneyV73={getData:()=>data,save:()=>save()};load();initLoans();refreshD
 <!-- V8.1.16: consolidated v7410-malay-ui.js dictionary in v7110-i18n.js -->
 
 <script>
-/* V8.1.16: ensure the action labels stay consistent after language scripts update. */
+/* V8.1.17: ensure the action labels stay consistent after language scripts update. */
 (function () {
   function reconcile() {
     const b = document.getElementById('v735AccountMode');
@@ -1458,7 +1458,7 @@ window.mymoneyV73={getData:()=>data,save:()=>save()};load();initLoans();refreshD
 })();
 </script>
 <script>
-/* V8.1.16: UI navigation only. No changes to finance/debt storage logic. */
+/* V8.1.17: UI navigation only. No changes to finance/debt storage logic. */
 (function(){
 function setup(){
  const menu=document.getElementById('v764PanelMenu'); if(!menu)return;
@@ -1484,7 +1484,7 @@ function setup(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 </script><script>
-/* V8.1.16: home overviews are closed on first visit; view-only state. */
+/* V8.1.17: home overviews are closed on first visit; view-only state. */
 (function(){
  function init(){
   document.querySelectorAll('[data-v768-toggle]').forEach(function(button){
@@ -1640,7 +1640,7 @@ document.addEventListener('click',function(event){
 })();
 </script>
 <script>
-/* V8.1.16: collapsible list of recorded repayments below New Repayment Record. */
+/* V8.1.17: collapsible list of recorded repayments below New Repayment Record. */
 (function(){
   const button=document.getElementById('v816PaymentListToggle');
   const panel=document.getElementById('v816PaymentListPanel');
@@ -1690,7 +1690,7 @@ document.addEventListener('click',function(event){
 </script>
 <script defer src="./v811-i18n.js?v=818-home-grid"></script>
 <script id="v8115-reports-budget-english-fix">
-/* V8.1.16: translate report rendering without touching stored data or numeric calculations. */
+/* V8.1.17: translate report rendering without touching stored data or numeric calculations. */
 (function(){
  'use strict';
  const exact = new Map(Object.entries({
@@ -1790,7 +1790,7 @@ document.addEventListener('click',function(event){
 })();
 </script>
 <script id="v8116-loan-language-fix">
-/* V8.1.16: scoped loan-management UI translation; does not modify saved loan data. */
+/* V8.1.17: scoped loan-management UI translation; does not modify saved loan data. */
 (function(){
  'use strict';
  function language(){try{const v=String(JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}').lang||'zh');return /^en/i.test(v)?'en':/^(ms|bm)/i.test(v)?'ms':'zh'}catch(e){return 'zh'}}
@@ -1835,4 +1835,181 @@ document.addEventListener('click',function(event){
  window.__v8116TranslateLoans=apply;
 })();
 </script>
+
+<script id="v8117-credit-language-fix">
+/* V8.1.17: scoped debt + credit-card English translation; UI only, no arithmetic or stored data changes. */
+(function(){
+ 'use strict';
+ function language(){try{const v=String(JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}').lang||'zh');return /^en/i.test(v)?'en':/^(ms|bm)/i.test(v)?'ms':'zh'}catch(e){return 'zh'}}
+ if(language()!=='en'){
+   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{});
+ }
+ const exact=new Map(Object.entries({
+  '独立还款计划与详细明细':'Repayment Schedule & Details',
+  '点击负债清单中的「还款计划」查看逐期明细；记录部分还款后会重新计算剩余计划，未还差额优先补入下一期。预计计划不会自动扣款。':'Click "Repayment Schedule" in the Debt List to view installment details. After recording a partial repayment, the remaining plan is recalculated, and any unpaid shortfall is applied to the next installment first. Estimated schedules do not debit automatically.',
+  '点击Debt List中的「Repayment Schedule」查看逐期Details；Records部分Repayment后会重新计算Remaining计划，未还差额优先补入下一期。Estimated计划不会AutomaticDebit。':'Click "Repayment Schedule" in the Debt List to view installment details. After recording a partial repayment, the remaining plan is recalculated, and any unpaid shortfall is applied to the next installment first. Estimated schedules do not debit automatically.',
+  '请选择一笔负债查看':'Select a debt to view',
+  '请选择一笔负债查看详细还款记录':'Select a debt to view detailed repayment records',
+  '💳 信用卡负债管理':'💳 Credit Card Debt Management',
+  '多银行信用卡':'Multi-Bank Credit Cards',
+  '信用卡独立查看、登记还款、计算保险与迟还费；银行实际费用核对后才记入总欠款。沿用原有负债与还款资料，不自动扣款。':'Credit cards are managed separately for viewing, repayment recording, insurance calculation and late-fee calculation. Actual bank fees are added to total outstanding debt only after verification. Existing debt and repayment records are reused, and no automatic debit is performed.',
+  'Credit Card独立查看、Record Repayment、计算Insurance与Late Payment费；BankActualFees核对后才记入Total Outstanding Debt。沿用原有Debts与Repayment资料，不AutomaticDebit。':'Credit cards are managed separately for viewing, repayment recording, insurance calculation and late-fee calculation. Actual bank fees are added to total outstanding debt only after verification. Existing debt and repayment records are reused, and no automatic debit is performed.',
+  '信用卡数量':'Credit Card Count',
+  'Credit Card数量':'Credit Card Count',
+  '信用卡欠款':'Credit Card Total Outstanding Balance',
+  'Credit Card总Outstanding Balance':'Credit Card Total Outstanding Balance',
+  '已登记还款':'Recorded Repayment Total',
+  '已Record RepaymentTotal':'Recorded Repayment Total',
+  '＋ 新增信用卡':'＋ Add Credit Card',
+  '＋ AddCredit Card':'＋ Add Credit Card',
+  '现有「Debt Type=Credit Card」的记录会自动列在这里，无须重新输入。一般贷款仍使用前两个页面。':'Existing records with Debt Type = Credit Card are listed here automatically. No re-entry is needed. Regular loans still use the first two pages.',
+  '现有「Debt Type=Credit Card」的Records会Automatic列在这里，无须重新输入。一般贷款仍使用前两个页面。':'Existing records with Debt Type = Credit Card are listed here automatically. No re-entry is needed. Regular loans still use the first two pages.',
+  '🏦 新增／编辑信用卡 · 多银行设置':'🏦 Add / Edit Credit Card · Multi-Bank Settings',
+  '🏦 Add／EditCredit Card · 多Bank设置':'🏦 Add / Edit Credit Card · Multi-Bank Settings',
+  '每张信用卡独立保存银行、年利率、保险与迟还费规则。银行预设仅供参考，请以你的银行正式条款和账单为准。':'Each credit card stores its own bank, annual interest rate, insurance and late-payment rules. Bank defaults are for reference only; please follow your bank’s official terms and statements.',
+  '每张Credit Card独立SaveBank、年利率、Insurance及Late Payment费规则。Bank预设仅供参考，请以你的Bank正式条款和Statement为准。':'Each credit card stores its own bank, annual interest rate, insurance and late-payment rules. Bank defaults are for reference only; please follow your bank’s official terms and statements.',
+  '选择银行':'Select Bank',
+  'SelectBank':'Select Bank',
+  '信用卡名称／备注':'Credit Card Name / Notes',
+  'Credit Card名称／Notes':'Credit Card Name / Notes',
+  '例如：Visa Platinum':'Example: Visa Platinum',
+  '如：Visa Platinum':'Example: Visa Platinum',
+  '起始记录日期':'Opening Record Date',
+  '起始Record Date':'Opening Record Date',
+  '此卡参加信用卡保险（启用自动估算）':'This Card Has Credit Card Insurance (Enable Automatic Estimate)',
+  '此卡参加Credit CardInsurance（启用Automatic Estimate）':'This Card Has Credit Card Insurance (Enable Automatic Estimate)',
+  '保存信用卡及银行设置':'Save Credit Card & Bank Settings',
+  'SaveCredit Card及Bank设置':'Save Credit Card & Bank Settings',
+  '清空／新增另一张卡':'Clear / Add Another Card',
+  '清空／Add另一张卡':'Clear / Add Another Card',
+  '现有信用卡可通过下方「Edit Bank Rules」编辑；不会删除还款历史。新增信用卡时填写当前实际未还欠款，不要重复导入已有债务。':'Existing credit cards can be edited below using "Edit Bank Rules". Repayment history will not be deleted. When adding a credit card, enter the actual current outstanding balance and do not import existing debts twice.',
+  '现有Credit Card可通过下方「Edit Bank Rules」Edit；不会DeleteRepayment历史。AddCredit Card时填写当前Actual未还欠款，不要重复导入已有债务。':'Existing credit cards can be edited below using "Edit Bank Rules". Repayment history will not be deleted. When adding a credit card, enter the actual current outstanding balance and do not import existing debts twice.',
+  '🗓️ 每月自动结算与结转':'🗓️ Monthly Automatic Statement & Carryover',
+  '🗓️ V8.1.17 · 每月自动结算与结转':'🗓️ V8.1.17 · Monthly Automatic Statement & Carryover',
+  '🗓️ V8.1.16 · 每月Automatic结算与Carryover':'🗓️ V8.1.17 · Monthly Automatic Statement & Carryover',
+  '按每张卡的结单日自动生成每期预览，上期余额自动结转。新增消费登记在此卡的 Debts 账本，不会同时扣除银行／现金余额。预计收费不会自动记入真实欠款，核对正式账单后再确认。':'A preview for each statement cycle is generated automatically based on each card’s statement day, and the previous cycle balance is carried forward automatically. New purchases are recorded in this card’s debt ledger and do not simultaneously reduce bank or cash balances. Estimated charges are not posted to actual debt automatically; confirm them after checking the official statement.',
+  '按每张卡的Statement日Automatic生成每期预览，上期BalanceAutomaticCarryover。Add消费登记在此卡的Debts账本，不会同时扣除Bank／CashBalance。Estimated收费不会Automatic记入真实欠款，核对正式Statement后再Confirm。':'A preview for each statement cycle is generated automatically based on each card’s statement day, and the previous cycle balance is carried forward automatically. New purchases are recorded in this card’s debt ledger and do not simultaneously reduce bank or cash balances. Estimated charges are not posted to actual debt automatically; confirm them after checking the official statement.',
+  '选择信用卡':'Select Credit Card',
+  'SelectCredit Card':'Select Credit Card',
+  '结单后预计还款期限（天）':'Estimated Repayment Due After Statement (Days)',
+  '结单后EstimatedRepayment期限（天）':'Estimated Repayment Due After Statement (Days)',
+  '保存本张卡的账单周期':'Save This Card’s Statement Cycle',
+  'Save本张卡的Statement周期':'Save This Card’s Statement Cycle',
+  '＋ 新增信用卡消费':'＋ Add Credit Card Purchase',
+  '＋ AddCredit Card消费':'＋ Add Credit Card Purchase',
+  '消费日期':'Purchase Date',
+  '消费金额（RM）':'Purchase Amount (RM)',
+  '描述／备注':'Description / Notes',
+  '保存信用卡消费':'Save Credit Card Purchase',
+  'SaveCredit Card消费':'Save Credit Card Purchase',
+  '暂无另外登记的信用卡消费。':'No separately recorded credit card purchases.',
+  'None另外登记的Credit Card消费。':'No separately recorded credit card purchases.',
+  '选择账单月份':'Select Statement Month',
+  '估算截至日期':'Estimate As-of Date',
+  '估算截至Date':'Estimate As-of Date',
+  '重新计算本周期':'Recalculate This Cycle',
+  '结算周期':'Statement Period',
+  '预计到期':'Estimated Due Date',
+  '尚未核对正式账单':'Official Statement Not Yet Verified',
+  '尚未核对正式Statement':'Official Statement Not Yet Verified',
+  '预测查询日期':'Estimated Query Date',
+  '预测查询Date':'Estimated Query Date',
+  '本期估算区间':'Estimated Cycle Range',
+  '年利率':'Annual Interest Rate',
+  '上期结转余额':'Previous Carryover Balance',
+  '本期新增信用卡消费':'Current Cycle New Credit Card Purchases',
+  '本期AddCredit Card消费':'Current Cycle New Credit Card Purchases',
+  '本期还款（本金）':'Current Cycle Repayment (Principal)',
+  '本期Repayment（Principal）':'Current Cycle Repayment (Principal)',
+  '已确认实际收费':'Confirmed Actual Charges',
+  '已ConfirmActual收费':'Confirmed Actual Charges',
+  '本期新增期初欠款':'Current Cycle Added Opening Debts',
+  '本期AddOpeningDebts':'Current Cycle Added Opening Debts',
+  '本期实际记录余额':'Current Cycle Actual Records Balance',
+  '本期ActualRecordsBalance':'Current Cycle Actual Records Balance',
+  '计息基数（Statement Balance 减 Principal Repayment）':'Interest Calculation Base (Statement Balance minus Principal Repayment)',
+  '计息基数（Statement Balance 减PrincipalRepayment）':'Interest Calculation Base (Statement Balance minus Principal Repayment)',
+  '预计保险费':'Estimated Insurance Premium',
+  'EstimatedInsurance费':'Estimated Insurance Premium',
+  '预计迟还费（仅根据已保存账单）':'Estimated Late Payment Charges (Based Only on Saved Statement)',
+  'EstimatedLate Payment费（仅根据已SaveStatement）':'Estimated Late Payment Charges (Based Only on Saved Statement)',
+  '预计结转总额（不入账）':'Estimated Carryover Total (Not Posted)',
+  'EstimatedCarryover总额（不入账）':'Estimated Carryover Total (Not Posted)',
+  '有 Save 正式 Statement Balance 时，Interest 按该 Statement Amount 扣减 Statement 日后的已登记 Principal Repayment 计算；没有正式 Statement 则采用 Actual Records Balance 作临时估算。预测 Interest、Insurance 和 Late Payment 费只是参考，不 Automatic 生成新 Debts；下期从 Actual Records Balance Carryover，不会重复加上预测 Fees。Bank Actual Statement Balance 如有差异，以 Bank 正式 Statement 为准。':'When an official saved Statement Balance is available, interest is calculated from that Statement Amount minus any recorded principal repayments after the statement date. If no official statement exists, Actual Records Balance is used as a temporary estimate. Estimated interest, insurance and late-payment charges are for reference only and do not automatically create new debts. The next cycle carries forward from Actual Records Balance without adding the estimated fees again. If Bank Actual Statement Balance differs, the bank’s official statement prevails.',
+  '账期从上月结单日到本月结单日前一天；例如结单日20号，对应上月20日至本月19日。Interest 按固定30天基准估算。Finance Charges 是简化的 Balance 日息估算，未 Repayment Interest 及 Bank 免息规则可能导致差异。旧版已录入的 Original Amount 视为 Opening 欠款；旧消费不要再次添加。':'Each cycle runs from the previous statement day to the day before this month’s statement day. For example, a statement day of the 20th means the period is from the 20th of the previous month to the 19th of this month. Interest is estimated using a fixed 30-day basis. Finance Charges are a simplified daily-balance estimate; unpaid-interest treatment and your bank’s grace-period rules may cause differences. Original Amount entered in older versions is treated as opening debt; do not add old purchases again.',
+  '原始欠款':'Original Amount',
+  '已还本金':'Principal Repaid',
+  '预计月供':'Scheduled Monthly Payment',
+  'EditDebts':'Edit Debts',
+  '💳 信用卡费用管理 · 选择功能':'💳 Credit Card Fees Management · Select a Function',
+  'Credit CardFees管理 · Select功能':'Credit Card Fees Management · Select a Function',
+  '点击下方按钮，显示对应功能。保险费与逾期费的银行核对共用原有正式费用入账记录，避免重复记录。':'Click a button below to show the corresponding function. Insurance-premium and overdue-fee bank verification share the existing confirmed fee-posting records to avoid duplicate entries.',
+  '点击下方按钮，Show对应功能。Insurance费与Overdue费的Bank核对共用原有正式Fees入账Records，避免重复Records。':'Click a button below to show the corresponding function. Insurance-premium and overdue-fee bank verification share the existing confirmed fee-posting records to avoid duplicate entries.',
+  '💳 Credit Card Repayment · 信用卡还款记录':'💳 Credit Card Repayment · Credit Card Repayment History',
+  '💳 Credit Card Repayment · Credit CardRepayment History':'💳 Credit Card Repayment · Credit Card Repayment History',
+  '🧮 Finance Charges · 利息自动计算':'🧮 Finance Charges · Automatic Interest Calculation',
+  '🧮 Finance Charges · InterestAutomatic计算':'🧮 Finance Charges · Automatic Interest Calculation',
+  '🧾 银行实际费用核对入账 · 保险费':'🧾 Bank Actual Fees Verification & Posting · Insurance Premium',
+  '🧾 BankActualFees核对入账 · Insurance费':'🧾 Bank Actual Fees Verification & Posting · Insurance Premium',
+  '🧾 银行实际费用核对入账 · 逾期费':'🧾 Bank Actual Fees Verification & Posting · Overdue Fee',
+  '🧾 BankActualFees核对入账 · Overdue费':'🧾 Bank Actual Fees Verification & Posting · Overdue Fee'
+ }));
+ const rules=[
+  [/^(V8\.1\.1[67]\s*·\s*)多银行信用卡$/,'$1Multi-Bank Credit Cards'],
+  [/^待还Borrowed Funds\s*(RM[\d,. ]+)\s*·\s*待收Loans Given\s*(RM[\d,. ]+)$/,(_,a,b)=>'Borrowed Funds to Repay '+a+' · Loans to Collect '+b],
+  [/^Select a debt to view$/,'Select a debt to view'],
+  [/^Due[:：]\s*(.+?)\s*·\s*Minimum Due\s*(RM[\d,.]+)\s*·\s*账单\s*(RM[\d,.]+)$/,'Due: $1 · Minimum Due $2 · Statement $3'],
+  [/^原始欠款[:：]\s*(RM[\d,.]+)\s*·\s*已还本金[:：]\s*(RM[\d,.]+)\s*·\s*年利率[:：]\s*([\d.]+%)\s*·\s*预计月供[:：]\s*(RM[\d,.]+)$/,'Original Amount: $1 · Principal Repaid: $2 · Annual Interest Rate: $3 · Scheduled Monthly Payment: $4'],
+  [/^(.+?)：\s*([0-9\-]+)\s*至\s*([0-9\-]+)\s*·\s*预计到期：\s*([0-9\-]+)\s*·\s*尚未核对正式Statement\s*·\s*预测查询Date：\s*([0-9\-]+)\s*·\s*本期估算区间：\s*([0-9\-]+)\s*至\s*([0-9\-]+)\s*（自然日31天，固定30天基准）\s*·\s*年利率：\s*([\d.]+)%$/,'Statement Period: $2 to $3 · Estimated Due Date: $4 · Official Statement Not Yet Verified · Estimated Query Date: $5 · Estimated Cycle Range: $6 to $7 (31 calendar days, fixed 30-day basis) · Annual Interest Rate: $8%'],
+  [/^Borrowed Funds增加CollectionAccount Balance[\s\S]*$/,'Borrowing increases the receiving account balance, while lending decreases the paying account balance. Repayments and collections reverse these changes. Loans are tracked separately from existing debts and receivables to prevent duplicate entries.']
+ ];
+ function convert(raw){
+   const full=String(raw||'');
+   const t=full.trim();
+   if(!t)return full;
+   let out=exact.get(t);
+   if(out===undefined){
+     for(const [rx,to] of rules){ if(rx.test(t)){ out=t.replace(rx,to); break; } }
+   }
+   return out===undefined?full:full.replace(t,out);
+ }
+ let busy=false;
+ function apply(){
+   if(busy || language()!=='en')return;
+   busy=true;
+   try{
+     const roots=[document.getElementById('debts'),document.getElementById('debtCreditView')].filter(Boolean);
+     for(const root of roots){
+       const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+       let n;
+       while((n=w.nextNode())){
+         if(n.parentElement?.closest('script,style,textarea,input,[contenteditable="true"]'))continue;
+         const v=convert(n.nodeValue);
+         if(v!==n.nodeValue)n.nodeValue=v;
+       }
+       for(const el of root.querySelectorAll('[placeholder]')){
+         const cur=el.getAttribute('placeholder');
+         const v=convert(cur);
+         if(v!==cur)el.setAttribute('placeholder',v);
+       }
+       for(const opt of root.querySelectorAll('select option')){
+         const cur=opt.textContent;
+         const v=convert(cur);
+         if(v!==cur)opt.textContent=v;
+       }
+       for(const el of root.querySelectorAll('[value]')){
+         if(el.tagName==='INPUT' && ['button','submit'].includes((el.getAttribute('type')||'').toLowerCase())){
+           const cur=el.value,v=convert(cur); if(v!==cur)el.value=v;
+         }
+       }
+     }
+   } finally {busy=false;}
+ }
+ let scheduled=false; function schedule(){if(scheduled)return; scheduled=true; setTimeout(()=>{scheduled=false;apply()},40)}
+ function init(){apply(); const roots=[document.getElementById('debts'),document.getElementById('debtCreditView')].filter(Boolean); for(const root of roots){new MutationObserver(m=>{if(m.some(x=>x.type==='childList'||x.type==='characterData'||(x.type==='attributes'&&x.attributeName==='placeholder')))schedule()}).observe(root,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder']});} document.addEventListener('change',schedule);document.addEventListener('click',schedule); }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init); else init();
+ window.__v8117TranslateCreditAndDebts=apply;
+})();
+</script>
+
 </body></html>
