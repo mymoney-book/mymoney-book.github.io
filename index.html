@@ -2,7 +2,7 @@
 
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.25</title>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.26</title>
 <style>
 :root{--green:#176b57;--bg:#f3f6f5;--card:#fff;--text:#182522;--muted:#64736e;--line:#e1e9e5;--red:#bd3d3d;--blue:#275d9c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}header{background:var(--green);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:5}header h1{font-size:22px;margin:0 0 4px}header p{font-size:12px;margin:0;opacity:.85}.wrap{max-width:760px;margin:auto;padding:14px 12px 40px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--text);padding:10px 13px;border-radius:12px;font-size:14px}.tabs button.active{background:var(--green);color:white;border-color:var(--green)}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:12px}.metric,.box{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px}.metric span{font-size:12px;color:var(--muted);display:block}.metric strong{font-size:20px;display:block;margin-top:6px;overflow-wrap:anywhere}.box{margin-bottom:12px}.box h2{font-size:16px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}input,select,textarea{font:inherit;width:100%;border:1px solid #cfdcd5;background:#fff;border-radius:10px;padding:11px;color:var(--text);min-width:0}textarea{min-height:66px;resize:vertical}.field{margin-bottom:10px}.full{grid-column:1/-1}.btn{border:0;border-radius:10px;padding:11px 13px;background:var(--green);color:white;font-weight:600;font-size:14px;cursor:pointer}.btn.secondary{background:#e6efeb;color:var(--green)}.btn.danger{background:#fff0f0;color:var(--red)}.btn.small{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.item{border-top:1px solid var(--line);padding:12px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.item:first-child{border-top:0}.item .name{font-weight:650;font-size:14px}.sub{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}.amount{font-weight:700;white-space:nowrap;text-align:right}.income{color:var(--green)}.expense{color:var(--red)}.empty{color:var(--muted);font-size:13px;padding:8px 0}.hint{font-size:12px;color:var(--muted);line-height:1.6}.notice{background:#fff8df;border:1px solid #f1df9d;border-radius:12px;padding:11px;font-size:12px;line-height:1.5;margin-bottom:12px}.hidden{display:none!important}.month-row{display:flex;gap:10px;align-items:end;margin-bottom:12px}.month-row .field{flex:1;margin:0}.pill{display:inline-block;border-radius:30px;padding:3px 8px;background:#e6efeb;color:var(--green);font-size:11px}.debt-balance{font-size:18px;font-weight:750;margin:5px 0}.progress{height:6px;border-radius:9px;background:#e8eeeb;overflow:hidden;margin:9px 0}.progress span{height:100%;display:block;background:var(--green)}footer{text-align:center;color:var(--muted);font-size:11px;padding:8px}
 @media(min-width:600px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.metric strong{font-size:22px}}
@@ -158,7 +158,7 @@
 </div>
 <div class="empty hidden v818-home-detail" id="recentList">暂无交易</div>
 </div></div><div class="box v768-overview"><h2>账户余额概览</h2><button type="button" class="btn secondary v768-overview-toggle" aria-expanded="false" aria-controls="v768AccountsContent" data-v768-toggle="v768AccountsContent">显示账户余额概览 ▼</button><div id="v768AccountsContent" hidden style="display:none"><div class="empty" id="homeAccounts">暂无账户</div></div></div><div class="box v768-overview"><h2>负债概览</h2><button type="button" class="btn secondary v768-overview-toggle" aria-expanded="false" aria-controls="v768DebtsContent" data-v768-toggle="v768DebtsContent">显示负债概览 ▼</button><div id="v768DebtsContent" hidden style="display:none"><div class="empty" id="homeDebts">暂无负债</div></div></div></section>
-<section aria-label="账单与提醒" class="panel" id="bills"></section><section aria-label="每月预算" class="panel" id="budget"></section><section class="panel v736-ledger" id="transactions"><div class="v736-page-head"><div><div class="v736-eyebrow">FINANCE OPERATIONS / 记账管理</div><h2>交易、账户与余额</h2><p>统一管理收入、支出、内部转账、账户新增与余额查看</p></div><span class="v736-edition">MYMONEY · V8.1.25</span></div><div class="box v736-action-panel"><div class="v736-section-heading"><div><span class="v736-kicker">01 / QUICK ACTIONS</span><h2>新增记录</h2></div><span class="v736-caption">选择操作类型</span></div><div aria-label="选择新增记录或账户管理类型" class="v732-entry-buttons" role="group"><button aria-pressed="false" class="v732-entry-btn" id="v735AccountMode" type="button">▣ 新增账户</button><button aria-pressed="false" class="v732-entry-btn" data-v732-mode="income" type="button">＋ 收入</button><button aria-pressed="true" class="v732-entry-btn" data-v732-mode="expense" type="button">－ 支出</button><button aria-pressed="false" class="v732-entry-btn" data-v732-mode="transfer" type="button">⇄ 内部转账</button><button aria-pressed="false" class="v732-entry-btn" id="v756BalanceMode" type="button">▤ 余额</button></div><select aria-label="交易类型" class="hidden" id="entryMode"><option value="expense">支出</option><option value="income">收入</option><option value="transfer">内部转账</option></select><p aria-live="polite" class="hint" id="v733EntryHint">填写支出金额、日期及类别，保存后会记录为支出。</p></div><div class="box v736-form-panel" id="txEntryWrap"><h2 id="txFormTitle">新增收支记录</h2><form id="txForm"><input id="txId" type="hidden"/><div class="grid"><div class="field hidden"><label for="txType">类型</label><select id="txType"><option value="expense">支出</option><option value="income">收入</option></select></div><div class="field"><label for="txDate">日期</label><input id="txDate" required="" type="date"/></div><div class="field"><label for="txAmount">金额（RM）</label><input id="txAmount" min="0.01" placeholder="0.00" required="" step="0.01" type="number"/></div><div class="field"><label for="txCategory">类别</label><select id="txCategory"><option>餐饮</option><option>交通</option><option>购物</option><option>日常用品</option><option>房租/房贷</option><option>水电网费</option><option>医疗</option><option>薪水</option><option>奖金</option><option>生意收入</option><option>家庭</option><option>其他</option></select></div><div class="field"><label for="txAccount">关联账户</label><select id="txAccount"><option value="">不关联账户（旧版模式）</option></select></div><div class="field"><label for="txPayment">付款方式</label><select id="txPayment"><option>现金</option><option>银行卡</option><option>信用卡</option><option>银行转账</option><option>电子钱包</option><option>其他</option></select></div><div class="field"><label for="txNote">备注（可选）</label><input id="txNote" placeholder="例如：午餐"/></div></div><div class="actions"><button class="btn" type="submit">保存记录</button><button class="btn secondary hidden" id="txCancel" type="button">取消编辑</button></div></form><div class="box hidden" id="v7412ExpenseCategoryEditor"><details id="categoryDetails"><summary><strong>🎨 自定义支出类别与图标</strong></summary><p class="hint">仅供新增支出使用。既有自定义收入类别及历史交易资料仍保留，不会被删除。</p><input id="catType" type="hidden" value="expense"/><div class="grid"><div class="field"><label>类别名称</label><input id="catName" placeholder="例如：停车费"/></div></div><div class="field"><label>选择图标</label><div class="emoji-picker" id="catIconPicker"></div><div class="actions" style="margin-top:10px"><button class="btn secondary small" id="catBrandToggle" type="button">选择品牌图标（银行／电子钱包／购物等）</button><button class="btn secondary small" id="catUploadButton" type="button">上传自己的图标</button><button class="btn secondary small" id="catIconReset" type="button">恢复默认图标</button></div><input accept="image/png,image/jpeg,image/webp" class="hidden" id="catIconFile" type="file"/><div class="emoji-picker hidden" id="catBrandPicker" style="margin-top:10px"></div><div class="hint" id="catIconPreview" style="margin-top:10px">当前图标：🛒</div></div><button class="btn" id="catSave" type="button">新增类别</button><div id="customCategories"></div></details></div></div><div class="box hidden v736-form-panel" id="transferEntryWrap"><h2>新增内部转账</h2><form id="transferForm"><div class="grid">
+<section aria-label="账单与提醒" class="panel" id="bills"></section><section aria-label="每月预算" class="panel" id="budget"></section><section class="panel v736-ledger" id="transactions"><div class="v736-page-head"><div><div class="v736-eyebrow">FINANCE OPERATIONS / 记账管理</div><h2>交易、账户与余额</h2><p>统一管理收入、支出、内部转账、账户新增与余额查看</p></div><span class="v736-edition">MYMONEY · V8.1.26</span></div><div class="box v736-action-panel"><div class="v736-section-heading"><div><span class="v736-kicker">01 / QUICK ACTIONS</span><h2>新增记录</h2></div><span class="v736-caption">选择操作类型</span></div><div aria-label="选择新增记录或账户管理类型" class="v732-entry-buttons" role="group"><button aria-pressed="false" class="v732-entry-btn" id="v735AccountMode" type="button">▣ 新增账户</button><button aria-pressed="false" class="v732-entry-btn" data-v732-mode="income" type="button">＋ 收入</button><button aria-pressed="true" class="v732-entry-btn" data-v732-mode="expense" type="button">－ 支出</button><button aria-pressed="false" class="v732-entry-btn" data-v732-mode="transfer" type="button">⇄ 内部转账</button><button aria-pressed="false" class="v732-entry-btn" id="v756BalanceMode" type="button">▤ 余额</button></div><select aria-label="交易类型" class="hidden" id="entryMode"><option value="expense">支出</option><option value="income">收入</option><option value="transfer">内部转账</option></select><p aria-live="polite" class="hint" id="v733EntryHint">填写支出金额、日期及类别，保存后会记录为支出。</p></div><div class="box v736-form-panel" id="txEntryWrap"><h2 id="txFormTitle">新增收支记录</h2><form id="txForm"><input id="txId" type="hidden"/><div class="grid"><div class="field hidden"><label for="txType">类型</label><select id="txType"><option value="expense">支出</option><option value="income">收入</option></select></div><div class="field"><label for="txDate">日期</label><input id="txDate" required="" type="date"/></div><div class="field"><label for="txAmount">金额（RM）</label><input id="txAmount" min="0.01" placeholder="0.00" required="" step="0.01" type="number"/></div><div class="field"><label for="txCategory">类别</label><select id="txCategory"><option>餐饮</option><option>交通</option><option>购物</option><option>日常用品</option><option>房租/房贷</option><option>水电网费</option><option>医疗</option><option>薪水</option><option>奖金</option><option>生意收入</option><option>家庭</option><option>其他</option></select></div><div class="field"><label for="txAccount">关联账户</label><select id="txAccount"><option value="">不关联账户（旧版模式）</option></select></div><div class="field"><label for="txPayment">付款方式</label><select id="txPayment"><option>现金</option><option>银行卡</option><option>信用卡</option><option>银行转账</option><option>电子钱包</option><option>其他</option></select></div><div class="field"><label for="txNote">备注（可选）</label><input id="txNote" placeholder="例如：午餐"/></div></div><div class="actions"><button class="btn" type="submit">保存记录</button><button class="btn secondary hidden" id="txCancel" type="button">取消编辑</button></div></form><div class="box hidden" id="v7412ExpenseCategoryEditor"><details id="categoryDetails"><summary><strong>🎨 自定义支出类别与图标</strong></summary><p class="hint">仅供新增支出使用。既有自定义收入类别及历史交易资料仍保留，不会被删除。</p><input id="catType" type="hidden" value="expense"/><div class="grid"><div class="field"><label>类别名称</label><input id="catName" placeholder="例如：停车费"/></div></div><div class="field"><label>选择图标</label><div class="emoji-picker" id="catIconPicker"></div><div class="actions" style="margin-top:10px"><button class="btn secondary small" id="catBrandToggle" type="button">选择品牌图标（银行／电子钱包／购物等）</button><button class="btn secondary small" id="catUploadButton" type="button">上传自己的图标</button><button class="btn secondary small" id="catIconReset" type="button">恢复默认图标</button></div><input accept="image/png,image/jpeg,image/webp" class="hidden" id="catIconFile" type="file"/><div class="emoji-picker hidden" id="catBrandPicker" style="margin-top:10px"></div><div class="hint" id="catIconPreview" style="margin-top:10px">当前图标：🛒</div></div><button class="btn" id="catSave" type="button">新增类别</button><div id="customCategories"></div></details></div></div><div class="box hidden v736-form-panel" id="transferEntryWrap"><h2>新增内部转账</h2><form id="transferForm"><div class="grid">
 <div class="field"><label for="transferFrom">转出账户</label><select id="transferFrom" required=""></select></div>
 <div class="field"><label for="transferTo">转入账户</label><select id="transferTo" required=""></select></div>
 <div class="field"><label for="transferAmount">金额（RM）</label><input id="transferAmount" min="0.01" required="" step="0.01" type="number"/></div>
@@ -2390,7 +2390,7 @@ document.addEventListener('click',function(event){
 </script>
 
 <script id="v8124-transactions-home-en">
-/* V8.1.25: English UI label translations for home, transactions and balances.
+/* V8.1.26: English UI label translations for home, transactions and balances.
    Display only: no changes to user data, calculations or database/localStorage. */
 (function(){
 'use strict';
@@ -2493,7 +2493,7 @@ window.__v8124TranslateHomeTransactions=apply;
 })();
 </script>
 <script id="v8125-expense-labels-en">
-/* V8.1.25 display-only translations for system labels & category titles.
+/* V8.1.26 display-only translations for system labels & category titles.
    Do not modify select values, account names, stored categories, records or user notes. */
 (function(){
  'use strict';
@@ -2544,6 +2544,72 @@ window.__v8124TranslateHomeTransactions=apply;
  }document.addEventListener('click',schedule);document.addEventListener('change',schedule)}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
  window.__v8125ExpenseLabelsEnglish=apply;
+})();
+</script>
+<script id="v8126-all-english-display">
+/* V8.1.26: English-only translation of account help, labels and selected transaction-note displays.
+   Intentionally leaves input values, storage, account names and saved notes untouched. */
+(function(){
+ 'use strict';
+ function isEnglish(){try{return /^en/i.test(String(JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}').lang||''))}catch(e){return false}}
+ const exact=new Map(Object.entries({
+ '新增或编辑银行、现金及电子钱包账户。账户的每月结转请点击「余额」。':'Add or edit bank, cash and e-wallet accounts. To view monthly account carryovers, select "Balances".',
+ 'Add或EditBank、Cash及E-walletAccounts。Accounts月度Carryover请点击「Balance」。':'Add or edit bank, cash and e-wallet accounts. To view monthly account carryovers, select "Balances".',
+ '在这里新增银行、现金及电子钱包账户。每笔收入、支出或转账都可选择对应账户。':'Add bank, cash and e-wallet accounts here. You can link an account to each income, expense or transfer transaction.',
+ '这里自动列出已经保存的所有银行、电子银行、电子钱包和现金账户，防止重复新增。点击「编辑」可修改账户资料。':'All saved bank, digital bank, e-wallet and cash accounts appear here automatically to help prevent duplicates. Select "Edit" to update account details.',
+ '这里Automatic列出已经Save的所有Bank、电子Bank、E-wallet和CashAccounts，防止重复Add。点击「Edit」可EditAccounts资料。':'All saved bank, digital bank, e-wallet and cash accounts appear here automatically to help prevent duplicates. Select "Edit" to update account details.',
+ '填写收入金额、日期及类别，并关联账户后保存。':'Enter the income amount, date and category, link an account, then save.',
+ '填写IncomeAmount、Date及Category，并Linked Account后Save。':'Enter the income amount, date and category, link an account, then save.',
+ '初始':'Opening','初始余额':'Opening Balance','初始Balance':'Opening Balance',
+ '初始余额：':'Opening Balance:','当月净变动':'Net Change This Month',
+ '当月净变动：':'Net Change This Month:','期初合计：':'Total Opening Balance:',
+ '早餐':'Breakfast','饮料':'Drinks','午餐':'Lunch','晚餐':'Dinner',
+ '汽油':'Fuel','充值':'Top-up','不知开销':'Uncategorized Expenses','电话与网费':'Phone & Internet',
+ '汽车维修':'Car Maintenance','汽车维修费':'Car Maintenance',
+ '饮料 - 早餐':'Breakfast Drinks','饮料-早餐':'Breakfast Drinks',
+ 'Notes (optional)':'Notes (optional)', '备注（可选）':'Notes (optional)'
+ }));
+ const notes=new Map([['早餐','Breakfast'],['饮料','Drinks'],['午餐','Lunch'],['晚餐','Dinner'],['汽油','Fuel'],['充值','Top-up'],['不知开销','Uncategorized Expenses'],['电话与网费','Phone & Internet'],['汽车维修','Car Maintenance'],['汽车维修费','Car Maintenance'],['饮料 - 早餐','Breakfast Drinks'],['饮料-早餐','Breakfast Drinks']]);
+ const paths=['#transactions','#home','#budget','#analytics','#accountsEmbedded','#v756BalanceView','#accountList','#v759SavedAccountsBox','#v755MonthlyResult'];
+ const blocked='script,style,textarea,input,[contenteditable="true"]';
+ function tr(raw){const text=String(raw||''),t=text.trim();let out=exact.get(t);
+  // Inline metrics with real monetary values: translate only fixed prefixes.
+  if(out===undefined&&/^(初始余额|初始Balance|当月净变动|期初合计)\s*[:：]/.test(t))
+    out=t.replace(/^初始余额|^初始Balance/,'Opening Balance').replace(/^当月净变动/,'Net Change This Month').replace(/^期初合计/,'Total Opening Balance').replace('：',':');
+  return out===undefined?text:text.replace(t,out);
+ }
+ function visibleNoteText(raw){
+  // Match the final user-note segment in a displayed transaction summary, never modify record storage.
+  const s=String(raw||''); const m=s.match(/^(.*?)(\s*[·・]\s*)([^·・]+)$/s);
+  if(!m)return s;
+  const note=m[3].trim();
+  const out=notes.get(note);
+  return out===undefined?s:m[1]+m[2]+m[3].replace(note,out);
+ }
+ let active=false,scheduled=false;
+ function apply(){if(active||!isEnglish())return;active=true;try{
+  for(const css of paths){for(const root of document.querySelectorAll(css)){
+   const tree=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
+   while((n=tree.nextNode())){
+    const el=n.parentElement;if(!el||el.closest(blocked))continue;
+    let result=tr(n.nodeValue);
+    if(el.closest('#txList .item .sub,#v779TransactionsPanel .item .sub,#v7412TransactionHistory .item .sub'))result=visibleNoteText(result);
+    // Avoid translating free-text account names or other user-entered descriptions.
+    else if(el.closest('#accountList .name,#v759SavedAccountsList .name,#homeAccounts .name'))continue;
+    if(result!==n.nodeValue)n.nodeValue=result;
+   }
+  }}
+  // Category dropdowns: only the visible text, never the option values.
+  for(const sel of document.querySelectorAll('#txCategory,#catSelect,#v812ExpenseCategoryFilter,#budget select'))
+   for(const option of sel.options||[]){const x=option.textContent.trim();const next=notes.get(x);if(next)option.textContent=option.textContent.replace(x,next);}
+  for(const el of document.querySelectorAll('#txNote[placeholder],#transactions [placeholder]')){
+   const x=el.getAttribute('placeholder');if(x==='例如：午餐'||x==='例如: 午餐')el.setAttribute('placeholder','e.g. Lunch');
+  }
+ }finally{active=false}}
+ function schedule(){if(scheduled)return;scheduled=true;setTimeout(()=>{scheduled=false;apply()},50)}
+ function init(){apply();for(const css of paths)for(const root of document.querySelectorAll(css))new MutationObserver(m=>{if(m.some(x=>x.type==='childList'||x.type==='characterData'))schedule()}).observe(root,{subtree:true,childList:true,characterData:true});document.addEventListener('click',schedule);document.addEventListener('change',schedule)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+ window.__v8126EnglishDisplay=apply;
 })();
 </script>
 </body></html>
