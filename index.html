@@ -2,7 +2,7 @@
 
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.33</title>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.34</title>
 <style>
 :root{--green:#176b57;--bg:#f3f6f5;--card:#fff;--text:#182522;--muted:#64736e;--line:#e1e9e5;--red:#bd3d3d;--blue:#275d9c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}header{background:var(--green);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:5}header h1{font-size:22px;margin:0 0 4px}header p{font-size:12px;margin:0;opacity:.85}.wrap{max-width:760px;margin:auto;padding:14px 12px 40px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--text);padding:10px 13px;border-radius:12px;font-size:14px}.tabs button.active{background:var(--green);color:white;border-color:var(--green)}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:12px}.metric,.box{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px}.metric span{font-size:12px;color:var(--muted);display:block}.metric strong{font-size:20px;display:block;margin-top:6px;overflow-wrap:anywhere}.box{margin-bottom:12px}.box h2{font-size:16px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}input,select,textarea{font:inherit;width:100%;border:1px solid #cfdcd5;background:#fff;border-radius:10px;padding:11px;color:var(--text);min-width:0}textarea{min-height:66px;resize:vertical}.field{margin-bottom:10px}.full{grid-column:1/-1}.btn{border:0;border-radius:10px;padding:11px 13px;background:var(--green);color:white;font-weight:600;font-size:14px;cursor:pointer}.btn.secondary{background:#e6efeb;color:var(--green)}.btn.danger{background:#fff0f0;color:var(--red)}.btn.small{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.item{border-top:1px solid var(--line);padding:12px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.item:first-child{border-top:0}.item .name{font-weight:650;font-size:14px}.sub{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}.amount{font-weight:700;white-space:nowrap;text-align:right}.income{color:var(--green)}.expense{color:var(--red)}.empty{color:var(--muted);font-size:13px;padding:8px 0}.hint{font-size:12px;color:var(--muted);line-height:1.6}.notice{background:#fff8df;border:1px solid #f1df9d;border-radius:12px;padding:11px;font-size:12px;line-height:1.5;margin-bottom:12px}.hidden{display:none!important}.month-row{display:flex;gap:10px;align-items:end;margin-bottom:12px}.month-row .field{flex:1;margin:0}.pill{display:inline-block;border-radius:30px;padding:3px 8px;background:#e6efeb;color:var(--green);font-size:11px}.debt-balance{font-size:18px;font-weight:750;margin:5px 0}.progress{height:6px;border-radius:9px;background:#e8eeeb;overflow:hidden;margin:9px 0}.progress span{height:100%;display:block;background:var(--green)}footer{text-align:center;color:var(--muted);font-size:11px;padding:8px}
 @media(min-width:600px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.metric strong{font-size:22px}}
@@ -1185,7 +1185,7 @@ function v58plan(d){
  let principal=v58round(balance(d)),payment=v58monthly(d),rows=[],totalInterest=0;
  const start=d.startPaymentDate||today(),status=v7412dueStatus(d);
  let carry=status.shortfall;
- if(payment<=0)return {rows,totalInterest,...status,warning:'请编辑此负债，填写每月计划还款金额或贷款总期数。'};
+ if(payment<=0)return {rows,totalInterest,...status,warning:(v7100IsEnglish()?'Please edit this debt and enter the scheduled monthly repayment amount or the total number of loan installments.':'请编辑此负债，填写每月计划还款金额或贷款总期数。')};
  let warning='';
  for(let i=0;i<600&&principal>0.005;i++){
    const interest=v58interest(d,principal);
@@ -1218,7 +1218,7 @@ function v58refreshHistory(){const select=$('v58HistoryDebt');if(!select)return;
 $('v58HistoryDebt').addEventListener('change',v58refreshHistory);
 function v58showPlan(id){
  const d=data.debts.find(x=>x.id===id);if(!d)return;
- const r=v58plan(d),first=r.rows[0],finish=r.rows.length&&r.rows.at(-1).balance<=0.005?r.rows.at(-1).date:'未确定';
+ const r=v58plan(d),first=r.rows[0],finish=r.rows.length&&r.rows.at(-1).balance<=0.005?r.rows.at(-1).date:(v7100IsEnglish()?'Not Yet Determined':'未确定');
  $('v58Plan').dataset.debtId=id;
  $('v58Plan').innerHTML=`<div class="v58-panel"><h3>${esc(d.name)} · ${esc(({none:'无利息',reducing:'递减余额',flat:'固定利息',credit:'信用卡月息'})[v58mode(d)])}</h3>
  <div class="v58-muted">当前剩余本金：<strong>${money(balance(d))}</strong> · 原定月供：${money(v58monthly(d))} · 年利率：${Number(d.annualRate||0)}%<br>
@@ -2938,4 +2938,53 @@ window.__v8124TranslateHomeTransactions=apply;
 })();
 </script>
 
+
+<script id="v8134-transaction-debt-en">
+/* V8.1.34. Display-only translations, without changes to stored records or financial formulas. */
+(function(){
+ 'use strict';
+ function english(){try{return /^en/i.test(String(JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}').lang||''));}catch(e){return false;}}
+ const exact = Object.freeze({
+  '请Edit此Debts，填写每月计划RepaymentAmount或贷款总期数。':'Please edit this debt and enter the scheduled monthly repayment amount or the total number of loan installments.',
+  '请编辑此负债，填写每月计划还款金额或贷款总期数。':'Please edit this debt and enter the scheduled monthly repayment amount or the total number of loan installments.',
+  '未确定':'Not Yet Determined',
+  '收入':'Income','支出':'Expense','转账':'Transfer','内部转账':'Internal Transfer',
+  '负债还款':'Debt Repayment','信用卡还款':'Credit Card Repayment',
+  '借入':'Money Borrowed','借出':'Money Lent','收款':'Collection',
+  '早餐':'Breakfast','午餐':'Lunch','晚餐':'Dinner','饮料':'Drinks','汽油':'Fuel',
+  '充值':'Top-up','电话与网费':'Phone & Internet','汽车维修费':'Car Maintenance',
+  '汽车维修':'Car Maintenance','不知开销':'Uncategorized Expenses',
+  '水电费':'Utilities','普通支出':'Regular Expense','没有记录':'No Records',
+  '暂无交易':'No Transactions','本月全部交易':'All Transactions This Month',
+  '全部交易':'All Transactions','显示全部交易 ▼':'Show All Transactions ▼',
+  '隐藏全部交易 ▲':'Hide All Transactions ▲','已到期':'Due','已登记':'Recorded',
+  '已还清':'Fully Paid','待付款':'Pending Payment'
+ });
+ const re=(/(^|[·|:：/\s])(?:早餐|午餐|晚餐|饮料|汽油|充值|电话与网费|汽车维修费|汽车维修|不知开销|水电费)(?=$|[·|:：/\s])/g);
+ function convert(raw){
+  const str=String(raw||'');const t=str.trim();if(!t)return str;
+  if(Object.prototype.hasOwnProperty.call(exact,t))return str.replace(t,exact[t]);
+  // Translate only delimited, known category or short note tokens in transaction summary.
+  return str.replace(re,(full,prefix)=>prefix+exact[full.slice(prefix.length)]);
+ }
+ const ids=['recentList','v818HomeCategoryGrid','v818HomeCategoryTitle','v818HomeCategoryStatus','v818ShowAllTransactions','v7412TransactionHistory','v779TransactionsPanel','v58Plan','v58History','v754RecentTitle'];
+ let running=false;
+ function apply(){if(running||!english())return;running=true;try{
+  for(const id of ids){const root=document.getElementById(id);if(!root)continue;
+   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
+   while((n=walker.nextNode())){
+    if(n.parentElement?.closest('script,style,textarea,input,select,[contenteditable="true"]'))continue;
+    // Preserve user-entered account names and arbitrary free-text notes.
+    if(n.parentElement?.closest('[data-account-name],.account-name,[data-user-note]'))continue;
+    const next=convert(n.nodeValue);if(next!==n.nodeValue)n.nodeValue=next;
+   }
+  }
+ }finally{running=false;}}
+ let scheduled=false;
+ function schedule(){if(scheduled)return;scheduled=true;setTimeout(()=>{scheduled=false;apply();},35);}
+ function init(){apply();for(const id of ids){const root=document.getElementById(id);if(!root)continue;new MutationObserver(ms=>{if(ms.some(m=>m.type==='childList'||m.type==='characterData'))schedule();}).observe(root,{subtree:true,childList:true,characterData:true});}document.addEventListener('change',schedule);document.addEventListener('click',schedule);}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+ window.__v8134TranslateTransactionLabels=apply;
+})();
+</script>
 </body></html>
