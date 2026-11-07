@@ -2,7 +2,7 @@
 
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.37</title>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.38</title>
 <style>
 :root{--green:#176b57;--bg:#f3f6f5;--card:#fff;--text:#182522;--muted:#64736e;--line:#e1e9e5;--red:#bd3d3d;--blue:#275d9c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}header{background:var(--green);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:5}header h1{font-size:22px;margin:0 0 4px}header p{font-size:12px;margin:0;opacity:.85}.wrap{max-width:760px;margin:auto;padding:14px 12px 40px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--text);padding:10px 13px;border-radius:12px;font-size:14px}.tabs button.active{background:var(--green);color:white;border-color:var(--green)}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:12px}.metric,.box{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px}.metric span{font-size:12px;color:var(--muted);display:block}.metric strong{font-size:20px;display:block;margin-top:6px;overflow-wrap:anywhere}.box{margin-bottom:12px}.box h2{font-size:16px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}input,select,textarea{font:inherit;width:100%;border:1px solid #cfdcd5;background:#fff;border-radius:10px;padding:11px;color:var(--text);min-width:0}textarea{min-height:66px;resize:vertical}.field{margin-bottom:10px}.full{grid-column:1/-1}.btn{border:0;border-radius:10px;padding:11px 13px;background:var(--green);color:white;font-weight:600;font-size:14px;cursor:pointer}.btn.secondary{background:#e6efeb;color:var(--green)}.btn.danger{background:#fff0f0;color:var(--red)}.btn.small{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.item{border-top:1px solid var(--line);padding:12px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.item:first-child{border-top:0}.item .name{font-weight:650;font-size:14px}.sub{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}.amount{font-weight:700;white-space:nowrap;text-align:right}.income{color:var(--green)}.expense{color:var(--red)}.empty{color:var(--muted);font-size:13px;padding:8px 0}.hint{font-size:12px;color:var(--muted);line-height:1.6}.notice{background:#fff8df;border:1px solid #f1df9d;border-radius:12px;padding:11px;font-size:12px;line-height:1.5;margin-bottom:12px}.hidden{display:none!important}.month-row{display:flex;gap:10px;align-items:end;margin-bottom:12px}.month-row .field{flex:1;margin:0}.pill{display:inline-block;border-radius:30px;padding:3px 8px;background:#e6efeb;color:var(--green);font-size:11px}.debt-balance{font-size:18px;font-weight:750;margin:5px 0}.progress{height:6px;border-radius:9px;background:#e8eeeb;overflow:hidden;margin:9px 0}.progress span{height:100%;display:block;background:var(--green)}footer{text-align:center;color:var(--muted);font-size:11px;padding:8px}
 @media(min-width:600px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.metric strong{font-size:22px}}
@@ -239,7 +239,7 @@
 <div class="actions"><button class="btn" type="submit">保存信用卡及银行设置</button><button class="btn secondary" id="v752Cancel" type="button">清空／新增另一张卡</button></div></form>
 <p class="v751-small">现有信用卡可通过下方「编辑银行规则」修改；不会删除还款历史。新增信用卡时填写当前实际未还欠款，不要重复导入已有债务。</p></div>
 <div class="box v750-section" id="v753MonthlyBox">
-<h2>📆 每月自动结算与结转</h2>
+<h2 id="v8138MonthlyStatementHeading">📆 每月自动结算与结转</h2>
 <p class="hint">按每张卡的账单日自动生成每期预览，上期余额自动结转。新增消费登记在此卡的负债账本，不会同时扣除银行／现金余额。预计收费不会自动记入真实欠款，核对正式账单后再确认。</p>
 <div class="grid">
 <div class="field full"><label for="v753Card">选择信用卡</label><select id="v753Card"><option value="">请选择信用卡</option></select></div>
@@ -3093,6 +3093,40 @@ window.__v8124TranslateHomeTransactions=apply;
  function init(){apply();new MutationObserver(ch=>{if(ch.some(m=>m.type==='childList'||m.type==='characterData'))schedule();}).observe(document.body,{subtree:true,childList:true,characterData:true});document.addEventListener('change',schedule);document.addEventListener('click',schedule);}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
  window.__v8135EnglishAudit={apply,audit,translationCount:translations.size};
+})();
+</script>
+
+<script id="v8138-monthly-heading-source-fix">
+/* V8.1.38: targeted heading correction; no transaction or calculation modifications. */
+(function(){
+ 'use strict';
+ const en='📆 Monthly Automatic Statement & Carryover';
+ const zh='📆 每月自动结算与结转';
+ function locale(){
+   try { const p=JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}');
+     return String(p.lang||'zh'); } catch (_) { return 'zh'; }
+ }
+ let busy=false;
+ function sync(){
+   const heading=document.getElementById('v8138MonthlyStatementHeading')||document.querySelector('#v753MonthlyBox > h2');
+   if(!heading || busy)return;
+   if(!/^en/i.test(locale()))return; // Do not override other languages or user data.
+   if(heading.textContent.trim()===en.trim())return;
+   busy=true;
+   heading.textContent=en;
+   busy=false;
+ }
+ function init(){
+   const box=document.getElementById('v753MonthlyBox');
+   if(!box)return;
+   sync();
+   new MutationObserver(()=>{sync()}).observe(box,{subtree:true,childList:true,characterData:true});
+   document.addEventListener('change',sync);
+   document.addEventListener('click',sync);
+   window.addEventListener('pageshow',sync);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+ window.__v8138SyncMonthlyHeading=sync;
 })();
 </script>
 </body></html>
