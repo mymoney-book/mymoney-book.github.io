@@ -2,7 +2,7 @@
 
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.31</title>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.32</title>
 <style>
 :root{--green:#176b57;--bg:#f3f6f5;--card:#fff;--text:#182522;--muted:#64736e;--line:#e1e9e5;--red:#bd3d3d;--blue:#275d9c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}header{background:var(--green);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:5}header h1{font-size:22px;margin:0 0 4px}header p{font-size:12px;margin:0;opacity:.85}.wrap{max-width:760px;margin:auto;padding:14px 12px 40px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--text);padding:10px 13px;border-radius:12px;font-size:14px}.tabs button.active{background:var(--green);color:white;border-color:var(--green)}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:12px}.metric,.box{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px}.metric span{font-size:12px;color:var(--muted);display:block}.metric strong{font-size:20px;display:block;margin-top:6px;overflow-wrap:anywhere}.box{margin-bottom:12px}.box h2{font-size:16px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}input,select,textarea{font:inherit;width:100%;border:1px solid #cfdcd5;background:#fff;border-radius:10px;padding:11px;color:var(--text);min-width:0}textarea{min-height:66px;resize:vertical}.field{margin-bottom:10px}.full{grid-column:1/-1}.btn{border:0;border-radius:10px;padding:11px 13px;background:var(--green);color:white;font-weight:600;font-size:14px;cursor:pointer}.btn.secondary{background:#e6efeb;color:var(--green)}.btn.danger{background:#fff0f0;color:var(--red)}.btn.small{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.item{border-top:1px solid var(--line);padding:12px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.item:first-child{border-top:0}.item .name{font-weight:650;font-size:14px}.sub{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}.amount{font-weight:700;white-space:nowrap;text-align:right}.income{color:var(--green)}.expense{color:var(--red)}.empty{color:var(--muted);font-size:13px;padding:8px 0}.hint{font-size:12px;color:var(--muted);line-height:1.6}.notice{background:#fff8df;border:1px solid #f1df9d;border-radius:12px;padding:11px;font-size:12px;line-height:1.5;margin-bottom:12px}.hidden{display:none!important}.month-row{display:flex;gap:10px;align-items:end;margin-bottom:12px}.month-row .field{flex:1;margin:0}.pill{display:inline-block;border-radius:30px;padding:3px 8px;background:#e6efeb;color:var(--green);font-size:11px}.debt-balance{font-size:18px;font-weight:750;margin:5px 0}.progress{height:6px;border-radius:9px;background:#e8eeeb;overflow:hidden;margin:9px 0}.progress span{height:100%;display:block;background:var(--green)}footer{text-align:center;color:var(--muted);font-size:11px;padding:8px}
 @media(min-width:600px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.metric strong{font-size:22px}}
@@ -1231,6 +1231,7 @@ function v58showPlan(id){
  <div class="v58-table-wrap"><table class="v58-table"><thead><tr><th>期数 / 日期</th><th>预计总还款</th><th>原定月供</th><th>本月月供（实还）</th><th>补还差额</th><th>结转下月</th><th>本金</th><th>利息</th><th>剩余本金</th></tr></thead><tbody>${r.historyRows.map(x=>`<tr class="v7412-repaid-row"><td>${x.n} · ${esc(x.date)} <span class="v7412-history-pill">${x.date<=today()?'已到期':'已登记'}</span></td><td><strong>${money(x.amount)}</strong></td><td>${money(x.regular)}</td><td><strong>${money(x.actual)}</strong><div><button type="button" class="v7412-pay-shortcut" data-v7412-pay-month="${esc(x.date)}" data-v7412-pay-debt="${esc(id)}">＋ 登记还款</button></div></td><td>${money(x.extra)}</td><td class="${x.carryOut>0.005?'v7412-carry-alert':''}">${money(x.carryOut)}</td><td>${money(x.principal)}</td><td>${money(x.interest)}</td><td>${money(x.balance)}</td></tr>`).join('')}${r.rows.map(x=>`<tr><td>${x.n} · ${esc(x.date)}</td><td><strong>${money(x.amount)}</strong></td><td>${money(x.regular)}</td><td>待记录<div><button type="button" class="v7412-pay-shortcut" data-v7412-pay-month="${esc(x.date)}" data-v7412-pay-debt="${esc(id)}">＋ 登记还款</button></div></td><td>${money(x.extra)}</td><td>—</td><td>${money(x.principal)}</td><td>${money(x.interest)}</td><td>${money(x.balance)}</td></tr>`).join('')||(!r.historyRows.length?'<tr><td colspan="9">已结清或暂无可计算计划</td></tr>':'')}</tbody></table></div>
  <h3 style="margin-top:14px">实际还款历史（详细）</h3>${v58historyHtml(d)}
  <p class="v58-muted">计划差额是按到期月份和已录入的实际金额计算，不代表银行正式追缴金额；借款利息、罚金、手续费、未记录的款项和调整账单不自动计入。原有实际还款记录与账户扣款逻辑不变。</p></div>`;
+ if(window.__v8132TranslatePlan)window.__v8132TranslatePlan($('v58Plan'));
 }
 function v58updatePay(){const d=data.debts.find(x=>x.id===$('payDebt').value);const amount=Number($('payAmount').value)||0;const interest=Math.max(0,Number($('payInterest').value)||0);$('payPrincipalPreview').value=v58round(Math.max(0,amount-interest)).toFixed(2)}
 
@@ -2829,4 +2830,112 @@ window.__v8124TranslateHomeTransactions=apply;
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+<script id="v8132-income-debt-plan-translation">
+/* V8.1.32: English UI rendering only. Never translate saved field values or numeric calculations. */
+(function(){
+ 'use strict';
+ function isEn(){try{return /^en/i.test(String(JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}').lang||''));}catch(e){return false}}
+ const exact={
+  '花红':'Commission / Additional Bonus','津贴':'Allowance','薪水':'Salary','奖金':'Bonus','生意收入':'Business Income',
+  '信用卡消费':'Credit Card Purchases','Credit Card消费':'Credit Card Purchases',
+  '当前剩余本金':'Current Remaining Principal','原定月供':'Scheduled Monthly Payment','年利率':'Annual Interest Rate',
+  '已计算期数原定月供合计':'Scheduled Payments Total for Calculated Periods',
+  '已登记实际还款':'Total Recorded Repayments',
+  '计划未补差额':'Outstanding Scheduled Shortfall','下期预计还款':'Next Estimated Repayment',
+  '预计剩余期数':'Estimated Remaining Installments','预计未来利息':'Estimated Future Interest','预计还清':'Estimated Payoff Date',
+  '已还清':'Fully Paid','未确定':'Not Yet Determined',
+  '未来预计还款表（按每月实还自动结转差额，不自动扣款）':'Future Estimated Repayment Schedule (Carries Forward Unpaid Amounts; No Automatic Debit)',
+  '未来EstimatedRepayment表（按每月实还AutomaticCarryover差额，不AutomaticDebit）':'Future Estimated Repayment Schedule (Carries Forward Unpaid Amounts; No Automatic Debit)',
+  '实际还款历史（详细）':'Actual Repayment History (Details)',
+  'ActualRepayment历史（详细）':'Actual Repayment History (Details)',
+  '期数 / 日期':'Installment / Date','期数 / Date':'Installment / Date','期数':'Installment',
+  '预计总还款':'Estimated Total Repayment','原定月供':'Scheduled Monthly Payment',
+  '本月月供（实还）':'Actual Monthly Payment','补还差额':'Shortfall to Make Up',
+  '结转下月':'Carry Forward to Next Month','本金':'Principal','利息':'Interest','剩余本金':'Remaining Principal',
+  '已到期':'Due','已登记':'Recorded','待记录':'Not Yet Recorded',
+  '＋ 登记还款':'+ Record Repayment','+ 登记还款':'+ Record Repayment',
+  '已结清或暂无可计算计划':'Fully Paid or No Calculable Schedule',
+  'Original Amount':'Original Amount','累计实付':'Total Actual Repayments','已还本金':'Principal Repaid',
+  '已付利息':'Interest Paid','日期':'Date','实际还款':'Actual Repayment','还款后余额':'Balance After Repayment',
+  '付款账户':'Payment Account','备注':'Notes','未关联账户':'No Linked Account',
+  '这笔负债还没有实际还款记录':'No Actual Repayments Recorded for This Debt',
+  '无利息':'No Interest','递减余额':'Reducing Balance','固定利息':'Flat Interest','信用卡月息':'Credit Card Monthly Interest',
+  '11月Repayment':'November Repayment','11Monthly Payment Period':'November Repayment',
+  '10份供期':'10 Installments'
+ };
+ const whole={
+  '蓝色行是已到期或已登记实际还款的月份（包含预先登记的未来日期）；白色行是尚未登记的未来预计。预计总还款＝原定月供＋上期未还差额；「本月月供」显示实际已登记金额。例如 11 月应还 RM350、实还 RM300，差额 RM50 带到 12 月应还 RM400；12 月实还 RM320，剩余 RM80 带到 1 月应还 RM430。点击「＋ 登记还款」填写实际金额、实际付款日期和付款账户，保存后自动重新计算；未来日期若已登记也会计入对应月份，但不会仅因预计到期而扣款。': 'Blue rows are installments that are due or have recorded repayments, including future-dated payments entered in advance. White rows are future estimates without recorded repayments. Estimated Total Repayment = Scheduled Monthly Payment + Previous Unpaid Shortfall. Actual Monthly Payment shows the recorded payment. For example, if RM350 is due in November but only RM300 is paid, the RM50 shortfall carries forward, making December\'s estimated payment RM400. If RM320 is paid in December, the remaining RM80 carries to January, making its estimated payment RM430. Click Record Repayment to enter the actual amount, payment date and account. The plan is recalculated after saving. Recorded future-dated payments are counted in their respective months, but estimates never trigger automatic debits.',
+  '计划差额是按到期月份和已录入的实际金额计算，不代表银行正式追缴金额；借款利息、罚金、手续费、未记录的款项和调整账单不自动计入。原有实际还款记录与账户扣款逻辑不变。': 'The scheduled shortfall is calculated from due months and recorded actual payments; it is not an official collection amount from the bank. Loan interest, penalties, fees, unrecorded payments and adjusted statements are not automatically included. Existing repayment records and account-debit logic are unchanged.',
+  '旧版还款记录没有本金/利息拆分时，按全部偿还本金显示。相同日期的多笔记录按记录编号排序。': 'Older repayments without a principal/interest breakdown are shown as principal-only. Multiple repayments on the same date are sorted by record ID.'
+ };
+ const patterns=[
+  [/^已计算期数Scheduled Monthly PaymentTotal/, 'Scheduled Payments Total for Calculated Periods'],
+  [/^计划未补差额/, 'Outstanding Scheduled Shortfall'],
+  [/^未来EstimatedRepayment表/, 'Future Estimated Repayment Schedule'],
+  [/^ActualRepayment历史/, 'Actual Repayment History'],
+  [/^蓝色行是[\s\S]*$/, 'Blue rows are installments that are due or have recorded repayments, including future-dated payments entered in advance. White rows are future estimates without recorded repayments. Estimated Total Repayment = Scheduled Monthly Payment + Previous Unpaid Shortfall. Actual Monthly Payment shows the recorded amount. Example: if RM350 is due in November but RM300 is paid, RM50 carries to December, bringing its estimated due amount to RM400; if RM320 is paid, the remaining RM80 carries to January. Record the actual amount, date and payment account to recalculate; estimates do not debit automatically.'],
+  [/^计划差额是[\s\S]*$/, 'Scheduled shortfalls are calculated from recorded repayments and due months, not the amount officially collected by a bank. Interest, penalties, fees, unrecorded payments and amended statements are not automatically included; existing repayment records and account debits remain unchanged.'],
+  [/^旧版(?:还款|Repayment)\s*History[\s\S]*$/, 'Legacy repayment records without a principal/interest split are treated as principal repayments. Multiple payments on the same date are sorted by record ID.'],
+  [/^未来(?:Estimated)?Repayment表[\s\S]*$/, 'Future Estimated Repayment Schedule (Carries Forward Unpaid Amounts; No Automatic Debit)'],
+  [/^11月\s*Repayment$/,'November Repayment'],
+  [/^([0-9]{1,2})月\s*Repayment$/,(a,n)=>new Date(2026,Number(n)-1,1).toLocaleString('en-US',{month:'long'})+' Repayment'],
+  [/^([0-9]+)份供期$/,'$1 Installments']
+ ];
+ function translateText(text){
+   const raw=String(text||''),v=raw.trim();if(!v)return raw;
+   let out=exact[v]||whole[v];
+   if(!out){for(const [pattern,to] of patterns){if(pattern.test(v)){out=v.replace(pattern,to);break}}}
+   if(!out){
+     out=v;
+     // System-composed metadata only; never alter currency values or dates.
+     const terms=[
+      ['当前Remaining Principal','Current Remaining Principal'],['当前剩余本金','Current Remaining Principal'],['原定月供','Scheduled Monthly Payment'],['Scheduled Monthly PaymentTotal','Scheduled Payments Total'],
+      ['已计算期数','Calculated Installments'],['已登记ActualRepayment','Total Recorded Repayments'],
+      ['计划未补差额','Outstanding Scheduled Shortfall'],['下期EstimatedRepayment','Next Estimated Repayment'],
+      ['EstimatedRemaining期数','Estimated Remaining Installments'],['Estimated未来Interest','Estimated Future Interest'],
+      ['预计还清','Estimated Payoff Date'],['Original Amount','Original Amount'],
+      ['累计实付','Total Actual Repayments'],['已付Interest','Interest Paid'],
+      ['年利率','Annual Interest Rate'],['本月Monthly Payment','Actual Monthly Payment'],
+      ['已到期','Due'],['已登记','Recorded'],['待记录','Not Yet Recorded']
+     ];
+     if(v.length<240){for(const [from,to] of terms){out=out.split(from).join(to)}}
+     if(out===v)return raw;
+   }
+   return raw.replace(v,out);
+ }
+ function applyPlan(root){
+   if(!isEn()||!root)return;
+   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+   let node;while((node=walker.nextNode())){
+     const parent=node.parentElement;if(!parent||parent.closest('script,style,textarea,input,[contenteditable="true"]'))continue;
+     // Never change a person's memo or the account name shown in the repayment details table.
+     const cell=parent.closest('td');if(cell&&cell.parentElement?.closest('tbody')&&cell.closest('table')?.querySelectorAll('thead th').length===8){
+       const idx=Array.from(cell.parentElement.children).indexOf(cell);
+       if(idx===6||idx===7)continue;
+     }
+     let updated=translateText(node.nodeValue);
+     if(updated!==node.nodeValue)node.nodeValue=updated;
+   }
+ }
+ function applyCategories(){
+   if(!isEn())return;
+   const optionRoots=[document.getElementById('txCategory'),document.getElementById('catCategory'),document.getElementById('incomeCategory')].filter(Boolean);
+   for(const root of optionRoots){for(const opt of root.querySelectorAll('option')){const updated=translateText(opt.textContent);if(updated!==opt.textContent)opt.textContent=updated;}}
+   // The income selector may be rebuilt by the app. Update only its visible option text, not option.value.
+   for(const opt of document.querySelectorAll('select option')){
+     if(['花红','津贴','薪水','奖金','生意收入'].includes(opt.textContent.trim()))opt.textContent=translateText(opt.textContent);
+   }
+ }
+ function apply(){applyCategories();applyPlan(document.getElementById('v58Plan'));applyPlan(document.getElementById('v58History'));}
+ let busy=false,queued=false;
+ function perform(){if(busy)return;busy=true;try{apply()}finally{busy=false}}
+ function schedule(){if(queued)return;queued=true;setTimeout(()=>{queued=false;perform()},45)}
+ function init(){perform();const observer=new MutationObserver(changes=>{if(!busy&&changes.some(c=>c.type==='childList'||c.type==='characterData'))schedule()});
+ observer.observe(document.body,{subtree:true,childList:true,characterData:true});document.addEventListener('change',schedule);document.addEventListener('click',schedule);}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+ window.__v8132TranslatePlan=applyPlan;
+})();
+</script>
+
 </body></html>
