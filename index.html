@@ -2,7 +2,7 @@
 
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.41</title>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.42</title>
 <style>
 :root{--green:#176b57;--bg:#f3f6f5;--card:#fff;--text:#182522;--muted:#64736e;--line:#e1e9e5;--red:#bd3d3d;--blue:#275d9c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}header{background:var(--green);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:5}header h1{font-size:22px;margin:0 0 4px}header p{font-size:12px;margin:0;opacity:.85}.wrap{max-width:760px;margin:auto;padding:14px 12px 40px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--text);padding:10px 13px;border-radius:12px;font-size:14px}.tabs button.active{background:var(--green);color:white;border-color:var(--green)}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:12px}.metric,.box{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px}.metric span{font-size:12px;color:var(--muted);display:block}.metric strong{font-size:20px;display:block;margin-top:6px;overflow-wrap:anywhere}.box{margin-bottom:12px}.box h2{font-size:16px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}input,select,textarea{font:inherit;width:100%;border:1px solid #cfdcd5;background:#fff;border-radius:10px;padding:11px;color:var(--text);min-width:0}textarea{min-height:66px;resize:vertical}.field{margin-bottom:10px}.full{grid-column:1/-1}.btn{border:0;border-radius:10px;padding:11px 13px;background:var(--green);color:white;font-weight:600;font-size:14px;cursor:pointer}.btn.secondary{background:#e6efeb;color:var(--green)}.btn.danger{background:#fff0f0;color:var(--red)}.btn.small{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.item{border-top:1px solid var(--line);padding:12px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.item:first-child{border-top:0}.item .name{font-weight:650;font-size:14px}.sub{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}.amount{font-weight:700;white-space:nowrap;text-align:right}.income{color:var(--green)}.expense{color:var(--red)}.empty{color:var(--muted);font-size:13px;padding:8px 0}.hint{font-size:12px;color:var(--muted);line-height:1.6}.notice{background:#fff8df;border:1px solid #f1df9d;border-radius:12px;padding:11px;font-size:12px;line-height:1.5;margin-bottom:12px}.hidden{display:none!important}.month-row{display:flex;gap:10px;align-items:end;margin-bottom:12px}.month-row .field{flex:1;margin:0}.pill{display:inline-block;border-radius:30px;padding:3px 8px;background:#e6efeb;color:var(--green);font-size:11px}.debt-balance{font-size:18px;font-weight:750;margin:5px 0}.progress{height:6px;border-radius:9px;background:#e8eeeb;overflow:hidden;margin:9px 0}.progress span{height:100%;display:block;background:var(--green)}footer{text-align:center;color:var(--muted);font-size:11px;padding:8px}
 @media(min-width:600px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.metric strong{font-size:22px}}
@@ -349,7 +349,7 @@
  <div class="field"><label for="loanAmount">金额（RM）</label><input id="loanAmount" type="number" min="0.01" step="0.01" placeholder="1000.00"></div>
  <div class="field"><label for="loanDate">借款日期</label><input id="loanDate" type="date"></div>
  <div class="field"><label for="loanAccount">选择账户</label><select id="loanAccount" required><option value="">选择账户</option></select></div>
- <div class="field"><label for="loanDue">约定归还日期（可选）</label><input id="loanDue" type="date"></div>
+ <div class="field"><label for="loanDue">还款日期（可选）</label><input id="loanDue" type="date"></div>
  <div class="field full"><label for="loanRemark">备注</label><input id="loanRemark" placeholder="可选"></div></div>
  <div class="actions"><button class="btn" id="loanAdd" type="button">保存借款</button></div>
  </div>
@@ -3318,6 +3318,44 @@ function lang(){try{let l=JSON.parse(localStorage.getItem('mymoney-v604-preferen
 function apply(){let root=document.getElementById('loans');if(!root)return;let t=labels[lang()];let nav=root.querySelector('[data-v775-view="combined"]');if(nav&&nav.textContent!==t.nav)nav.textContent=t.nav;let hint=root.querySelector(':scope > .box:first-child > p.hint');if(hint&&hint.textContent!==t.hint)hint.textContent=t.hint;}
 let scheduled=false;function schedule(){if(scheduled)return;scheduled=true;setTimeout(()=>{scheduled=false;apply()},40)}
 function init(){apply();let r=document.querySelector('#loans > .box:first-child');if(r)new MutationObserver(schedule).observe(r,{subtree:true,characterData:true,childList:true});document.addEventListener('change',schedule);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+<script id="v8142-csv-loan-i18n">
+/* V8.1.42: presentation-only translations for CSV export and loan repayment date. */
+(function(){'use strict';
+const wording={
+ en:{due:'Repayment Date (Optional)',title:'Custom CSV Export (Three Groups)',intro:'Select the groups to export. Each group creates a separate CSV file that can be opened in Excel. Exporting does not modify your financial records. Full JSON backup remains available.',start:'Start Date',end:'End Date',g1:'Group 1: Daily Income, Expenses & Transfer History (Income, Expenses, Internal Transfers)',g2:'Group 2: Debts & Repayment History (Debts, Debt Repayments)',g3:'Group 3: Receivables & Collections (Debtors, Collections)',all:'Export Selected Groups',b1:'Export Group 1 Only',b2:'Export Group 2 Only',b3:'Export Group 3 Only',hint:'Default dates: 2026-01-01 to 2026-12-31. Each CSV includes a Record Type column; amounts are in MYR.'},
+ ms:{due:'Tarikh Bayaran Balik (Pilihan)',title:'Eksport CSV Tersuai (Tiga Kumpulan)',intro:'Pilih kumpulan untuk dieksport. Setiap kumpulan menghasilkan fail CSV berasingan yang boleh dibuka dalam Excel. Eksport tidak mengubah rekod kewangan anda. Sandaran JSON penuh masih tersedia.',start:'Tarikh Mula',end:'Tarikh Tamat',g1:'Kumpulan 1: Sejarah Pendapatan, Perbelanjaan & Pindahan (Pendapatan, Perbelanjaan, Pindahan Dalaman)',g2:'Kumpulan 2: Hutang & Sejarah Bayaran Balik (Hutang, Bayaran Balik Hutang)',g3:'Kumpulan 3: Penghutang & Kutipan (Penghutang, Kutipan)',all:'Eksport Kumpulan Dipilih',b1:'Eksport Kumpulan 1 Sahaja',b2:'Eksport Kumpulan 2 Sahaja',b3:'Eksport Kumpulan 3 Sahaja',hint:'Tarikh lalai: 2026-01-01 hingga 2026-12-31. Setiap CSV mengandungi lajur Jenis Rekod; jumlah dalam MYR.'},
+ zh:{due:'还款日期（可选）',title:'自定义 CSV 导出（三组）',intro:'选择需要导出的组别，每组生成一个 Excel 可打开的 CSV 文件。导出不会修改财务记录；完整 JSON 备份功能继续保留。',start:'开始日期',end:'结束日期',g1:'第 1 组：日常收支与转账记录（收入、支出、内部转账）',g2:'第 2 组：负债与还款记录（负债、负债还款）',g3:'第 3 组：欠款人与收款记录（欠款人、收款）',all:'导出勾选的组别',b1:'仅导出第 1 组',b2:'仅导出第 2 组',b3:'仅导出第 3 组',hint:'默认日期：2026-01-01 至 2026-12-31。每组 CSV 均包含记录类型栏，金额单位 MYR。'}
+};
+function locale(){try{const s=String(JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}').lang||document.documentElement.lang||'zh');return /^en/i.test(s)?'en':/^(ms|bm|my)/i.test(s)?'ms':'zh'}catch(_){return 'zh'}}
+let applying=false;
+function setText(el,value){if(el&&el.textContent!==value)el.textContent=value}
+function apply(){if(applying)return;applying=true;try{
+ const t=wording[locale()];
+ setText(document.querySelector('label[for="loanDue"]'),t.due);
+ const box=document.getElementById('v731CsvBox');if(!box)return;
+ setText(box.querySelector('h2'),t.title);setText(box.querySelector('p.hint'),t.intro);
+ setText(box.querySelector('label[for="v731Start"]'),t.start);setText(box.querySelector('label[for="v731End"]'),t.end);
+ for(const [id,key] of [['v731Group1','g1'],['v731Group2','g2'],['v731Group3','g3']]){
+  const check=document.getElementById(id);const label=check&&check.closest('label');if(!label)continue;
+  // Preserve the real checkbox, its checked state and attached export handlers.
+  let textNode=Array.from(label.childNodes).find(n=>n.nodeType===Node.TEXT_NODE);
+  if(textNode){if(textNode.nodeValue!==t[key])textNode.nodeValue=t[key];}
+  else label.appendChild(document.createTextNode(t[key]));
+ }
+ for(const [id,key] of [['v731ExportSelected','all'],['v731Export1','b1'],['v731Export2','b2'],['v731Export3','b3']])setText(document.getElementById(id),t[key]);
+ const status=document.getElementById('v731CsvStatus');
+ // Only translate the initial/default explanatory status; do not overwrite export success or error messages.
+ if(status&&(/(?:默认日期|Default dates|Tarikh lalai|默认Date)/i.test(status.textContent)))setText(status,t.hint);
+}finally{applying=false}}
+let pending=false;function schedule(){if(pending)return;pending=true;setTimeout(()=>{pending=false;apply()},60)}
+function init(){apply();const roots=[document.getElementById('v731CsvBox'),document.querySelector('label[for="loanDue"]')].filter(Boolean);
+ for(const root of roots)new MutationObserver(changes=>{if(changes.some(m=>m.type==='characterData'||m.type==='childList'))schedule()}).observe(root,{subtree:true,characterData:true,childList:true});
+ document.addEventListener('change',schedule);document.addEventListener('click',schedule);
+ window.__v8142ApplyTranslations=apply;
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
