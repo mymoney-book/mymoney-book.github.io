@@ -263,8 +263,8 @@ html.mn69-theme[data-mn69-theme="photo-city"]{--mn-overlay:linear-gradient(135de
  </div>
  <div class="grid" style="margin:8px 0 12px">
   <div class="metric"><span id="v8146DailyLabel">每日预计收益</span><strong id="v8146Daily">RM 0.0000</strong></div>
-  <div class="metric"><span id="v8146PeriodLabel">所选期间预计收益</span><strong id="v8146Period">RM 0.00</strong></div>
-  <div class="metric"><span id="v8146YearLabel">一年预计收益</span><strong id="v8146Year">RM 0.00</strong></div>
+  <div class="metric"><span id="v8146PeriodLabel">所选期间预计收益</span><strong id="v8146Period">RM 0.0000</strong></div>
+  <div class="metric"><span id="v8146YearLabel">一年预计收益</span><strong id="v8146Year">RM 0.0000</strong></div>
  </div>
  <div class="actions"><button type="button" class="btn secondary" id="v8146Prepare">将实际收益填写到 Income</button></div>
  <p class="hint" id="v8146Help" style="margin-top:8px">只预填收入表单，不会自动保存。确认实际 GO+ 收益后再自行保存；不要把估算收益重复记入账户。</p>
@@ -3741,7 +3741,7 @@ const ids=['v8146Title','v8146Notice','v8146AccountLabel','v8146BalanceLabel','v
 function translate(){const t=labels[lang()];ids.forEach((id,i)=>{if($(id))$(id).textContent=t[i]});const o=$('v8146Account')?.options?.[0];if(o)o.textContent=t[13]}
 function number(id){return Math.max(0,Number($(id)?.value)||0)}
 function format(v,precision=2){return 'RM '+v.toLocaleString('en-MY',{minimumFractionDigits:precision,maximumFractionDigits:precision})}
-function calculate(){const balance=number('v8146Balance'),rate=number('v8146Rate'),days=Math.min(3650,Math.max(1,number('v8146Days')));const daily=balance*rate/100/365; if($('v8146Daily'))$('v8146Daily').textContent=format(daily,4);if($('v8146Period'))$('v8146Period').textContent=format(daily*days);if($('v8146Year'))$('v8146Year').textContent=format(daily*365)}
+function calculate(){const balance=number('v8146Balance'),rate=number('v8146Rate'),days=Math.min(3650,Math.max(1,number('v8146Days')));const daily=balance*rate/100/365; if($('v8146Daily'))$('v8146Daily').textContent=format(daily,4);if($('v8146Period'))$('v8146Period').textContent='RM '+v8169GoPlusTruncate4(daily*days);if($('v8146Year'))$('v8146Year').textContent='RM '+v8169GoPlusTruncate4(daily*365)}
 function accounts(){try{const snapshot=window.__mymoneyReportSnapshot?.();return Array.isArray(snapshot?.accounts)?snapshot.accounts:[]}catch(_){return []}}
 function linkedBalance(id){try{if(typeof accountBalance==='function')return accountBalance(id)}catch(_){ }return null}
 function refreshAccounts(){const select=$('v8146Account');if(!select)return;const prev=select.value;const items=accounts();select.replaceChildren();const empty=document.createElement('option');empty.value='';empty.textContent=labels[lang()][13];select.appendChild(empty);for(const a of items){const opt=document.createElement('option');opt.value=String(a.id);opt.textContent=String(a.name||'Account');select.appendChild(opt)}select.value=items.some(a=>String(a.id)===prev)?prev:'';translate()}
