@@ -289,6 +289,99 @@ html[data-theme="dark"] #transactions .v736-page-head .v736-eyebrow{
 
 
 
+
+<style id="v8171-remove-left-accent-lines">
+/* Visual-only: remove left-side teal accent strokes; retain glass styling. */
+html.mn69-theme body :is(.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,
+.v792-report-section,.v736-page-head,.v736-action-panel,.v736-form-panel,
+.v768-overview,.v819-overview-card,.v58-table-wrap,.notice,details,
+.v817-debt-tile,.v817-debt-detail)::before {
+  content:none!important;
+  display:none!important;
+}
+/* Heading used a separate left border rather than a pseudo-element. */
+#transactions .v736-page-head,
+html.mn69-theme #transactions .v736-page-head {
+  border-left-width:1px!important;
+  border-left-color:var(--glass-border,rgba(255,255,255,.38))!important;
+}
+/* Preserve theme-tinted borders, cards, and existing padding/positioning. */
+</style>
+
+<style id="v8171-theme-upload-control-fix">
+/* Keep the native file input out of layout; the associated label remains clickable. */
+html.mn69-theme #my #mn69ThemeUI #mn69ImageFile,
+#mn69ThemeUI input#mn69ImageFile[type="file"] {
+  display:none !important;
+  position:absolute !important;
+  width:0 !important;
+  height:0 !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  overflow:hidden !important;
+}
+html.mn69-theme #my #mn69ThemeUI label[for="mn69ImageFile"] {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:auto !important;
+  min-height:34px;
+  padding:8px 13px !important;
+  white-space:normal;
+  gap:5px;
+  border-radius:10px;
+  color:#000 !important;
+  background:var(--glass-field, rgba(255,255,255,.35)) !important;
+  cursor:pointer;
+  vertical-align:middle;
+}
+html.mn69-theme #my #mn69ThemeUI label[for="mn69ImageFile"]:focus-within {outline:2px solid var(--mn-accent);outline-offset:2px;}
+</style>
+
+<style id="v8171-background-controls-rounded">
+/* Rounded corners only; background opacity and saved adjustments unchanged. */
+html.mn69-theme #mn69ThemeUI .mn69-adjust {
+  border-radius: 24px !important;
+  border: 1px solid var(--glass-border,rgba(255,255,255,.35)) !important;
+  padding: 15px 13px 14px !important;
+  margin-top: 14px !important;
+  overflow: hidden;
+}
+html.mn69-theme #mn69ThemeUI .mn69-control {
+  border-radius: 19px !important;
+  overflow: hidden;
+  padding: 12px 13px !important;
+  margin: 9px 0 !important;
+}
+html.mn69-theme #mn69ThemeUI .mn69-control input[type="range"] {
+  border-radius: 999px !important;
+}
+html.mn69-theme #mn69ThemeUI .mn69-adjust-actions .mn69-reset {
+  border-radius: 15px !important;
+  padding: 10px 15px !important;
+}
+@media (max-width: 560px) {
+  html.mn69-theme #mn69ThemeUI .mn69-adjust {border-radius: 20px !important;padding: 12px 10px !important;}
+  html.mn69-theme #mn69ThemeUI .mn69-control {border-radius: 16px !important;}
+}
+</style>
+
+<style id="v8171-loan-delete-red-text">
+/* V8.1.71 follow-up: make loan delete buttons readable */
+#loanList button[data-loan-delete],
+#loanPayments button[data-loan-payment-delete]{
+  color:#c62828 !important;
+  -webkit-text-fill-color:#c62828 !important;
+  font-weight:700;
+}
+#loanList button[data-loan-delete]:hover,
+#loanPayments button[data-loan-payment-delete]:hover{
+  color:#b71c1c !important;
+  -webkit-text-fill-color:#b71c1c !important;
+}
+</style>
 </head>
 <body class="mynext"><header><div class="next-brand"><span aria-hidden="true" class="next-logo"><img alt="" src="./mymoney-icon-192.png" style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover"/></span><div><h1>MyMoney <span class="next-wordmark">NEXT</span></h1><p>PERSONAL FINANCE · MYR</p></div></div><div class="next-header-status"><span class="next-status-dot"></span> 本机安全储存 <span class="next-version">V8.1.71</span></div></header><main class="wrap">
 <div class="notice">🔒 数据只保存在当前浏览器/设备。清除浏览器数据或换手机前，请先到「备份」导出 JSON 文件。</div>
@@ -543,8 +636,7 @@ html[data-theme="dark"] #transactions .v736-page-head .v736-eyebrow{
  <div class="actions"><button class="btn" id="loanAdd" type="button">保存借款</button></div>
  </div>
 </div>
-<div data-v775-panel="overview" hidden> <div class="box"><div id="loanTotals" class="hint"></div><h2>借入与借出记录</h2><div id="loanList"></div></div>
-</div>
+<div data-v775-panel="overview" hidden></div>
 <div data-v775-panel="payment" hidden> <div class="box"><h2>登记还款 / 收款</h2><p class="hint">借入登记我归还的金额，借出登记对方归还的金额；可选择银行账户自动更新余额。</p>
  <div class="grid"><div class="field"><label for="loanPaySelect">选择借款</label><select id="loanPaySelect"><option value="">请选择</option></select></div>
  <div class="field"><label for="loanPayDate">还款 / 收款日期</label><input id="loanPayDate" type="date"></div>
@@ -552,6 +644,7 @@ html[data-theme="dark"] #transactions .v736-page-head .v736-eyebrow{
  <div class="field"><label for="loanPayAccount">选择账户</label><select id="loanPayAccount" required><option value="">选择账户</option></select></div>
  <div class="field full"><label for="loanPayRemark">备注</label><input id="loanPayRemark" placeholder="可选"></div></div>
  <div class="actions"><button class="btn" id="loanPayAdd" type="button">保存还款 / 收款</button></div><h2>借款还款历史</h2><div id="loanPayments"></div></div>
+<div class="box" id="v8171LoanRecordsBelowPayment"><div id="loanTotals" class="hint"></div><h2>借入与借出记录</h2><div id="loanList"></div></div>
 </div>
 <div data-v775-panel="legacy" hidden><div id="receivables" class="v775-legacy-receivables" hidden style="display:none"><div class="box"><h2>收款总览</h2><p class="hint">记录别人欠你的钱及分次收款。收款可自行选择是否同步增加银行或现金余额；不会算作普通收入。</p><div class="cards" id="v73Summary"></div></div><div class="box"><h2>新增欠款人 / 欠款记录</h2><form id="v73DebtForm"><div class="grid"><div class="field"><label>欠款人姓名</label><input id="v73Name" maxlength="80" required=""/></div><div class="field"><label>欠款金额 (RM)</label><input id="v73Amount" min="0.01" required="" step="0.01" type="number"/></div><div class="field"><label>借款日期</label><input id="v73Date" required="" type="date"/></div><div class="field"><label>约定还款日期（可选）</label><input id="v73Due" type="date"/></div><div class="field full"><label>备注</label><input id="v73Note" maxlength="250"/></div></div><button class="btn" type="submit">保存欠款记录</button></form></div><div class="box"><h2>记录收款</h2><form id="v73PaymentForm"><div class="grid"><div class="field full"><label>选择欠款记录</label><select id="v73Choose" required=""></select></div><div class="field"><label>收款金额 (RM)</label><input id="v73Paid" min="0.01" required="" step="0.01" type="number"/></div><div class="field"><label>收款日期</label><input id="v73PaidDate" required="" type="date"/></div><div class="field full"><label class="v73-sync-inline" for="v73Sync"><input id="v73Sync" type="checkbox"/><span>同步增加银行或现金账户余额（可选）</span></label></div><div class="field full" hidden="" id="v73AccountWrap"><label>选择实际收款账户</label><select id="v73Account"></select></div><div class="field full"><label>备注</label><input id="v73PayNote" maxlength="250"/></div></div><button class="btn" type="submit">保存收款</button></form></div><div class="box"><h2>欠款清单及收款历史</h2><div id="v73List"></div></div></div></div>
 </section>
@@ -985,7 +1078,7 @@ function renderCategoryManager(){if(!$('customCategories'))return;$('customCateg
 function initV5(){
  $('catIconPicker').innerHTML=CAT_ICONS.map(s=>`<button type="button" class="icon-option" data-cat-icon="${s}"><span class="symbol">${s}</span></button>`).join('');
  $('catIconPicker').addEventListener('click',e=>{const b=e.target.closest('[data-cat-icon]');if(!b)return;selectedCatIcon=b.dataset.catIcon;document.querySelectorAll('[data-cat-icon]').forEach(x=>x.classList.toggle('active',x===b));updateCategoryIconPreview()});
- $('catBrandPicker').innerHTML=BRANDS.map(([name])=>{const ico=brandIcon(name);return `<button type="button" class="icon-option" data-cat-brand="${esc(name)}"><span>${ico.startsWith('brand-icons/')?`<img src="${esc(ico)}" alt="">`:'🏦'}</span><span>${esc(name)}</span></button>`}).join('');
+ $('catBrandPicker').innerHTML=BRANDS.map(([name])=>{const ico=brandIcon(name);return `<button type="button" class="icon-option" data-cat-brand="${esc(name)}"><span>${ico.startsWith('brand-icons/')?`<img src="${esc(ico)}" alt="" onerror="this.style.display='none';this.parentElement.textContent='🏦'">`:'🏦'}</span><span>${esc(name)}</span></button>`}).join('');
  $('catBrandToggle').addEventListener('click',()=>$('catBrandPicker').classList.toggle('hidden'));
  $('catBrandPicker').addEventListener('click',e=>{const b=e.target.closest('[data-cat-brand]');if(!b)return;selectedCatIcon=brandIcon(b.dataset.catBrand);$('catBrandPicker').classList.add('hidden');document.querySelectorAll('[data-cat-icon]').forEach(x=>x.classList.remove('active'));updateCategoryIconPreview()});
  $('catUploadButton').addEventListener('click',()=>$('catIconFile').click());
@@ -993,7 +1086,7 @@ function initV5(){
  $('catIconFile').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;if(!['image/jpeg','image/png','image/webp'].includes(file.type)){alert('请选择 PNG、JPG 或 WebP 图片');e.target.value='';return}const img=new Image(),url=URL.createObjectURL(file);try{await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url});const canvas=document.createElement('canvas');canvas.width=96;canvas.height=96;const ctx=canvas.getContext('2d');const r=Math.min(96/img.width,96/img.height);ctx.drawImage(img,(96-img.width*r)/2,(96-img.height*r)/2,img.width*r,img.height*r);selectedCatIcon=canvas.toDataURL('image/webp',.72);document.querySelectorAll('[data-cat-icon]').forEach(x=>x.classList.remove('active'));updateCategoryIconPreview()}catch(err){alert('图片无法读取')}finally{URL.revokeObjectURL(url);e.target.value=''}});
  updateCategoryIconPreview();
  $('catSave').addEventListener('click',()=>{const name=$('catName').value.trim(),type=$('catType').value;if(!name)return alert('请输入类别名称');if(data.categories.some(c=>c.name===name&&c.type===type)||DEFAULT_CATS[type].includes(name))return alert('这个类别已经存在');data.categories.push({id:uid(),type,name,icon:selectedCatIcon});$('catName').value='';save();refreshCategories(name)});
- $('brandPicker').innerHTML=BRANDS.map(([n,k])=>{const ico=brandIcon(n);return `<button type="button" class="icon-option" data-brand="${esc(n)}"><span>${ico.startsWith('brand-icons/')?`<img src="${ico}" alt="">`:'🏦'}</span><span>${esc(n)}</span></button>`}).join('');
+ $('brandPicker').innerHTML=BRANDS.map(([n,k])=>{const ico=brandIcon(n);return `<button type="button" class="icon-option" data-brand="${esc(n)}"><span>${ico.startsWith('brand-icons/')?`<img src="${ico}" alt="" onerror="this.style.display='none';this.parentElement.textContent='🏦'">`:'🏦'}</span><span>${esc(n)}</span></button>`}).join('');
  $('chooseBrand').addEventListener('click',()=>$('brandPicker').classList.toggle('hidden'));
  $('brandPicker').addEventListener('click',e=>{const b=e.target.closest('[data-brand]');if(!b)return;$('accountIcon').value=brandIcon(b.dataset.brand);updateAccountIconPreview();$('brandPicker').classList.add('hidden')});
  $('uploadIcon').addEventListener('click',()=>$('iconFile').click());
@@ -1019,7 +1112,7 @@ function renderAnalytics(){if(!$('analysisMonth'))return;
 
 function updateDebtIconPreview(){$('selectedDebtIcon').innerHTML=iconMarkup($('debtIcon').value||'💳')+' 已选择'}
 async function imageFileToIcon(file){if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw Error('请选择 PNG、JPG 或 WebP 图片');const img=new Image(),url=URL.createObjectURL(file);try{await new Promise((ok,fail)=>{img.onload=ok;img.onerror=fail;img.src=url});const c=document.createElement('canvas');c.width=96;c.height=96;const ctx=c.getContext('2d');const r=Math.min(96/img.width,96/img.height);ctx.drawImage(img,(96-img.width*r)/2,(96-img.height*r)/2,img.width*r,img.height*r);return c.toDataURL('image/webp',.72)}finally{URL.revokeObjectURL(url)}}
-function initDebtIcons(){const picker=$('debtBrandPicker');picker.innerHTML=BRANDS.map(([n])=>{const ico=brandIcon(n);return `<button type="button" class="icon-option" data-debt-brand="${esc(n)}"><span>${ico.startsWith('brand-icons/')?`<img src="${ico}" alt="">`:'🏦'}</span><span>${esc(n)}</span></button>`}).join('');$('chooseDebtBrand').addEventListener('click',()=>picker.classList.toggle('hidden'));picker.addEventListener('click',e=>{const b=e.target.closest('[data-debt-brand]');if(!b)return;$('debtIcon').value=brandIcon(b.dataset.debtBrand);updateDebtIconPreview();picker.classList.add('hidden')});$('uploadDebtIcon').addEventListener('click',()=>$('debtIconFile').click());$('resetDebtIcon').addEventListener('click',()=>{$('debtIcon').value='';updateDebtIconPreview()});$('debtIconFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{$('debtIcon').value=await imageFileToIcon(f);updateDebtIconPreview()}catch(err){alert('图片无法读取：'+err.message)}finally{e.target.value=''}});updateDebtIconPreview()}
+function initDebtIcons(){const picker=$('debtBrandPicker');picker.innerHTML=BRANDS.map(([n])=>{const ico=brandIcon(n);return `<button type="button" class="icon-option" data-debt-brand="${esc(n)}"><span>${ico.startsWith('brand-icons/')?`<img src="${ico}" alt="" onerror="this.style.display='none';this.parentElement.textContent='🏦'">`:'🏦'}</span><span>${esc(n)}</span></button>`}).join('');$('chooseDebtBrand').addEventListener('click',()=>picker.classList.toggle('hidden'));picker.addEventListener('click',e=>{const b=e.target.closest('[data-debt-brand]');if(!b)return;$('debtIcon').value=brandIcon(b.dataset.debtBrand);updateDebtIconPreview();picker.classList.add('hidden')});$('uploadDebtIcon').addEventListener('click',()=>$('debtIconFile').click());$('resetDebtIcon').addEventListener('click',()=>{$('debtIcon').value='';updateDebtIconPreview()});$('debtIconFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{$('debtIcon').value=await imageFileToIcon(f);updateDebtIconPreview()}catch(err){alert('图片无法读取：'+err.message)}finally{e.target.value=''}});updateDebtIconPreview()}
 
 function resetTx(preserveMode=false){const next=preserveMode?$('entryMode').value:'expense';$('txForm').reset();$('txId').value='';$('entryMode').value=next;setEntryMode();$('txDate').value=today();if(next==='income')$('txCategory').value='薪水';$('txFormTitle').textContent=next==='income'?'新增收入记录':'新增支出记录';$('txCancel').classList.add('hidden')}const DEFAULT_DEBT_TYPES=['信用卡','个人借款','个人贷款','汽车贷款','房屋贷款','其他'];
 function refreshDebtTypes(preferred){const select=$('debtType');const previous=preferred||select.value||DEFAULT_DEBT_TYPES[0];const custom=Array.isArray(data.debtCategories)?data.debtCategories:[];const existing=[...new Set([...DEFAULT_DEBT_TYPES,...custom,...data.debts.map(d=>d.type).filter(Boolean)])];select.innerHTML=existing.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');select.value=existing.includes(previous)?previous:DEFAULT_DEBT_TYPES[0];$('debtCategoryCustomList').innerHTML=custom.map(v=>`<div class="debt-custom-row"><span>${esc(v)}</span><button type="button" class="btn secondary small" data-remove-debt-category="${esc(v)}">删除类别</button></div>`).join('');v814RefreshToggleLabels();}
@@ -1863,7 +1956,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if(next){
    if(next==='combined'){
     entry.hidden=false;entry.style.display='block';
-    overview.hidden=false;overview.style.display='block';
+    // The borrowing/lending record list now lives below the repayment form.
     // One entry form. Borrowing/lending is chosen using Loan Type, not duplicate navigation.
     if(document.getElementById('loanDirection')?.value==='lend'){
      legacy.hidden=false;legacy.style.display='block';
@@ -5113,4 +5206,1593 @@ html.mn69-theme body .icon-option.active{
 html.mn69-theme body #v768DebtListPanel .v817-debt-tile::before{opacity:.9!important}
 </style>
 
+
+<style id="v8171-figure8-blue-glass-match">
+/* Match screenshot 8: blue-tinted see-through glass.
+   Only visual styles, no change to finance, theme storage, or saved records. */
+html.mn69-theme {
+ --figure8-panel:rgba(70,157,198,.12);
+ --figure8-tile:rgba(103,177,210,.30);
+ --figure8-field:rgba(118,188,220,.48);
+ --figure8-border:rgba(225,248,255,.53);
+}
+html.mn69-theme[data-mn69-theme*="forest"] {
+ --figure8-panel:rgba(75,157,139,.11);
+ --figure8-tile:rgba(96,184,166,.30);
+ --figure8-field:rgba(122,196,181,.48);
+}
+html.mn69-theme[data-mn69-theme*="sunset"] {
+ --figure8-panel:rgba(178,117,123,.11);
+ --figure8-tile:rgba(212,148,145,.30);
+ --figure8-field:rgba(222,174,163,.48);
+}
+html.mn69-theme[data-mn69-theme="midnight"],
+html.mn69-theme[data-mn69-theme="photo-city"] {
+ --figure8-panel:rgba(81,128,169,.14);
+ --figure8-tile:rgba(132,184,218,.38);
+ --figure8-field:rgba(169,210,236,.56);
+}
+
+/* Screenshot 1: Language & privacy settings surfaces and form controls. */
+html.mn69-theme body #my :is(.box,.v60-settings details,.v603-settings-inline details,#mn69ThemeUI),
+html.mn69-theme body #backup .box {
+ background:var(--figure8-panel)!important;
+ border-color:var(--figure8-border)!important;
+ box-shadow:none!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+html.mn69-theme body #my :is(input:not([type="file"]):not([type="range"]),select,textarea),
+html.mn69-theme body #backup :is(input:not([type="file"]),select,textarea) {
+ background:var(--figure8-field)!important;
+ color:#071b25!important;
+ border-color:var(--figure8-border)!important;
+}
+/* Screenshots 2–3: Budget summary KPI cards. */
+html.mn69-theme body #budget :is(.metric,.card,.v750-card),
+html.mn69-theme body #budget .cards > :is(div,article) {
+ background:var(--figure8-tile)!important;
+ border:1px solid var(--figure8-border)!important;
+ box-shadow:0 4px 12px rgba(9,47,76,.045)!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+/* Screenshot 4: Loan/receivable list rows. */
+html.mn69-theme body #loans :is(.item,.v775-loan-card,.v775-history-item),
+html.mn69-theme body #loans .box .item {
+ background:var(--figure8-tile)!important;
+ border:1px solid var(--figure8-border)!important;
+ border-radius:15px!important;
+ padding:12px!important;
+}
+/* Screenshot 5: Transaction quick-action buttons and helper description. */
+html.mn69-theme body #transactions .v732-entry-btn,
+html.mn69-theme body #transactions .v732-entry-btn:not(.v732-active),
+html.mn69-theme body #transactions .v736-action-panel .hint {
+ background:var(--figure8-tile)!important;
+ border-color:var(--figure8-border)!important;
+ color:#071b25!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+ box-shadow:0 4px 12px rgba(9,47,76,.04)!important;
+}
+html.mn69-theme body #transactions .v732-entry-btn.v732-active {
+ background:rgba(66,159,197,.48)!important;
+ outline:2px solid rgba(13,89,130,.7)!important;
+}
+/* Screenshot 6: security notice and finance section header. */
+html.mn69-theme body > main .notice,
+html.mn69-theme body #transactions .v736-page-head {
+ background:var(--figure8-tile)!important;
+ border:1px solid var(--figure8-border)!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+ box-shadow:0 4px 12px rgba(9,47,76,.04)!important;
+ color:#071b25!important;
+}
+/* Screenshot 7: workspace sidebar and its navigation buttons. */
+html.mn69-theme body .tabs {
+ background:var(--figure8-panel)!important;
+ border-color:var(--figure8-border)!important;
+ box-shadow:none!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+html.mn69-theme body .tabs button {
+ background:var(--figure8-tile)!important;
+ color:#071b25!important;
+ border:1px solid var(--figure8-border)!important;
+ box-shadow:0 3px 10px rgba(9,47,76,.04)!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+html.mn69-theme body .tabs button.active {
+ background:rgba(66,159,197,.48)!important;
+ color:#05151e!important;
+ border-color:rgba(16,98,146,.5)!important;
+}
+/* Preserve black, legible amounts / labels over the translucent tint. */
+html.mn69-theme body #budget .cards :is(strong,span,p),
+html.mn69-theme body #transactions .v736-page-head :is(h2,p,span,div),
+html.mn69-theme body #loans .item :is(strong,span,.amount) {
+ color:#050d13!important;
+}
+</style>
+
+
+<style id="v8171-figure8-blue-glass-patch2">
+/* Patch 2: cover missed areas shown by user screenshots. */
+:root{
+ --figure8-panel:rgba(70,157,198,.12);
+ --figure8-tile:rgba(103,177,210,.30);
+ --figure8-field:rgba(118,188,220,.48);
+ --figure8-border:rgba(225,248,255,.53);
+ --figure8-active:rgba(66,159,197,.48);
+}
+html[data-mn69-theme*="forest"]{
+ --figure8-panel:rgba(75,157,139,.11);
+ --figure8-tile:rgba(96,184,166,.30);
+ --figure8-field:rgba(122,196,181,.48);
+}
+html[data-mn69-theme*="sunset"]{
+ --figure8-panel:rgba(178,117,123,.11);
+ --figure8-tile:rgba(212,148,145,.30);
+ --figure8-field:rgba(222,174,163,.48);
+}
+html[data-mn69-theme="midnight"],
+html[data-mn69-theme="photo-city"]{
+ --figure8-panel:rgba(81,128,169,.14);
+ --figure8-tile:rgba(132,184,218,.38);
+ --figure8-field:rgba(169,210,236,.56);
+}
+/* Settings / backup page large blocks */
+body #backup .box,
+body #backup details,
+body #backup summary{
+ background:var(--figure8-panel)!important;
+ border:1px solid var(--figure8-border)!important;
+ box-shadow:none!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+body #backup :is(select,input:not([type=file]):not([type=checkbox]):not([type=radio]),textarea){
+ background:var(--figure8-field)!important;
+ border-color:var(--figure8-border)!important;
+ color:#071b25!important;
+}
+/* Budget section - cards and stat panels */
+body #budget .box,
+body #budget .cards > *,
+body #budget .metric,
+body #budget [id*="Budget"] .box,
+body #budget [id*="Budget"] .metric,
+body #budget [id*="Budget"] .cards > *{
+ background:var(--figure8-tile)!important;
+ border:1px solid var(--figure8-border)!important;
+ box-shadow:0 4px 12px rgba(9,47,76,.04)!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+/* Reports / analytics - KPI cards, list rows, collapsible bars */
+body #analytics .box,
+body #analytics .v782-analysis-section,
+body #analytics .cards > *,
+body #analytics .metric,
+body #analytics [id*="Totals"] > *,
+body #analytics [id*="Kpis"] > *,
+body #analytics [id*="Cats"] > *,
+body #analytics [id*="Accounts"] > *,
+body #analytics [id*="Debt"] > *,
+body #analytics [id*="Categories"] > *,
+body #analytics [id*="TableWrap"] > *,
+body #analytics .item,
+body #analytics .v792-report-section > button,
+body #home #monthSummary .item,
+body #home #allTransactions .item,
+body #home #accountOverview .item,
+body #home #debtOverview .item{
+ background:var(--figure8-tile)!important;
+ border:1px solid var(--figure8-border)!important;
+ box-shadow:0 4px 12px rgba(9,47,76,.04)!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+/* Loan management big buttons and rows */
+body #loans .box,
+body #loans .v775-nav .btn,
+body #loans #loanList > *,
+body #loans #loanPayments > *,
+body #loans #v73List > *,
+body #loans #v73Summary > *,
+body #loans .item{
+ background:var(--figure8-tile)!important;
+ border:1px solid var(--figure8-border)!important;
+ box-shadow:0 4px 12px rgba(9,47,76,.04)!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+/* Debt page top navigation buttons */
+body #debts .debt-subnav .btn,
+body #debts .credit-v750-entry,
+body #debts .box,
+body #debts .metric,
+body #debts .cards > *{
+ background:var(--figure8-tile)!important;
+ border:1px solid var(--figure8-border)!important;
+ box-shadow:0 4px 12px rgba(9,47,76,.04)!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+body #debts .debt-subnav .btn[aria-pressed="true"],
+body #debts .debt-subnav .btn.active,
+body #loans .v775-nav .btn[aria-pressed="true"],
+body #loans .v775-nav .btn.active{
+ background:var(--figure8-active)!important;
+ border-color:rgba(16,98,146,.5)!important;
+}
+/* Keep text clear */
+body :is(#backup,#budget,#analytics,#loans,#debts) :is(h2,h3,strong,span,p,div,button,label,li){
+ color:#06141d!important;
+}
+</style>
+
+
+<style id="v8171-figure4-blue-account-and-budget">
+/* Match the screenshot-four blue translucent input fields: 48% tinted glass. */
+html.mn69-theme {
+  --v8171-fig4-card:rgba(118,188,220,.48);
+  --v8171-fig4-container:rgba(118,188,220,.06);
+  --v8171-fig4-border:rgba(228,249,255,.48);
+}
+/* The account list is generated at runtime by v759RenderSavedAccounts(). */
+html.mn69-theme body #transactions #v759SavedAccountsBox,
+html.mn69-theme body #transactions #v759SavedAccountsList {
+  background:var(--v8171-fig4-container)!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+html.mn69-theme body #transactions #v759SavedAccountsList > .item {
+  background:var(--v8171-fig4-card)!important;
+  border:1px solid var(--v8171-fig4-border)!important;
+  border-radius:14px!important;
+  box-shadow:0 3px 10px rgba(10,40,60,.045)!important;
+  backdrop-filter:blur(1px)!important;
+  -webkit-backdrop-filter:blur(1px)!important;
+  margin-bottom:6px!important;
+}
+html.mn69-theme body #transactions #v759SavedAccountsList > .item :is(.name,.sub,strong,span) {
+  color:#081820!important;
+}
+/* Both annual and monthly KPI blocks are .v720-card, not .metric. */
+html.mn69-theme body #budget #v720Summary > .v720-card,
+html.mn69-theme body #budget #v720AnnualSummary > .v720-card,
+html.mn69-theme body #budget .v720-card {
+  background:var(--v8171-fig4-card)!important;
+  border:1px solid var(--v8171-fig4-border)!important;
+  border-radius:14px!important;
+  box-shadow:0 3px 10px rgba(10,40,60,.045)!important;
+  backdrop-filter:blur(1px)!important;
+  -webkit-backdrop-filter:blur(1px)!important;
+}
+html.mn69-theme body #budget .v720-card :is(small,strong) {
+  color:#081820!important;
+  opacity:1!important;
+}
+/* Avoid adding another milky white layer behind budget statistics. */
+html.mn69-theme body #budget .box:has(#v720Summary),
+html.mn69-theme body #budget .box:has(#v720AnnualSummary) {
+  background:var(--v8171-fig4-container)!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+</style>
+
+
+<style id="v8171-settings-real-dom-glass-fix">
+/* Correctly style the dynamically-created Settings cards (v604 / v610).
+   A faint outer tint and direct descendant styles avoid layered white overlays. */
+html.mn69-theme body #my > .box,
+html.mn69-theme body #my > .v604-prefs,
+html.mn69-theme body #my > #v610Panel,
+html.mn69-theme body #my > .v60-settings,
+html.mn69-theme body #my > .v603-settings-inline {
+  background:rgba(103,177,210,.28)!important;
+  border:1px solid rgba(222,246,255,.52)!important;
+  border-radius:17px!important;
+  box-shadow:0 4px 14px rgba(12,47,68,.055)!important;
+  backdrop-filter:blur(1px) saturate(105%)!important;
+  -webkit-backdrop-filter:blur(1px) saturate(105%)!important;
+}
+/* Fix the actual containers generated by v604.js and v610.js. */
+html.mn69-theme body #my #v604Prefs,
+html.mn69-theme body #my #v610Panel,
+html.mn69-theme body #my .v604-prefs {
+  background:rgba(103,177,210,.22)!important;
+  border:1px solid rgba(222,246,255,.42)!important;
+  border-radius:16px!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(1px)!important;
+  -webkit-backdrop-filter:blur(1px)!important;
+}
+/* A transparent parent avoids white behind the two generated cards. */
+html.mn69-theme body #my > .box:has(#v604Prefs) {
+  background:rgba(103,177,210,.12)!important;
+}
+html.mn69-theme body #my #v610BackupReminder,
+html.mn69-theme body #my #v610BackupReminder summary,
+html.mn69-theme body #my #v604ShowSetup {
+  background:rgba(118,188,220,.37)!important;
+  border-color:rgba(222,246,255,.49)!important;
+}
+html.mn69-theme body #my :is(#v604Language,#v604Currency) {
+  background:rgba(118,188,220,.48)!important;
+  color:#071b25!important;
+  border:1px solid rgba(222,246,255,.52)!important;
+}
+/* Adapt to selected non-blue themes without changing ledger data. */
+html.mn69-theme[data-mn69-theme="forest"] body #my :is(#v604Prefs,#v610Panel){background:rgba(96,184,166,.22)!important;}
+html.mn69-theme[data-mn69-theme="sunset"] body #my :is(#v604Prefs,#v610Panel){background:rgba(212,148,145,.22)!important;}
+/* Do not change PIN buttons' white text on blue. */
+</style>
+
+
+<style id="v8171-global-blue-glass-unify-fix">
+/* V8.1.71 patch: unify outer white cards to blue translucent glass,
+   and match dropdown list background to the provided screenshot. */
+html.mn69-theme{
+  --v8171-blue-card: rgba(115, 180, 210, .30);
+  --v8171-blue-card-strong: rgba(115, 180, 210, .36);
+  --v8171-blue-border: rgba(226, 246, 255, .56);
+  --v8171-blue-input: rgba(165, 208, 227, .78);
+  --v8171-blue-option: rgb(171, 208, 224);
+  --v8171-blue-option-hover: rgb(158, 198, 216);
+  --v8171-blue-option-selected: rgb(42, 103, 208);
+}
+/* All major outer cards / sections */
+html.mn69-theme body :is(
+  .box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,
+  .v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,.v819-overview-card,
+  .v58-table-wrap,.notice,details,.v60-settings,.v603-settings-inline,#mn69ThemeUI,
+  #v604Prefs,#v610Panel,.v604-prefs,.v603-welcome,.v720-card,.v764-menu-btn,
+  .v812-expense-chip,.v732-entry-btn
+){
+  background:var(--v8171-blue-card)!important;
+  border:1px solid var(--v8171-blue-border)!important;
+  color:var(--mn-ink)!important;
+  box-shadow:0 4px 16px rgba(12,47,68,.06)!important;
+  backdrop-filter:blur(1px) saturate(108%)!important;
+  -webkit-backdrop-filter:blur(1px) saturate(108%)!important;
+}
+/* Specific white containers reported by user */
+html.mn69-theme body #my > :is(.box,.v60-settings,.v603-settings-inline,#v610Panel),
+html.mn69-theme body #budget :is(.box,.v720-card),
+html.mn69-theme body #reports :is(.box,.metric,.v782-analysis-section,.v792-report-section),
+html.mn69-theme body #transactions #v759SavedAccountsList > .item,
+html.mn69-theme body #transactions .item,
+html.mn69-theme body #debtCreditView :is(.box,.item,.v764-menu-btn),
+html.mn69-theme body #my #v604Prefs,
+html.mn69-theme body #my #v610Panel {
+  background:var(--v8171-blue-card)!important;
+  border:1px solid var(--v8171-blue-border)!important;
+}
+/* Keep welcome card slightly stronger but still blue translucent */
+html.mn69-theme body .v603-welcome{
+  background:var(--v8171-blue-card-strong)!important;
+}
+/* Inputs / selects */
+html.mn69-theme body :is(input,textarea,select){
+  background:var(--v8171-blue-input)!important;
+  border:1px solid var(--v8171-blue-border)!important;
+  color:#071b25!important;
+}
+/* Dropdown list color like the screenshot */
+html.mn69-theme body select,
+html.mn69-theme body option,
+html.mn69-theme body optgroup{
+  background:var(--v8171-blue-option)!important;
+  color:#071b25!important;
+}
+html.mn69-theme body option:checked,
+html.mn69-theme body option[selected]{
+  background:var(--v8171-blue-option-selected)!important;
+  color:#ffffff!important;
+}
+html.mn69-theme body select:focus,
+html.mn69-theme body option:hover,
+html.mn69-theme body option:focus{
+  background:var(--v8171-blue-option-hover)!important;
+  color:#071b25!important;
+}
+/* Summary / hint bar should also follow the same glass language */
+html.mn69-theme body #my #v610BackupReminder,
+html.mn69-theme body #my #v610BackupReminder summary,
+html.mn69-theme body #my #v604ShowSetup{
+  background:var(--v8171-blue-card)!important;
+  border-color:var(--v8171-blue-border)!important;
+}
+</style>
+
+
+<style id="v8171-theme-adaptive-glass-palette">
+/* Colors follow active theme. Same glass opacity on panels / tiles across themes. */
+html.mn69-theme {
+ --v8171-blue-card:rgba(115,180,210,.30);
+ --v8171-blue-card-strong:rgba(101,173,205,.37);
+ --v8171-blue-border:rgba(222,246,255,.56);
+ --v8171-blue-input:rgba(165,208,227,.64);
+ --v8171-blue-option:#abdae9;
+ --v8171-blue-option-hover:#9dcddd;
+ --v8171-blue-option-selected:#276db2;
+ --v8171-glass-button:rgba(127,191,218,.38);
+ --v8171-glass-selected:rgba(86,159,194,.55);
+ --v8171-glass-contrast:#061a24;
+}
+html.mn69-theme:is([data-mn69-theme="forest"],[data-mn69-theme="photo-forest"]){
+ --v8171-blue-card:rgba(102,181,149,.30);--v8171-blue-card-strong:rgba(85,165,136,.37);
+ --v8171-blue-border:rgba(222,255,238,.53);--v8171-blue-input:rgba(164,214,184,.64);
+ --v8171-blue-option:#b5e3cb;--v8171-blue-option-hover:#9bd5b6;--v8171-blue-option-selected:#267c61;
+ --v8171-glass-button:rgba(117,187,150,.38);--v8171-glass-selected:rgba(71,147,111,.55);
+}
+html.mn69-theme:is([data-mn69-theme="ocean"],[data-mn69-theme="photo-beach"]){
+ --v8171-blue-card:rgba(90,179,204,.30);--v8171-blue-card-strong:rgba(73,160,194,.37);
+ --v8171-blue-border:rgba(220,250,255,.55);--v8171-blue-input:rgba(150,211,230,.64);
+ --v8171-blue-option:#a8ddeb;--v8171-blue-option-hover:#8acddd;--v8171-blue-option-selected:#146f99;
+ --v8171-glass-button:rgba(101,185,211,.38);--v8171-glass-selected:rgba(54,141,183,.55);
+}
+html.mn69-theme:is([data-mn69-theme="sunset"],[data-mn69-theme="photo-sunset"]){
+ --v8171-blue-card:rgba(209,149,118,.30);--v8171-blue-card-strong:rgba(200,132,110,.37);
+ --v8171-blue-border:rgba(255,231,214,.56);--v8171-blue-input:rgba(232,186,165,.64);
+ --v8171-blue-option:#ebc8b7;--v8171-blue-option-hover:#dfb19b;--v8171-blue-option-selected:#af6756;
+ --v8171-glass-button:rgba(218,164,139,.38);--v8171-glass-selected:rgba(183,110,92,.55);
+}
+html.mn69-theme[data-mn69-theme="lavender"]{
+ --v8171-blue-card:rgba(170,151,211,.30);--v8171-blue-card-strong:rgba(150,127,193,.37);
+ --v8171-blue-border:rgba(245,235,255,.56);--v8171-blue-input:rgba(211,195,233,.64);
+ --v8171-blue-option:#dac7eb;--v8171-blue-option-hover:#cbb2e0;--v8171-blue-option-selected:#8061b1;
+ --v8171-glass-button:rgba(186,161,215,.38);--v8171-glass-selected:rgba(134,103,182,.55);
+}
+html.mn69-theme[data-mn69-theme="sand"]{
+ --v8171-blue-card:rgba(205,179,119,.30);--v8171-blue-card-strong:rgba(193,159,99,.37);
+ --v8171-blue-border:rgba(255,245,216,.56);--v8171-blue-input:rgba(232,211,161,.64);
+ --v8171-blue-option:#ecd9ae;--v8171-blue-option-hover:#e0c891;--v8171-blue-option-selected:#927144;
+ --v8171-glass-button:rgba(211,189,137,.38);--v8171-glass-selected:rgba(170,135,76,.55);
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]){
+ --v8171-blue-card:rgba(100,141,190,.30);--v8171-blue-card-strong:rgba(100,150,197,.38);
+ --v8171-blue-border:rgba(221,238,255,.52);--v8171-blue-input:rgba(157,190,223,.65);
+ --v8171-blue-option:#b3cee5;--v8171-blue-option-hover:#a0c1dd;--v8171-blue-option-selected:#3b72b7;
+ --v8171-glass-button:rgba(128,164,205,.40);--v8171-glass-selected:rgba(89,133,183,.58);
+}
+html.mn69-theme[data-mn69-theme="custom"]{
+ --v8171-blue-card:rgba(127,160,178,.28);--v8171-blue-card-strong:rgba(130,162,184,.36);
+ --v8171-blue-border:rgba(231,247,255,.53);--v8171-blue-input:rgba(179,205,217,.65);
+ --v8171-blue-option:#c1d7e1;--v8171-blue-option-hover:#adcad7;--v8171-blue-option-selected:#416f91;
+ --v8171-glass-button:rgba(145,178,196,.38);--v8171-glass-selected:rgba(103,151,178,.55);
+}
+/* Reset leftover fixed-blue rules at their actual targets. */
+html.mn69-theme body :is(.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,
+.v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,.v819-overview-card,
+.v58-table-wrap,.notice,details,.v60-settings,.v603-settings-inline,#mn69ThemeUI,
+#v604Prefs,#v610Panel,.v604-prefs,.v720-card,.v812-expense-chip){
+ background:var(--v8171-blue-card)!important;
+ border-color:var(--v8171-blue-border)!important;
+ color:var(--v8171-glass-contrast)!important;
+ backdrop-filter:blur(1px) saturate(108%)!important;
+ -webkit-backdrop-filter:blur(1px) saturate(108%)!important;
+}
+html.mn69-theme body :is(#my,#backup,#budget,#analytics,#loans,#debts,#transactions,#home) :is(.item,.v720-card,.v764-menu-btn,.v775-nav .btn,.debt-subnav .btn),
+html.mn69-theme body #transactions #v759SavedAccountsList > .item,
+html.mn69-theme body #budget :is(#v720Summary,#v720AnnualSummary) > .v720-card {
+ background:var(--v8171-blue-card)!important;
+ border-color:var(--v8171-blue-border)!important;
+ color:var(--v8171-glass-contrast)!important;
+}
+html.mn69-theme body :is(.v775-nav,.debt-subnav) > .btn,
+html.mn69-theme body #transactions .v732-entry-btn,
+html.mn69-theme body .tabs button:not(.active),
+html.mn69-theme body #debtCreditView .v764-menu-btn {
+ background:var(--v8171-glass-button)!important;
+ border-color:var(--v8171-blue-border)!important;
+ color:var(--v8171-glass-contrast)!important;
+}
+html.mn69-theme body .tabs button.active,
+html.mn69-theme body #transactions .v732-entry-btn.v732-active,
+html.mn69-theme body :is(.v775-nav,.debt-subnav) > .btn.active,
+html.mn69-theme body #debtCreditView .v764-menu-btn.v764-selected {
+ background:var(--v8171-glass-selected)!important;
+ border-color:var(--v8171-blue-border)!important;
+ color:var(--v8171-glass-contrast)!important;
+}
+html.mn69-theme body :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),textarea,select){
+ background:var(--v8171-blue-input)!important;
+ color:var(--v8171-glass-contrast)!important;
+ border-color:var(--v8171-blue-border)!important;
+}
+html.mn69-theme body select,html.mn69-theme body select option,html.mn69-theme body select optgroup{
+ background:var(--v8171-blue-option)!important;color:var(--v8171-glass-contrast)!important;
+}
+html.mn69-theme body select option:checked{background:var(--v8171-blue-option-selected)!important;color:#fff!important;}
+/* The native dropdown popover may not honor option colors on every platform. */
+html.mn69-theme body :is(#v604Prefs,#v610Panel,#mn69ThemeUI) :is(.mn69-choice,summary),
+html.mn69-theme body #my :is(#v610BackupReminder,#v604ShowSetup){
+ background:var(--v8171-blue-card)!important;border-color:var(--v8171-blue-border)!important;
+}
+/* Protect dark-blue action buttons with white labels. */
+html.mn69-theme body :is(#v610Panel,#v604Prefs) :is(.btn:not(.secondary),button.v610-primary),
+html.mn69-theme body .v603-eye {
+ color:#fff!important;
+}
+/* Remove unwanted bright white overlay from photo themes, without touching media content. */
+html.mn69-theme body #budget .box:has(#v720Summary),
+html.mn69-theme body #budget .box:has(#v720AnnualSummary){background:rgba(100,150,185,.08)!important;}
+</style>
+
+
+<style id="v8171-pref-select-theme-specificity-fix">
+/* The older #my #v604Language/#v604Currency rule overrode generic select theme styles.
+   Keep the higher-specificity target, but bind its colors to the active theme variables. */
+html.mn69-theme body #my #v604Prefs #v604Language,
+html.mn69-theme body #my #v604Prefs #v604Currency,
+html.mn69-theme body #my #v604Language,
+html.mn69-theme body #my #v604Currency {
+ background:var(--v8171-blue-input)!important;
+ background-color:var(--v8171-blue-input)!important;
+ color:var(--v8171-glass-contrast,#071b25)!important;
+ border:1px solid var(--v8171-blue-border)!important;
+ box-shadow:0 3px 12px rgba(20,38,48,.06)!important;
+ color-scheme:light;
+}
+html.mn69-theme body #my #v604Prefs :is(#v604Language,#v604Currency) option,
+html.mn69-theme body #my #v604Prefs :is(#v604Language,#v604Currency) optgroup {
+ background:var(--v8171-blue-option)!important;
+ background-color:var(--v8171-blue-option)!important;
+ color:#071b25!important;
+}
+html.mn69-theme body #my #v604Prefs :is(#v604Language,#v604Currency) option:checked {
+ background:var(--v8171-blue-option-selected)!important;
+ background-color:var(--v8171-blue-option-selected)!important;
+ color:white!important;
+}
+html.mn69-theme body #my #v604Prefs :is(#v604Language,#v604Currency):focus {
+ outline-color:var(--mn-accent)!important;
+ background:var(--v8171-blue-input)!important;
+}
+</style>
+
+
+<style id="v8171-theme-adaptive-typography">
+/* Display layer only. Typography responds to the existing data-mn69-theme.
+   Separate readable foreground palettes from transparent card backgrounds. */
+html.mn69-theme {
+ --v8171-type-heading:#153958;
+ --v8171-type-body:#173c53;
+ --v8171-type-secondary:#375e77;
+ --v8171-type-on-dark:#ffffff;
+}
+html.mn69-theme[data-mn69-theme="blue"]{
+ --v8171-type-heading:#143c68;--v8171-type-body:#204a70;--v8171-type-secondary:#385e80;
+}
+html.mn69-theme[data-mn69-theme="forest"],
+html.mn69-theme[data-mn69-theme="photo-forest"]{
+ --v8171-type-heading:#143e32;--v8171-type-body:#205444;--v8171-type-secondary:#3b6757;
+}
+html.mn69-theme[data-mn69-theme="ocean"],
+html.mn69-theme[data-mn69-theme="photo-ocean"]{
+ --v8171-type-heading:#073c5b;--v8171-type-body:#10546a;--v8171-type-secondary:#326c7b;
+}
+html.mn69-theme[data-mn69-theme="sunset"],
+html.mn69-theme[data-mn69-theme="photo-sunset"]{
+ --v8171-type-heading:#54281f;--v8171-type-body:#683f33;--v8171-type-secondary:#785647;
+}
+html.mn69-theme[data-mn69-theme="lavender"]{
+ --v8171-type-heading:#39254c;--v8171-type-body:#543c67;--v8171-type-secondary:#70577b;
+}
+html.mn69-theme[data-mn69-theme="sand"]{
+ --v8171-type-heading:#4f3a1d;--v8171-type-body:#614c31;--v8171-type-secondary:#786447;
+}
+html.mn69-theme[data-mn69-theme="midnight"],
+html.mn69-theme[data-mn69-theme="photo-city"]{
+ /* Cards are pale blue translucent, so keep lettering dark for legibility. */
+ --v8171-type-heading:#10284e;--v8171-type-body:#1b365a;--v8171-type-secondary:#3a5677;
+}
+html.mn69-theme[data-mn69-theme="custom"]{
+ --v8171-type-heading:#193f54;--v8171-type-body:#245267;--v8171-type-secondary:#446c7d;
+}
+/* Set basic inheritance for text nodes that aren't wrapped in spans. */
+html.mn69-theme body :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI){
+ color:var(--v8171-type-body)!important;
+}
+/* Headings, labels, account/category names and financial figures. */
+html.mn69-theme body :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+ :is(h1,h2,h3,h4,h5,h6,strong,b,th,.amount,.debt-balance,.name,.metric strong,.v720-card strong){
+ color:var(--v8171-type-heading)!important;
+}
+/* Normal body copy, including generated item rows and main navigation labels. */
+html.mn69-theme body :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+ :is(p,div,span,li,td,summary,output,legend,button,.item,.item .sub){
+ color:var(--v8171-type-body)!important;
+}
+/* Descriptions are slightly softer, but must not become pale/washed out. */
+html.mn69-theme body :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+ :is(label,small,.hint,.sub,.metric span,.v720-card small,figcaption){
+ color:var(--v8171-type-secondary)!important;
+ opacity:1!important;
+}
+/* Numbers have priority over ancestor span/div styling. */
+html.mn69-theme body :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+ :is(.amount,.metric strong,.v720-card strong,.debt-balance,.item strong){
+ color:var(--v8171-type-heading)!important;
+ font-weight:750!important;
+}
+/* Inputs, textareas, dropdowns and dropdown rows inherit theme ink. */
+html.mn69-theme body :is(input:not([type="checkbox"]):not([type="radio"]),textarea,select,option,optgroup){
+ color:var(--v8171-type-body)!important;
+}
+html.mn69-theme body :is(input,textarea)::placeholder{
+ color:var(--v8171-type-secondary)!important;opacity:.85!important;
+}
+/* Theme titles and swatch labels remain readable. */
+html.mn69-theme body #mn69ThemeUI :is(.mn69-choice-label,.mn69-control-head,.mn69-control output){
+ color:var(--v8171-type-heading)!important;
+}
+/* Menu tabs/selected pale glass controls are dark themed ink. */
+html.mn69-theme body .tabs button,
+html.mn69-theme body :is(.debt-subnav,.v775-nav) .btn,
+html.mn69-theme body #transactions .v732-entry-btn,
+html.mn69-theme body #debtCreditView .v764-menu-btn{
+ color:var(--v8171-type-heading)!important;
+}
+/* Solid, dark action buttons require white text regardless of selected theme. */
+html.mn69-theme body :is(.panel,#v610Panel,#v604Prefs) .btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v764-menu-btn),
+html.mn69-theme body :is(.panel,#v610Panel,#v604Prefs) .btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v764-menu-btn) :is(span,strong,b),
+html.mn69-theme body #my :is(#v610Panel,#v604Prefs) :is(.btn:not(.secondary),button.v610-primary),
+html.mn69-theme body .v603-eye,
+html.mn69-theme body .v603-welcome,
+html.mn69-theme body .v603-welcome :is(h1,h2,h3,p,small,span,strong,b){
+ color:var(--v8171-type-on-dark)!important;
+}
+/* Preserve red danger actions and semantic status cues. */
+html.mn69-theme body .btn.danger{color:#8f2525!important;}
+</style>
+
+
+<style id="v8171-night-theme-contrast-fix">
+/* Night and city photo themes: contrast hierarchy for genuinely dark glass.
+   No data, calculation, or theme persistence changes. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]){
+  --v8171-type-heading:#FFFFFF;
+  --v8171-type-body:#F2F7FF;
+  --v8171-type-secondary:#D6E5F8;
+  --v8171-night-input-ink:#10283F;
+  --v8171-night-input-sub:#39526C;
+  --v8171-night-active-ink:#142C45;
+  --v8171-night-text-shadow:0 1px 2px rgba(2,12,28,.27);
+}
+/* Set the default for page titles, section bodies and ordinary content. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI,
+      .box,.metric,.v720-card,.v732-entry-btn,.v736-page-head,.notice,.item,.v782-analysis-section) {
+  color:var(--v8171-type-body)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+  :is(h1,h2,h3,h4,h5,h6,strong,b,th,.amount,.name,.debt-balance,.metric strong,.v720-card strong,.item strong){
+  color:var(--v8171-type-heading)!important;
+  text-shadow:var(--v8171-night-text-shadow);
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+  :is(p,div,span,li,td,summary,output,legend,.item,.item .sub){
+  color:var(--v8171-type-body)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+  :is(label,small,.hint,.sub,.metric span,.v720-card small,figcaption){
+  color:var(--v8171-type-secondary)!important;
+  opacity:1!important;
+}
+/* More opaque dark card tint underneath light text, still see-through cityscape. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]){
+  --v8171-blue-card:rgba(17,42,76,.59);
+  --v8171-blue-card-strong:rgba(14,34,65,.69);
+  --v8171-glass-button:rgba(38,77,119,.64);
+  --v8171-glass-selected:rgba(205,223,243,.82);
+  --v8171-blue-border:rgba(186,217,248,.47);
+}
+/* Keep white text on dark/nav quick actions but dark text on pale active buttons. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.tabs button:not(.active),.v775-nav .btn,.debt-subnav .btn,.v732-entry-btn,.v764-menu-btn,
+      .btn.secondary){
+  color:#F7FAFF!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.tabs button.active,.v775-nav .btn.active,.debt-subnav .btn.active,
+      .v732-entry-btn.v732-active,.v764-menu-btn.v764-selected){
+  color:var(--v8171-night-active-ink)!important;
+  background:var(--v8171-glass-selected)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.tabs button.active,.v775-nav .btn.active,.debt-subnav .btn.active,
+      .v732-entry-btn.v732-active,.v764-menu-btn.v764-selected)
+  :is(span,strong,b){
+  color:var(--v8171-night-active-ink)!important;
+}
+/* Native input/select fields are pale blue, so their text must remain dark. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+      textarea,select,select option,select optgroup){
+  color:var(--v8171-night-input-ink)!important;
+  text-shadow:none!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(input,textarea)::placeholder{
+  color:var(--v8171-night-input-sub)!important;
+  opacity:1!important;
+}
+/* Visible section-eyebrow badges and pale theme swatch labels. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.v736-eyebrow,.mn69-choice-label,.pill){
+  color:var(--v8171-night-active-ink)!important;
+  text-shadow:none!important;
+}
+/* Solid-blue PIN/amount/submit buttons retain white labels. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(#v610Panel,#v604Prefs,.panel)
+  .btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v764-menu-btn){
+  color:#FFFFFF!important;
+}
+</style>
+
+
+<style id="v8171-all-theme-text-auto-follow">
+/* V8.1.71 — auto-follow palette for all theme backgrounds; presentation only. */
+html.mn69-theme{
+ --auto-head:#143957;--auto-body:#193f5b;--auto-note:#365d76;
+ --auto-ink-field:#17344c;--auto-placeholder:#4c6377;
+ --auto-ink-glass:#183953;--auto-ink-action:#ffffff;
+ --auto-ink-selected:#173a55;--auto-choice-bg:rgba(216,237,249,.82);
+ --auto-on-image:#ffffff;
+}
+html.mn69-theme[data-mn69-theme="blue"]{
+ --auto-head:#153c68;--auto-body:#224b6f;--auto-note:#395d7a;
+ --auto-ink-field:#163c65;--auto-placeholder:#4b6a84;
+ --auto-ink-glass:#1c466b;--auto-ink-selected:#173d64;
+}
+html.mn69-theme:is([data-mn69-theme="forest"],[data-mn69-theme="photo-forest"]){
+ --auto-head:#143f31;--auto-body:#205442;--auto-note:#416b56;
+ --auto-ink-field:#1d493a;--auto-placeholder:#537465;
+ --auto-ink-glass:#1b4e3d;--auto-ink-selected:#164a36;
+}
+html.mn69-theme:is([data-mn69-theme="ocean"],[data-mn69-theme="photo-ocean"],[data-mn69-theme="photo-beach"]){
+ --auto-head:#083d5c;--auto-body:#15516b;--auto-note:#37677c;
+ --auto-ink-field:#134a63;--auto-placeholder:#4b7182;
+ --auto-ink-glass:#104760;--auto-ink-selected:#10445d;
+}
+html.mn69-theme:is([data-mn69-theme="sunset"],[data-mn69-theme="photo-sunset"]){
+ --auto-head:#51291f;--auto-body:#663e30;--auto-note:#785646;
+ --auto-ink-field:#553429;--auto-placeholder:#826152;
+ --auto-ink-glass:#65382e;--auto-ink-selected:#563126;
+}
+html.mn69-theme[data-mn69-theme="lavender"]{
+ --auto-head:#3c2853;--auto-body:#523d68;--auto-note:#725a80;
+ --auto-ink-field:#4e3c65;--auto-placeholder:#75658c;
+ --auto-ink-glass:#4a3766;--auto-ink-selected:#3b2b55;
+}
+html.mn69-theme[data-mn69-theme="sand"]{
+ --auto-head:#513b20;--auto-body:#624c31;--auto-note:#7a6547;
+ --auto-ink-field:#594228;--auto-placeholder:#847253;
+ --auto-ink-glass:#5d492b;--auto-ink-selected:#50391e;
+}
+html.mn69-theme[data-mn69-theme="custom"]{
+ --auto-head:#1e4055;--auto-body:#284d60;--auto-note:#4d6b7b;
+ --auto-ink-field:#284b5d;--auto-placeholder:#5c7786;
+ --auto-ink-glass:#24475c;--auto-ink-selected:#204257;
+}
+/* Night theme intentionally uses light text on dark translucent cards. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]){
+ --auto-head:#ffffff;--auto-body:#f1f7ff;--auto-note:#d3e4f6;
+ --auto-ink-field:#142e47;--auto-placeholder:#456177;
+ --auto-ink-glass:#f1f7ff;--auto-ink-selected:#153654;
+ --auto-choice-bg:rgba(208,229,248,.86);
+ --v8171-type-heading:var(--auto-head);
+ --v8171-type-body:var(--auto-body);
+ --v8171-type-secondary:var(--auto-note);
+}
+/* Existing theme fonts should all be controlled through these values. */
+html.mn69-theme{
+ --v8171-type-heading:var(--auto-head);
+ --v8171-type-body:var(--auto-body);
+ --v8171-type-secondary:var(--auto-note);
+}
+/* High specificity matches previous patches which used !important. */
+html.mn69-theme body :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+ :is(h1,h2,h3,h4,h5,h6,strong,b,.name,.amount,.debt-balance,th,.metric strong,.v720-card strong,.item strong){
+ color:var(--auto-head)!important;
+}
+html.mn69-theme body :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+ :is(p,span,div,li,td,summary,legend,output,.item,.sub){
+ color:var(--auto-body)!important;
+}
+html.mn69-theme body :is(.panel,.tabs,.v60-settings,.v603-settings-inline,#v604Prefs,#v610Panel,#mn69ThemeUI)
+ :is(label,.hint,small,.metric span,.v720-card small,figcaption){
+ color:var(--auto-note)!important;opacity:1!important;
+}
+/* Special finance figures remain the most prominent in each theme. */
+html.mn69-theme body :is(.metric,.v720-card,.item,.v817-debt-tile,.v819-overview-card,.v812-expense-chip)
+ :is(strong,.amount,.debt-balance,.v817-debt-balance,.v819-overview-amount){
+ color:var(--auto-head)!important;font-weight:750!important;
+}
+/* Menus, links, and translucent secondary controls adapt to each theme. */
+html.mn69-theme body :is(.tabs button:not(.active),.v732-entry-btn:not(.v732-active),.v775-nav .btn.secondary,
+ .debt-subnav .btn.secondary,.v764-menu-btn:not(.v764-selected),.btn.secondary){
+ color:var(--auto-ink-glass)!important;
+}
+html.mn69-theme body :is(.tabs button:not(.active),.v732-entry-btn:not(.v732-active),.v775-nav .btn.secondary,
+ .debt-subnav .btn.secondary,.v764-menu-btn:not(.v764-selected),.btn.secondary) :is(span,b,strong,small){
+ color:inherit!important;
+}
+/* Selected pale-glass buttons use dark text; solid buttons retain white text. */
+html.mn69-theme body :is(.tabs button.active,.v732-entry-btn.v732-active,.v775-nav .btn.active,
+ .debt-subnav .btn.active,.v764-menu-btn.v764-selected){
+ color:var(--auto-ink-selected)!important;
+ background:var(--auto-choice-bg)!important;
+}
+html.mn69-theme body :is(.tabs button.active,.v732-entry-btn.v732-active,.v775-nav .btn.active,
+ .debt-subnav .btn.active,.v764-menu-btn.v764-selected) :is(span,b,strong,small){
+ color:inherit!important;
+}
+html.mn69-theme body :is(#v610Panel,#v604Prefs,.panel)
+ .btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v764-menu-btn):not(.v732-entry-btn){
+ color:var(--auto-ink-action)!important;
+}
+/* Inputs are brighter than cards across all themes: always use dark matching ink. */
+html.mn69-theme body :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),textarea,select),
+html.mn69-theme body #my :is(#v604Language,#v604Currency),
+html.mn69-theme body select :is(option,optgroup){
+ color:var(--auto-ink-field)!important;text-shadow:none!important;
+}
+html.mn69-theme body :is(input,textarea)::placeholder{color:var(--auto-placeholder)!important;opacity:1!important;}
+html.mn69-theme body select option:checked{color:#fff!important;}
+/* The hero keeps white text, regardless of theme background. */
+html.mn69-theme body .v603-welcome :is(h1,h2,h3,p,small,span,strong),
+html.mn69-theme body .v603-welcome{color:var(--auto-on-image)!important;}
+/* Protect danger/delete semantics rather than forcing them to theme body ink. */
+html.mn69-theme body .btn.danger{color:#8e2626!important;}
+</style>
+
+
+<style id="v8171-dark-theme-all-pages-text-fill-correction">
+/* All-page deep theme text contrast. Defeat legacy WebKit black text-fill. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) {
+  --mn-ink:#f5f9ff!important;
+  --mn-soft:#d6e4f6!important;
+  --text:#f5f9ff!important;
+  --muted:#d6e4f6!important;
+  --auto-head:#ffffff;
+  --auto-body:#f1f7ff;
+  --auto-note:#d6e5f8;
+  color-scheme:dark!important;
+}
+/* The old v8171-pure-black-text sheet sets webkit-text-fill to black on
+   individual elements; color alone cannot fix that in Chrome. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body * {
+  color:#f0f6ff!important;
+  -webkit-text-fill-color:#f0f6ff!important;
+}
+/* Headings, strong financial amounts and grid/table headers. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(h1,h2,h3,h4,h5,h6,strong,b,th,.amount,.name,.debt-balance,.metric strong,.v720-card strong,.item strong,.v736-eyebrow) {
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+}
+/* Secondary instructions stay visible without competing with totals. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(label,small,.hint,.sub,.metric span,.v720-card small,figcaption,footer) {
+  color:#dce9f8!important;
+  -webkit-text-fill-color:#dce9f8!important;
+  opacity:1!important;
+}
+/* Fields and native select options are light-tinted, so dark ink is correct. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),textarea,select,option,optgroup) {
+  color:#122c46!important;
+  -webkit-text-fill-color:#122c46!important;
+  color-scheme:light!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(input,textarea)::placeholder {
+  color:#4b637c!important;
+  -webkit-text-fill-color:#4b637c!important;
+  opacity:1!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body input::-webkit-datetime-edit {
+  color:#122c46!important;
+  -webkit-text-fill-color:#122c46!important;
+}
+/* Dark navigation and secondary buttons use light labels. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.tabs button:not(.active),.btn.secondary,.v732-entry-btn:not(.v732-active),.debt-subnav button:not(.active),.v775-nav button:not(.active),.v764-menu-btn:not(.v764-selected)) ,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.tabs button:not(.active),.btn.secondary,.v732-entry-btn:not(.v732-active),.debt-subnav button:not(.active),.v775-nav button:not(.active),.v764-menu-btn:not(.v764-selected)) * {
+  color:#f7fbff!important;
+  -webkit-text-fill-color:#f7fbff!important;
+}
+/* Pale selected buttons must have dark labels. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.tabs button.active,.v732-entry-btn.v732-active,.v775-nav button.active,.debt-subnav button.active,.v764-menu-btn.v764-selected),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.tabs button.active,.v732-entry-btn.v732-active,.v775-nav button.active,.debt-subnav button.active,.v764-menu-btn.v764-selected) * {
+  color:#153451!important;
+  -webkit-text-fill-color:#153451!important;
+}
+/* All usual primary blue actions have white labels. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v732-entry-btn):not(.v764-menu-btn),#v610Actions button),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v732-entry-btn):not(.v764-menu-btn),#v610Actions button) * {
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+}
+/* Theme swatches and status badges have pale backing. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.mn69-choice-label,.pill,.v736-eyebrow),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+  :is(.mn69-choice-label,.pill,.v736-eyebrow) * {
+  color:#18344f!important;
+  -webkit-text-fill-color:#18344f!important;
+}
+/* Preserve semantic danger actions. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body .btn.danger,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body .btn.danger * {
+  color:#9c2934!important;
+  -webkit-text-fill-color:#9c2934!important;
+}
+</style>
+
+
+<style id="v8171-dark-theme-background-and-contrast-final">
+/* Dark presets only: cards and text BOTH follow the dark city / midnight palette.
+   This overrides earlier light-glass themes, without touching other themes. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]){
+ --glass-panel:rgba(7,22,43,.30);
+ --glass-tile:rgba(15,37,66,.62);
+ --glass-field:rgba(177,207,234,.78);
+ --glass-border:rgba(183,219,253,.38);
+ --v8171-blue-card:rgba(12,31,59,.55);
+ --v8171-blue-card-strong:rgba(12,31,59,.68);
+ --v8171-blue-border:rgba(185,220,251,.43);
+ --v8171-glass-button:rgba(26,61,96,.73);
+ --v8171-glass-selected:rgba(207,227,246,.89);
+ --v8171-blue-input:rgba(184,213,239,.80);
+ --v8171-blue-option:#c1d9ea;
+ --v8171-blue-option-hover:#a7c9e3;
+ --v8171-glass-contrast:#f4f8ff;
+ --v8171-fig4-card:rgba(17,41,73,.62);
+ --mn-ink:#f4f8ff;
+ --mn-soft:#d4e4f5;
+ --mn-panel:rgba(10,31,60,.58);
+ --auto-choice-bg:rgba(209,228,247,.87);
+}
+/* Main panel shell is a clear dark tint, not a milky white sheet. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ .box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,
+ .v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,
+ .v58-table-wrap,.notice,.v60-settings,.v603-settings-inline,
+ #mn69ThemeUI,#v604Prefs,#v610Panel,.v604-prefs,.v720-card,
+ .v603-welcome,.v817-debt-detail,.v819-overview-summary,details
+){
+ background:var(--v8171-blue-card)!important;
+ border-color:var(--v8171-blue-border)!important;
+ box-shadow:0 5px 14px rgba(0,6,18,.12)!important;
+ color:#f4f8ff!important;
+}
+/* Figure in user's screenshot: individually frosted rows must ALSO be dark. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ .item,.v817-debt-tile,.v819-overview-card,.v812-expense-chip,.icon-option,
+ .v720-card,.v775-loan-card,.v775-history-item,.v817-debt-detail,
+ .v818-home-detail .item,.v819-overview-detail,.v819-overview-summary,
+ #monthSummary > .item,#txList > .item,#transferList > .item,
+ #accountList > .item,#debtList > .item,
+ #v780Cats > .item,#v780Accounts > .item,#v780Debts > .item,
+ #v759SavedAccountsList > .item,#customCategories .item,
+ .v792-report-section > button,.v764-menu-btn
+){
+ background:var(--glass-tile)!important;
+ border:1px solid var(--v8171-blue-border)!important;
+ box-shadow:0 3px 10px rgba(0,9,28,.10)!important;
+ color:#f4f8ff!important;
+}
+/* Extremely specific historical declarations for dashboard and dynamic lists. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #monthSummary > .item,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #v7412TransactionHistory #txList > .item,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #v780Report :is(#v780Cats,#v780Accounts,#v780Debts) > .item,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #v768DebtListPanel :is(.v817-debt-tile,.v817-debt-detail),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #v7412ExpenseCategoryEditor :is(.icon-option,#customCategories .item),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #transactions #v759SavedAccountsList > .item,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #budget #v720Summary > .v720-card,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #budget #v720AnnualSummary > .v720-card{
+ background:var(--glass-tile)!important;
+ border-color:var(--v8171-blue-border)!important;
+}
+/* Avoid stacking multiple opaque dark washes at every nesting level. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ #v768DebtListPanel,#v7412ExpenseCategoryEditor,#categoryDetails,
+ #debtList,#customCategories,.emoji-picker,.brand-picker,
+ .v817-debt-grid,.v819-overview-grid,.v812-expense-grid,
+ #v780Cats,#v780Accounts,#v780Debts
+){background:transparent!important;box-shadow:none!important;}
+/* Real dark buttons get light labels; pale selected buttons get navy labels. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ .tabs button:not(.active),.btn.secondary,.v732-entry-btn:not(.v732-active),
+ .v775-nav button:not(.active),.debt-subnav button:not(.active),
+ .v764-menu-btn:not(.v764-selected),.v792-report-section > button
+){
+ background:var(--v8171-glass-button)!important;
+ color:#f4f8ff!important;
+ -webkit-text-fill-color:#f4f8ff!important;
+ border-color:var(--v8171-blue-border)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ .tabs button:not(.active),.btn.secondary,.v732-entry-btn:not(.v732-active),
+ .v775-nav button:not(.active),.debt-subnav button:not(.active),
+ .v764-menu-btn:not(.v764-selected),.v792-report-section > button
+) *{color:#f4f8ff!important;-webkit-text-fill-color:#f4f8ff!important;}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ .tabs button.active,.v732-entry-btn.v732-active,
+ .v775-nav button.active,.debt-subnav button.active,.v764-menu-btn.v764-selected
+){background:var(--v8171-glass-selected)!important;color:#102b46!important;-webkit-text-fill-color:#102b46!important;}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ .tabs button.active,.v732-entry-btn.v732-active,
+ .v775-nav button.active,.debt-subnav button.active,.v764-menu-btn.v764-selected
+) *{color:#102b46!important;-webkit-text-fill-color:#102b46!important;}
+/* Inputs remain visibly light blue to identify editable fields. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+ select,textarea
+){
+ background:var(--v8171-blue-input)!important;
+ color:#102b46!important;-webkit-text-fill-color:#102b46!important;
+ border-color:rgba(218,238,255,.65)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(option,optgroup){
+ background:#c1d9ea!important;color:#102b46!important;-webkit-text-fill-color:#102b46!important;
+}
+/* Preserve readable hierarchy for labels/amounts on dark rows, defeating text-fill overrides. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ :is(#monthSummary,#v780Cats,#v780Accounts,#v780Debts,.v720-card,#txList,#debtList,#v759SavedAccountsList)
+ :is(.item,div,span,strong,b,small,.name,.sub,.amount){
+ color:#f4f8ff!important;-webkit-text-fill-color:#f4f8ff!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ :is(#monthSummary,#v780Cats,#v780Accounts,#v780Debts,.v720-card,#txList,#debtList,#v759SavedAccountsList)
+ :is(.hint,.sub,small){color:#d4e4f5!important;-webkit-text-fill-color:#d4e4f5!important;}
+</style>
+
+
+<style id="v8171-dark-theme-card-text-global-fix">
+/* Global dark-theme card typography fix.
+   Applies to all midnight / city-night dark theme cards where text was still inheriting dark ink. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body{
+  --v8171-dark-card-heading:#F7FBFF;
+  --v8171-dark-card-body:#EEF5FF;
+  --v8171-dark-card-sub:#CFE0F3;
+  --v8171-dark-card-selected-ink:#14304A;
+}
+/* Entire dark translucent cards default to light text. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v812-expense-chip,.v819-overview-card,.v817-debt-tile,.v819-overview-detail,
+  #v759SavedAccountsList > .item,#customCategories .item,
+  #monthSummary > .item,#txList > .item,#transferList > .item,
+  #accountList > .item,#debtList > .item,
+  #v780Cats > .item,#v780Accounts > .item,#v780Debts > .item
+){
+  color:var(--v8171-dark-card-body)!important;
+  -webkit-text-fill-color:var(--v8171-dark-card-body)!important;
+}
+/* Main names / values / balances are bright and clear. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v812-expense-chip,.v819-overview-card,.v817-debt-tile,.v819-overview-detail,
+  #v759SavedAccountsList > .item,#customCategories .item,
+  #monthSummary > .item,#txList > .item,#transferList > .item,
+  #accountList > .item,#debtList > .item,
+  #v780Cats > .item,#v780Accounts > .item,#v780Debts > .item
+) :is(
+  strong,b,.amount,.name,.debt-balance,
+  .v812-chip-title,.v812-chip-amount,
+  .v819-card-name,.v819-card-value,.v819-detail-name,
+  .v817-debt-name,.v817-debt-balance,.v817-debt-detail-title
+){
+  color:var(--v8171-dark-card-heading)!important;
+  -webkit-text-fill-color:var(--v8171-dark-card-heading)!important;
+  text-shadow:0 1px 2px rgba(2,12,28,.26)!important;
+}
+/* Secondary/supporting text is softer but still readable. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v812-expense-chip,.v819-overview-card,.v817-debt-tile,.v819-overview-detail,
+  #v759SavedAccountsList > .item,#customCategories .item,
+  #monthSummary > .item,#txList > .item,#transferList > .item,
+  #accountList > .item,#debtList > .item,
+  #v780Cats > .item,#v780Accounts > .item,#v780Debts > .item
+) :is(
+  .sub,small,.hint,.v812-chip-sub,.v819-card-meta,.v817-debt-type,.v817-debt-desc,
+  .metric span,label
+){
+  color:var(--v8171-dark-card-sub)!important;
+  -webkit-text-fill-color:var(--v8171-dark-card-sub)!important;
+  opacity:1!important;
+}
+/* Icons stay visible inside dark cards. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v812-chip-icon,.v819-card-icon,.v817-debt-icon
+){
+  color:var(--v8171-dark-card-heading)!important;
+  -webkit-text-fill-color:var(--v8171-dark-card-heading)!important;
+}
+/* Selected pale cards should switch back to dark ink for readability. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v812-expense-chip[aria-pressed="true"],.v819-overview-card[aria-pressed="true"],.v817-debt-tile[aria-pressed="true"]
+){
+  color:var(--v8171-dark-card-selected-ink)!important;
+  -webkit-text-fill-color:var(--v8171-dark-card-selected-ink)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v812-expense-chip[aria-pressed="true"],.v819-overview-card[aria-pressed="true"],.v817-debt-tile[aria-pressed="true"]
+) :is(
+  strong,b,.amount,.name,.debt-balance,
+  .v812-chip-title,.v812-chip-amount,
+  .v819-card-name,.v819-card-value,.v819-detail-name,
+  .v817-debt-name,.v817-debt-balance,.v817-debt-detail-title,
+  .v812-chip-sub,.v819-card-meta,.v817-debt-type,.v817-debt-desc,.sub,small,.hint
+){
+  color:var(--v8171-dark-card-selected-ink)!important;
+  -webkit-text-fill-color:var(--v8171-dark-card-selected-ink)!important;
+  text-shadow:none!important;
+}
+</style>
+
+
+<style id="v8171-dark-theme-visibility-sweep-final">
+/* Final dark-theme readability sweep.
+   Rule of thumb:
+   - dark glass surfaces => light text
+   - pale glass / pale buttons / table headers => dark text */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body{
+  --v8171-final-dark-ink:#12324B;
+  --v8171-final-dark-ink-2:#23445E;
+  --v8171-final-light-ink:#F4F8FF;
+  --v8171-final-soft-ink:#D6E5F7;
+  --v8171-final-pale-bg:rgba(214,228,244,.90);
+  --v8171-final-pale-bg-2:rgba(202,219,238,.88);
+  --v8171-final-pale-border:rgba(222,238,255,.72);
+  --v8171-final-dark-btn:rgba(18,47,80,.82);
+}
+
+/* 1) Primary action buttons in dark theme often sit on pale backgrounds.
+      Force them to be pale with dark labels so save buttons always stay visible. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v732-entry-btn):not(.v764-menu-btn),
+  #v790AnnualTab[aria-pressed="true"],#v790MonthlyTab[aria-pressed="true"],
+  button[aria-pressed="true"].btn
+){
+  background:var(--v8171-final-pale-bg)!important;
+  color:var(--v8171-final-dark-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-dark-ink)!important;
+  border:1px solid var(--v8171-final-pale-border)!important;
+  text-shadow:none!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v732-entry-btn):not(.v764-menu-btn),
+  #v790AnnualTab[aria-pressed="true"],#v790MonthlyTab[aria-pressed="true"],
+  button[aria-pressed="true"].btn
+) *{
+  color:var(--v8171-final-dark-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-dark-ink)!important;
+  text-shadow:none!important;
+}
+
+/* 2) Dark navigation / inactive toggle buttons keep light labels. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .btn.secondary,.tabs button:not(.active),
+  .v732-entry-btn:not(.v732-active),.v764-menu-btn:not(.v764-selected),
+  .debt-subnav button:not(.active),.v775-nav button:not(.active),
+  .v792-report-section > button,[aria-pressed="false"].btn.secondary
+){
+  background:var(--v8171-final-dark-btn)!important;
+  color:var(--v8171-final-light-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-light-ink)!important;
+  border-color:rgba(195,221,246,.42)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .btn.secondary,.tabs button:not(.active),
+  .v732-entry-btn:not(.v732-active),.v764-menu-btn:not(.v764-selected),
+  .debt-subnav button:not(.active),.v775-nav button:not(.active),
+  .v792-report-section > button,[aria-pressed="false"].btn.secondary
+) *{
+  color:var(--v8171-final-light-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-light-ink)!important;
+}
+
+/* 3) Active wide mode-switch buttons must use pale background and dark text. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .tabs button.active,.v732-entry-btn.v732-active,.v764-menu-btn.v764-selected,
+  .debt-subnav button.active,.v775-nav button.active,
+  #v790ReportTabs .btn:not(.secondary)
+){
+  background:var(--v8171-final-pale-bg)!important;
+  color:var(--v8171-final-dark-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-dark-ink)!important;
+  border-color:var(--v8171-final-pale-border)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .tabs button.active,.v732-entry-btn.v732-active,.v764-menu-btn.v764-selected,
+  .debt-subnav button.active,.v775-nav button.active,
+  #v790ReportTabs .btn:not(.secondary)
+) *{
+  color:var(--v8171-final-dark-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-dark-ink)!important;
+}
+
+/* 4) Table headers are pale surfaces: use dark ink. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v58-table th,#debtCreditView .v750-table th,#analytics table th,#budget table th
+){
+  background:var(--v8171-final-pale-bg)!important;
+  color:var(--v8171-final-dark-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-dark-ink)!important;
+  border-bottom:1px solid rgba(180,205,229,.72)!important;
+  font-weight:800!important;
+  text-shadow:none!important;
+}
+/* Table body rows are darker panels: keep light text. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v58-table td,#debtCreditView .v750-table td,#analytics table td,#budget table td
+){
+  color:var(--v8171-final-light-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-light-ink)!important;
+  border-bottom-color:rgba(170,196,221,.28)!important;
+}
+
+/* 5) Explicit light panels / report header strips / generated summary rows => dark text. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  #v780Table thead tr,#v620TableWrap thead tr,.v58-table thead tr,#debtCreditView .v750-table thead tr,
+  #v780Table th,#v620TableWrap th,
+  #budget .v58-table-wrap thead tr,#budget .v58-table-wrap th,
+  #analytics .cards .metric,#analytics .cards .metric *,
+  #budget .cards .metric,#budget .cards .metric *
+){
+  color:var(--v8171-final-dark-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-dark-ink)!important;
+}
+
+/* 6) Credit-card / loan / budget management subcards remain dark, so keep light labels. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v750-card,.v775-loan-card,.v775-history-item,.v817-debt-detail,.v817-debt-tile,
+  #loanList > .item,#loanPayments > .item,#paymentList > .item,#accountList > .item,#debtList > .item
+),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v750-card,.v775-loan-card,.v775-history-item,.v817-debt-detail,.v817-debt-tile,
+  #loanList > .item,#loanPayments > .item,#paymentList > .item,#accountList > .item,#debtList > .item
+) *{
+  color:var(--v8171-final-light-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-light-ink)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  .v750-card,.v775-loan-card,.v775-history-item,.v817-debt-detail,.v817-debt-tile,
+  #loanList > .item,#loanPayments > .item,#paymentList > .item,#accountList > .item,#debtList > .item
+) :is(.sub,.hint,small,label,.v58-muted,.v750-details){
+  color:var(--v8171-final-soft-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-soft-ink)!important;
+}
+
+/* 7) Budget/report generated pale summary rows in screenshots should use dark ink. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+  #budget .v58-table-wrap,#analytics .v58-table-wrap,#v620TableWrap,
+  #v780Table table thead,#v790MonthlyContent table thead
+){
+  color:var(--v8171-final-dark-ink)!important;
+  -webkit-text-fill-color:var(--v8171-final-dark-ink)!important;
+}
+
+/* 8) Safety net for tiny buttons generated later by JS. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body button{
+  font-weight:700!important;
+}
+</style>
+
+
+<style id="v8171-night-five-screenshot-contrast-fix">
+/* Dark glass text vs light controls. CSS only; no financial data/storage changes. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body{
+ --night-main:#F5F9FF;--night-muted:#D6E5F7;--night-on-pale:#18334B;
+ --night-pale:rgba(214,231,247,.92);--night-field:rgba(182,210,235,.84);
+}
+/* Image 1 and 4: pale account-type badges in lists and cards. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ :is(.pill,.v58-pill,.v819-card-badge,.v819-overview-card .pill,.item .pill,.name .pill),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ :is(.pill,.v58-pill,.v819-card-badge,.v819-overview-card .pill,.item .pill,.name .pill) *{
+ background:var(--night-pale)!important;color:var(--night-on-pale)!important;
+ -webkit-text-fill-color:var(--night-on-pale)!important;text-shadow:none!important;
+ opacity:1!important;
+}
+/* Image 2: pale small delete/secondary buttons; use dark labels. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ .btn.danger,.btn.small.danger,button[data-del-debt],button[data-del-account],
+ button[data-del-tx],button[data-del-payment]
+),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ .btn.danger,.btn.small.danger,button[data-del-debt],button[data-del-account],
+ button[data-del-tx],button[data-del-payment]
+) *{
+ background:rgba(255,226,231,.94)!important;color:#802436!important;
+ -webkit-text-fill-color:#802436!important;text-shadow:none!important;
+}
+/* Other pale save buttons remain dark-ink from last patch; no blanket white override. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body .btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v732-entry-btn):not(.v764-menu-btn),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body .btn:not(.secondary):not(.danger):not(.debt-subbtn):not(.v732-entry-btn):not(.v764-menu-btn) *{
+ color:var(--night-on-pale)!important;-webkit-text-fill-color:var(--night-on-pale)!important;
+}
+/* Image 3: dark statistic cards need bright titles, labels, and RM figures. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ #analytics .card,#analytics .metric,#v790MonthlyContent .card,
+ #analysisTotals .card,#analysisTotals .metric,#v780Kpis .card,#v620Totals .card
+),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ #analytics .card,#analytics .metric,#v790MonthlyContent .card,
+ #analysisTotals .card,#analysisTotals .metric,#v780Kpis .card,#v620Totals .card
+) :is(div,span,p,strong,b,small,.sub,.amount){
+ color:var(--night-main)!important;-webkit-text-fill-color:var(--night-main)!important;
+ opacity:1!important;text-shadow:none!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(
+ #analysisTotals .card,#analysisTotals .metric,#v780Kpis .card,#v620Totals .card
+){background:rgba(19,48,80,.65)!important;border-color:rgba(174,210,244,.46)!important;}
+/* Image 3: calendar colored/pale day cells, including text inserted by scripts. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ #analysisCalendar .calendar-day:not(.blank),
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ #analysisCalendar .calendar-day:not(.blank) *{
+ color:var(--night-on-pale)!important;-webkit-text-fill-color:var(--night-on-pale)!important;
+ text-shadow:none!important;opacity:1!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ #analysisCalendar .calendar-day:not(.blank){
+ background:rgba(233,242,252,.94)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ #analysisCalendar .calendar-day.red{background:rgba(255,217,220,.96)!important;}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ #analysisCalendar .calendar-day.green{background:rgba(211,246,229,.96)!important;}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+ #analysisCalendar .calendar-day.selected{outline:3px solid #6CA8FE!important;outline-offset:-3px;}
+/* Image 5: native numeric spin arrows. Let Chrome paint a light-scheme control on pale fields. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body input[type="number"]{
+ background:var(--night-field)!important;color:var(--night-on-pale)!important;
+ -webkit-text-fill-color:var(--night-on-pale)!important;color-scheme:light!important;
+ appearance:auto!important;-webkit-appearance:auto!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body input[type="number"]::-webkit-inner-spin-button,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body input[type="number"]::-webkit-outer-spin-button{
+ opacity:1!important;-webkit-appearance:auto!important;cursor:pointer!important;
+}
+</style>
+
+
+<style id="v8171-four-followup-contrast-and-rounded-kpis">
+/* Scope only to the two night presets. Bright ink on dark swatch labels; navy ink on pale tags. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #mn69ThemeUI .mn69-choice .mn69-choice-label,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #mn69ThemeUI .mn69-choice .mn69-choice-label *,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #mn69ThemeUI .mn69-choice:not([aria-pressed="true"]) .mn69-choice-label {
+ color:#f6faff!important;
+ -webkit-text-fill-color:#f6faff!important;
+ opacity:1!important;
+ text-shadow:0 1px 2px rgba(0,10,25,.42)!important;
+}
+/* Figure 1 and 2: account type pill is pale blue, so use dark ink. The old
+   all-descendants white-text declaration must not win in a nested account row. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #accountList .item .name .pill,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #v759SavedAccountsList .item .name .pill,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #homeAccounts .pill,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #v780Accounts .item .pill,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #v792-accounts-body .pill {
+ background:#d8eaf9!important;
+ color:#14324b!important;
+ -webkit-text-fill-color:#14324b!important;
+ text-shadow:none!important;
+ opacity:1!important;
+ border:1px solid rgba(189,217,239,.8)!important;
+ font-weight:750!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(#accountList,#v759SavedAccountsList,#homeAccounts,#v780Accounts,#v792-accounts-body) .pill *,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(#accountList,#v759SavedAccountsList,#homeAccounts,#v780Accounts,#v792-accounts-body) .item .name .pill * {
+ color:#14324b!important;
+ -webkit-text-fill-color:#14324b!important;
+ text-shadow:none!important;
+}
+/* More general fallback for pale pill chips in the dark presets. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body :is(.item,.v819-overview-card,.v817-debt-tile,.v819-overview-summary) .pill {
+ background:#d8eaf9!important;
+ color:#14324b!important;
+ -webkit-text-fill-color:#14324b!important;
+ opacity:1!important;
+ text-shadow:none!important;
+}
+/* Figure 4: annual report summary KPI tiles need rounded corners. */
+html.mn69-theme body #analytics #v780Kpis > .card,
+html.mn69-theme body #analytics #v620Totals > .card,
+html.mn69-theme body #analytics #v780Kpis > .metric,
+html.mn69-theme body #analytics #v620Totals > .metric {
+ border-radius:18px!important;
+ overflow:hidden!important;
+ border:1px solid var(--v8171-blue-border,rgba(184,217,249,.4))!important;
+}
+</style>
+
+
+<style id="v8171-month-summary-match-category-glass">
+/* Match the clear dark-blue category rows in screenshot 2.
+   Scoped to only the monthly summary on Midnight and City Night themes. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#home #v777SummaryPanel {
+  background: rgba(7,22,43,.08) !important;
+  border-color: rgba(183,219,253,.27) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#home #monthSummary {
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#home #monthSummary > .item {
+  background: rgba(12,31,59,.30) !important;
+  border: 1px solid rgba(183,219,253,.38) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 15px !important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#home #monthSummary > .item,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#home #monthSummary > .item :is(div,span,strong,b) {
+  color: #f5f9ff !important;
+  -webkit-text-fill-color: #f5f9ff !important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#home #monthSummary > .hint {
+  color: #d8e6f7 !important;
+  -webkit-text-fill-color: #d8e6f7 !important;
+  background: transparent !important;
+}
+</style>
+
+<style id="v8171-account-delete-and-expense-pill-contrast-fix">
+/* Visual only: two controls in the user's latest screenshots.
+   The pale pink delete buttons use dark red text; pale blue
+   transaction direction badges use dark navy text. */
+html.mn69-theme body :is(#accountList,#v759SavedAccountsList,#v779AccountListPanel)
+  button[data-del-account],
+html.mn69-theme body #accountList button.btn.danger,
+html.mn69-theme body #v759SavedAccountsList button.btn.danger {
+  background:rgba(255,226,231,.96)!important;
+  color:#B42334!important;
+  -webkit-text-fill-color:#B42334!important;
+  font-weight:800!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+html.mn69-theme body :is(#accountList,#v759SavedAccountsList,#v779AccountListPanel)
+  button[data-del-account] * {
+  color:#B42334!important;
+  -webkit-text-fill-color:#B42334!important;
+}
+/* Expense / income chips are pale, so never use inherited white text. */
+html.mn69-theme body :is(#txList,#recentList,#v7412TransactionHistory,#v779TransactionsPanel)
+  .item .name .pill,
+html.mn69-theme body :is(#txList,#recentList,#v7412TransactionHistory,#v779TransactionsPanel)
+  .item .name .pill * {
+  background:rgba(215,235,248,.95)!important;
+  color:#12334D!important;
+  -webkit-text-fill-color:#12334D!important;
+  font-weight:800!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+/* The same chip can appear inside a dynamically rendered transaction row
+   without the usual .name wrapper. */
+html.mn69-theme body :is(#txList,#recentList) .item .pill {
+  color:#12334D!important;
+  -webkit-text-fill-color:#12334D!important;
+}
+</style>
+
+
+<style id="v8171-repayment-delete-deep-red">
+/* Repayment history delete buttons: pink background and high-contrast dark red label.
+   The actual controls are generated under #paymentList with data-del-pay. */
+html.mn69-theme body #paymentList button.btn.danger[data-del-pay],
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body #paymentList button.btn.danger[data-del-pay] {
+  background: #ffe0e6 !important;
+  color: #a3152d !important;
+  -webkit-text-fill-color: #a3152d !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  border-color: #e9a8b2 !important;
+}
+html.mn69-theme body #paymentList button.btn.danger[data-del-pay] * {
+  color: #a3152d !important;
+  -webkit-text-fill-color: #a3152d !important;
+}
+</style>
+
+<style id="v8171-debt-brand-picker-readable-labels">
+/* Deep-theme debt bank/platform picker: light text on dark translucent tiles.
+   Supersedes older global black-fill CSS without touching other themes. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#debtBrandPicker button.icon-option,
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#debtBrandPicker button.icon-option span {
+  color:#f4f8ff!important;
+  -webkit-text-fill-color:#f4f8ff!important;
+  opacity:1!important;
+  text-shadow:0 1px 2px rgba(0,0,0,.4)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#debtBrandPicker button.icon-option {
+  background:rgba(11,30,57,.32)!important;
+  border-color:rgba(185,216,249,.46)!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#debtBrandPicker button.icon-option.active {
+  background:rgba(205,225,244,.86)!important;
+  color:#122c46!important;
+  -webkit-text-fill-color:#122c46!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+#debtBrandPicker button.icon-option.active span {
+  color:#122c46!important;
+  -webkit-text-fill-color:#122c46!important;
+  text-shadow:none!important;
+}
+</style>
+
+<style id="v8171-account-and-category-brand-picker-visibility">
+/* Actual account icon picker is #brandPicker, not #debtBrandPicker. */
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+:is(#brandPicker,#catBrandPicker) button.icon-option {
+  background: rgba(12,31,57,.35)!important;
+  border-color: rgba(192,223,255,.54)!important;
+  color:#f5f9ff!important;
+  -webkit-text-fill-color:#f5f9ff!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+:is(#brandPicker,#catBrandPicker) button.icon-option span {
+  color:#f5f9ff!important;
+  -webkit-text-fill-color:#f5f9ff!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+:is(#brandPicker,#catBrandPicker) button.icon-option.active {
+  background:rgba(204,226,248,.92)!important;
+  color:#13324a!important;
+  -webkit-text-fill-color:#13324a!important;
+}
+html.mn69-theme:is([data-mn69-theme="midnight"],[data-mn69-theme="photo-city"]) body
+:is(#brandPicker,#catBrandPicker) button.icon-option.active span {
+  color:#13324a!important;
+  -webkit-text-fill-color:#13324a!important;
+}
+</style>
 </body></html>
