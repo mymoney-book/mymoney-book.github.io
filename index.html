@@ -281,6 +281,14 @@ html[data-theme="dark"] #transactions .v736-page-head .v736-eyebrow{
  #transactions .v736-page-head::after{right:-110px}
 }
 </style>
+
+
+
+
+
+
+
+
 </head>
 <body class="mynext"><header><div class="next-brand"><span aria-hidden="true" class="next-logo"><img alt="" src="./mymoney-icon-192.png" style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover"/></span><div><h1>MyMoney <span class="next-wordmark">NEXT</span></h1><p>PERSONAL FINANCE · MYR</p></div></div><div class="next-header-status"><span class="next-status-dot"></span> 本机安全储存 <span class="next-version">V8.1.71</span></div></header><main class="wrap">
 <div class="notice">🔒 数据只保存在当前浏览器/设备。清除浏览器数据或换手机前，请先到「备份」导出 JSON 文件。</div>
@@ -928,8 +936,11 @@ function v8161HomeMoney(n){return 'RM '+Number(n||0).toLocaleString('en-MY',{min
 function render(){renderLoans();refreshDebtTypes();v58refreshHistory();renderAccounts();renderAnalytics();renderCategoryManager();const m=($('v754HomeMonth')?.value||monthNow()),t=txTotals(m),dt=v754DebtTotal(m);v754SyncLabels(m);$('mIncome').textContent=v8161HomeMoney(t.income);const repayment=paymentTotals(m),baseOutflow=t.expense+repayment;$('debtTotal').textContent=v8161HomeMoney(dt);const priorMonthEnd=new Date(Date.UTC(Number(m.slice(0,4)),Number(m.slice(5,7))-1,0)).toISOString().slice(0,10);const priorAccountBalance=data.accounts.reduce((sum,a)=>sum+v754AccountBalance(a.id,priorMonthEnd),0);$('v768OpeningBalance').textContent=v8161HomeMoney(priorAccountBalance);$('v768OpeningLabel').textContent=m===monthNow()?'上月结转账户余额':'上月末账户余额（结转）';const loanMovement={borrowIn:0,lendOut:0,borrowPaid:0,lendReceived:0};
 for(const l of data.loans||[]){if(!l.accountId||!l.date?.startsWith(m))continue;if(l.direction==='borrow')loanMovement.borrowIn+=Number(l.amount||0);else loanMovement.lendOut+=Number(l.amount||0)}
 for(const p of data.loanPayments||[]){if(!p.accountId||!p.date?.startsWith(m))continue;const l=(data.loans||[]).find(x=>x.id===p.loanId);if(!l)continue;if(l.direction==='borrow')loanMovement.borrowPaid+=Number(p.amount||0);else loanMovement.lendReceived+=Number(p.amount||0)}
+/* GO+ interest is already included in txTotals().income; this adds display only. */
+const goPlusMonthInterest=(data.transactions||[]).filter(x=>x.type==='income'&&typeof x.date==='string'&&x.date.startsWith(m)&&(x.goPlusEstimated===true||(/^GO\+/.test(String(x.note||'').trim())&&/(?:return|interest|earnings|收益|利息)/i.test(String(x.note||''))))).reduce((sum,x)=>sum+(Number(x.amount)||0),0);
+const goPlusMonthLabel=(()=>{try{const v=JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}').lang||'zh';return /^en/i.test(v)?'GO+ Interest':/^(ms|bm)/i.test(v)?'Faedah GO+':'GO+ 利息'}catch(_){return 'GO+ 利息'}})();
 const loanNet=loanMovement.borrowIn+loanMovement.lendReceived-loanMovement.lendOut-loanMovement.borrowPaid;const outflow=baseOutflow+loanMovement.lendOut+loanMovement.borrowPaid;$('mExpense').textContent=v8161HomeMoney(outflow);$('mBalance').textContent=v8161HomeMoney(priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived);
-$('monthSummary').innerHTML=`<div class="item"><div>上月结转账户余额</div><strong>${money(priorAccountBalance)}</strong></div><div class="item"><div>所选月份收入</div><strong>${money(t.income)}</strong></div><div class="item"><div>所选月份普通支出</div><strong>${money(t.expense)}</strong></div><div class="item"><div>所选月份负债还款</div><strong>${money(repayment)}</strong></div><div class="item"><div>所选月份总流出</div><strong>${money(outflow)}</strong></div><div class="item"><div>借入到账</div><strong>${money(loanMovement.borrowIn)}</strong></div><div class="item"><div>借出款项</div><strong>${money(loanMovement.lendOut)}</strong></div><div class="item"><div>借入归还</div><strong>${money(loanMovement.borrowPaid)}</strong></div><div class="item"><div>借出收回</div><strong>${money(loanMovement.lendReceived)}</strong></div><div class="item"><div>所选月份结余</div><strong class="${priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived>=0?'income':'expense'}">${money(priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived)}</strong></div><p class="hint">${v7100IsEnglish() ? 'Monthly total outflow includes ordinary expenses, debt repayments, loans given from linked accounts, and repayments of borrowed funds from linked accounts. Counting both credit card purchases as expenses and their repayments as outflows may double-count spending. Only linked-account loan cash flows affect account balances; unlinked loans do not. This closing balance is a cash-flow estimate, not accounting profit.' : '本月总流出包含普通支出、所有负债还款，以及本月关联账户的借出款项与借入归还。如信用卡消费已记入普通支出，再将还款计入总流出可能重复计算；本表借款收付仅统计关联账户的流水；没有关联账户的借款不会计入账户结余。结余属于现金流估算，不是会计利润。'}</p>`;const recent=[
+$('monthSummary').innerHTML=`<div class="item"><div>上月结转账户余额</div><strong>${money(priorAccountBalance)}</strong></div><div class="item"><div>所选月份收入</div><strong>${money(t.income)}</strong></div><div class="item"><div>${goPlusMonthLabel}</div><strong>RM ${v8169GoPlusTruncate4(goPlusMonthInterest)}</strong></div><div class="item"><div>所选月份普通支出</div><strong>${money(t.expense)}</strong></div><div class="item"><div>所选月份负债还款</div><strong>${money(repayment)}</strong></div><div class="item"><div>所选月份总流出</div><strong>${money(outflow)}</strong></div><div class="item"><div>借入到账</div><strong>${money(loanMovement.borrowIn)}</strong></div><div class="item"><div>借出款项</div><strong>${money(loanMovement.lendOut)}</strong></div><div class="item"><div>借入归还</div><strong>${money(loanMovement.borrowPaid)}</strong></div><div class="item"><div>借出收回</div><strong>${money(loanMovement.lendReceived)}</strong></div><div class="item"><div>所选月份结余</div><strong class="${priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived>=0?'income':'expense'}">${money(priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived)}</strong></div><p class="hint">${v7100IsEnglish() ? 'Monthly total outflow includes ordinary expenses, debt repayments, loans given from linked accounts, and repayments of borrowed funds from linked accounts. Counting both credit card purchases as expenses and their repayments as outflows may double-count spending. Only linked-account loan cash flows affect account balances; unlinked loans do not. This closing balance is a cash-flow estimate, not accounting profit.' : '本月总流出包含普通支出、所有负债还款，以及本月关联账户的借出款项与借入归还。如信用卡消费已记入普通支出，再将还款计入总流出可能重复计算；本表借款收付仅统计关联账户的流水；没有关联账户的借款不会计入账户结余。结余属于现金流估算，不是会计利润。'}</p>`;const recent=[
   ...data.transactions.filter(x=>typeof x.date==='string'&&x.date.startsWith(m)).map(x=>({kind:'transaction',date:x.date,record:x})),
   ...data.payments.filter(p=>typeof p.date==='string'&&p.date.startsWith(m)).map(p=>({kind:'repayment',date:p.date,record:p})),
   ...(data.loans||[]).filter(l=>typeof l.date==='string'&&l.date.startsWith(m)).map(l=>({kind:'loan',date:l.date,record:l})),
@@ -1894,7 +1905,7 @@ document.addEventListener('click',function(e){
  btn.setAttribute('aria-expanded',String(!panel.hidden));
  btn.textContent=panel.hidden?'显示本月收支概况 ▼':'隐藏本月收支概况 ▲';
 });
-</script><script>document.addEventListener('click',function(e){const b=e.target.closest('[data-v779-toggle]');if(!b)return;const p=document.getElementById(b.dataset.v779Toggle);if(!p)return;const showing=p.style.display==='none';p.style.display=showing?'block':'none';b.setAttribute('aria-expanded',String(showing));const label={'v779AccountListPanel':'账户清单','v779MonthlyPanel':'月度明细','v779TransactionsPanel':'记录','v779TransferPanel':'转账记录'}[b.dataset.v779Toggle]||'明细';b.textContent=v7100IsEnglish()?((showing?'Hide ':'Show ')+({'v779AccountListPanel':'Account List','v779MonthlyPanel':'Monthly Details','v779TransactionsPanel':'Records','v779TransferPanel':'Transfer Records'}[b.dataset.v779Toggle]||'Details')+(showing?' ▲':' ▼')):((showing?'隐藏':'显示')+label+(showing?' ▲':' ▼'));});</script><script defer src="./v780-report.js?v=813-debt-additions"></script><script>
+</script><script>document.addEventListener('click',function(e){const b=e.target.closest('[data-v779-toggle]');if(!b)return;const p=document.getElementById(b.dataset.v779Toggle);if(!p)return;const showing=p.style.display==='none';p.style.display=showing?'block':'none';b.setAttribute('aria-expanded',String(showing));const label={'v779AccountListPanel':'账户清单','v779MonthlyPanel':'月度明细','v779TransactionsPanel':'记录','v779TransferPanel':'转账记录'}[b.dataset.v779Toggle]||'明细';b.textContent=v7100IsEnglish()?((showing?'Hide ':'Show ')+({'v779AccountListPanel':'Account List','v779MonthlyPanel':'Monthly Details','v779TransactionsPanel':'Records','v779TransferPanel':'Transfer Records'}[b.dataset.v779Toggle]||'Details')+(showing?' ▲':' ▼')):((showing?'隐藏':'显示')+label+(showing?' ▲':' ▼'));});</script><script defer src="./v780-report.js?v=8171-layout-match"></script><script>
 (function(){
 function setReportTab(which){
  var annual=document.getElementById('v790AnnualContent'),monthly=document.getElementById('v790MonthlyContent');
@@ -4595,55 +4606,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-<style id="v8171-faint-photo-glass">
-/* Visual-only: more translucent, theme-aware glass cards. No ledger code. */
-html.mn69-theme {
-  --glass-card: rgba(255,255,255,.28);
-  --glass-subcard: rgba(255,255,255,.33);
-  --glass-input: rgba(255,255,255,.50);
-}
-html.mn69-theme[data-mn69-theme="blue"]{--glass-card:rgba(229,242,255,.29);--glass-subcard:rgba(233,244,255,.35);--glass-input:rgba(245,250,255,.53)}
-html.mn69-theme[data-mn69-theme="forest"]{--glass-card:rgba(224,247,237,.24);--glass-subcard:rgba(233,250,243,.31);--glass-input:rgba(243,252,247,.51)}
-html.mn69-theme[data-mn69-theme="ocean"]{--glass-card:rgba(219,242,255,.25);--glass-subcard:rgba(230,247,255,.32);--glass-input:rgba(242,251,255,.52)}
-html.mn69-theme[data-mn69-theme="sunset"]{--glass-card:rgba(255,228,219,.27);--glass-subcard:rgba(255,239,232,.34);--glass-input:rgba(255,249,245,.53)}
-html.mn69-theme[data-mn69-theme="lavender"]{--glass-card:rgba(240,226,255,.27);--glass-subcard:rgba(246,238,255,.33);--glass-input:rgba(253,249,255,.53)}
-html.mn69-theme[data-mn69-theme="sand"]{--glass-card:rgba(250,234,202,.28);--glass-subcard:rgba(255,244,224,.35);--glass-input:rgba(255,251,242,.53)}
-html.mn69-theme[data-mn69-theme="midnight"]{--glass-card:rgba(20,34,59,.38);--glass-subcard:rgba(25,42,68,.43);--glass-input:rgba(29,45,69,.58)}
-html.mn69-theme[data-mn69-theme="custom"]{--glass-card:rgba(227,240,250,.26);--glass-subcard:rgba(235,245,252,.33);--glass-input:rgba(248,252,255,.52)}
-
-html.mn69-theme :is(.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,
-  .v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,.v819-overview-card,
-  .v58-table-wrap,.notice,.v60-settings details) {
-  background:var(--glass-card)!important;
-  backdrop-filter:blur(3px) saturate(115%)!important;
-  -webkit-backdrop-filter:blur(3px) saturate(115%)!important;
-  border-color:var(--mn-stroke)!important;
-  box-shadow:0 8px 24px rgba(14,36,53,.075)!important;
-}
-html.mn69-theme :is(.tabs button:not(.active),.v732-entry-btn:not(.v732-active),.empty,
-  .v58-panel .item,.box .item) {
-  background:var(--glass-subcard)!important;
-  backdrop-filter:blur(2px) saturate(112%)!important;
-  -webkit-backdrop-filter:blur(2px) saturate(112%)!important;
-}
-html.mn69-theme :is(input,select,textarea,.btn.secondary) {
-  background:var(--glass-input)!important;
-  backdrop-filter:blur(2px)!important;
-  -webkit-backdrop-filter:blur(2px)!important;
-}
-html.mn69-theme #transactions .v736-page-head{
-  background:linear-gradient(115deg,var(--glass-card),var(--glass-subcard))!important;
-}
-html.mn69-theme :is(.metric strong,.box h2,.v736-page-head h2){
-  text-shadow:0 1px 2px rgba(255,255,255,.18);
-}
-html.mn69-theme :is(.box,.metric,.v736-page-head)::before {
-  opacity:.94!important;
-}
-html.mn69-theme[data-mn69-theme="midnight"] :is(.box,.metric,.v736-page-head){
-  color:var(--mn-ink)!important;
-}
-</style>
 
 
 <style id="v8171-home-month-darktext">
@@ -4900,4 +4862,255 @@ html.mn69-theme #v610Panel #v610Actions button[data-action]:hover {
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 })();
 </script>
+
+<style id="v8171-settings-transparent-reports-darker">
+/* V8.1.71 visual refinements requested by user */
+/* Figure 1 & 2: make settings and theme panels more transparent */
+html.mn69-theme #my .box,
+html.mn69-theme #my .v60-settings details,
+html.mn69-theme #my #mn69ThemeUI,
+html.mn69-theme #my #mn69ThemeUI .mn69-choice,
+html.mn69-theme #my #mn69ThemeUI .mn69-tools label,
+html.mn69-theme #my #mn69ThemeUI .mn69-reset,
+html.mn69-theme #my #mn69ThemeUI :is(input,select,textarea),
+html.mn69-theme #my #mn69ThemeUI .mn69-adjust,
+html.mn69-theme #my #mn69ThemeUI .mn69-control {
+  background: color-mix(in srgb, var(--mn-panel) 62%, transparent) !important;
+}
+html.mn69-theme #my #mn69ThemeUI {
+  background: color-mix(in srgb, var(--mn-tint) 58%, transparent) !important;
+  border-color: color-mix(in srgb, var(--mn-stroke) 80%, rgba(255,255,255,.45)) !important;
+}
+html.mn69-theme #my .box :is(input,select,textarea),
+html.mn69-theme #my #mn69ThemeUI :is(input,select,textarea) {
+  background: color-mix(in srgb, var(--mn-panel) 50%, transparent) !important;
+}
+html.mn69-theme #my #mn69ThemeUI .mn69-choice-label,
+html.mn69-theme #my #mn69ThemeUI .mn69-note,
+html.mn69-theme #my .box .hint {
+  color: #111 !important;
+}
+
+/* Figure 3 & 4: make analytics/report fonts darker and slightly bolder */
+html.mn69-theme #analytics :is(h2,h3,label,p,.hint,.sub,th,td,span,strong,button),
+html.mn69-theme #v780Report :is(h2,h3,label,p,.hint,.sub,th,td,span,strong,button),
+html.mn69-theme #v790MonthlyContent :is(h2,h3,label,p,.hint,.sub,th,td,span,strong,button),
+html.mn69-theme #v780Table,
+html.mn69-theme #v780Table *,
+html.mn69-theme #v790MonthlyContent table,
+html.mn69-theme #v790MonthlyContent table *,
+html.mn69-theme .v782-analysis-section table,
+html.mn69-theme .v782-analysis-section table * {
+  color: #000 !important;
+}
+html.mn69-theme #analytics :is(th,strong,h2,h3),
+html.mn69-theme #v780Report :is(th,strong,h2,h3),
+html.mn69-theme #v790MonthlyContent :is(th,strong,h2,h3) {
+  font-weight: 700 !important;
+}
+html.mn69-theme #analytics :is(td,p,.hint,span,label,button),
+html.mn69-theme #v780Report :is(td,p,.hint,span,label,button),
+html.mn69-theme #v790MonthlyContent :is(td,p,.hint,span,label,button) {
+  font-weight: 600 !important;
+}
+html.mn69-theme #v780Table table,
+html.mn69-theme #v790MonthlyContent table,
+html.mn69-theme .v782-analysis-section table {
+  text-shadow: 0 0 0 transparent !important;
+}
+</style>
+
+<style id="v8171-budget-and-summary-strong-text">
+/* V8.1.71: improve four requested areas only; keep transparent backgrounds. */
+html.mn69-theme #budget {
+  --budget-text: #050505;
+  color: var(--budget-text) !important;
+}
+html.mn69-theme #budget :is(h1,h2,h3,h4,th,strong,b,summary) {
+  color: #000 !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
+html.mn69-theme #budget :is(td,label,p,span,div,small,.hint,.sub,output) {
+  color: #050505 !important;
+  opacity: 1 !important;
+}
+html.mn69-theme #budget table :is(td,th) {
+  font-weight: 650 !important;
+  text-shadow: none !important;
+}
+html.mn69-theme #budget table th {
+  font-weight: 800 !important;
+}
+html.mn69-theme #budget :is(input,select,textarea) {
+  color: #000 !important;
+  font-weight: 700 !important;
+}
+html.mn69-theme #budget :is(.item,.card,.metric) :is(span,strong,.name,.amount) {
+  font-weight: 700 !important;
+}
+html.mn69-theme #monthSummary,
+html.mn69-theme #v777SummaryPanel {
+  color: #000 !important;
+}
+html.mn69-theme #monthSummary .item {
+  color: #000 !important;
+  font-weight: 650 !important;
+}
+html.mn69-theme #monthSummary .item :is(div,span,strong,.name,.amount),
+html.mn69-theme #monthSummary :is(p,label,small) {
+  color: #000 !important;
+  opacity: 1 !important;
+}
+html.mn69-theme #monthSummary .item strong,
+html.mn69-theme #monthSummary .item .amount {
+  font-weight: 800 !important;
+}
+html.mn69-theme #monthSummary .item > :first-child {
+  font-weight: 650 !important;
+}
+/* Avoid changing alert colors or the multicolored budget progress bars. */
+</style>
+
+
+<style id="v8171-canonical-glass-ui">
+/* MyMoney NEXT V8.1.71: single source of truth for panel, tile and field transparency.
+   This CSS changes presentation only: no finance calculations, persistence or JS. */
+html.mn69-theme{
+  --glass-panel:rgba(245,250,255,.065);
+  --glass-tile:rgba(243,250,255,.20);
+  --glass-field:rgba(250,253,255,.36);
+  --glass-border:rgba(255,255,255,.38);
+  --glass-shadow:0 4px 13px rgba(10,33,54,.045);
+}
+html.mn69-theme[data-mn69-theme*="forest"]{
+  --glass-panel:rgba(229,249,237,.065);
+  --glass-tile:rgba(224,246,234,.20);
+  --glass-field:rgba(240,255,246,.36);
+}
+html.mn69-theme[data-mn69-theme*="beach"],
+html.mn69-theme[data-mn69-theme="ocean"]{
+  --glass-panel:rgba(230,248,255,.06);
+  --glass-tile:rgba(226,245,255,.20);
+  --glass-field:rgba(241,251,255,.36);
+}
+html.mn69-theme[data-mn69-theme*="sunset"]{
+  --glass-panel:rgba(255,240,230,.065);
+  --glass-tile:rgba(255,239,231,.20);
+  --glass-field:rgba(255,249,245,.36);
+}
+html.mn69-theme[data-mn69-theme="lavender"]{
+  --glass-panel:rgba(246,234,255,.065);
+  --glass-tile:rgba(242,231,255,.20);
+  --glass-field:rgba(251,245,255,.36);
+}
+html.mn69-theme[data-mn69-theme="sand"]{
+  --glass-panel:rgba(253,243,226,.065);
+  --glass-tile:rgba(252,239,218,.20);
+  --glass-field:rgba(255,250,241,.36);
+}
+/* Dark-background presets use equally translucent, LIGHT tinted surfaces for black text. */
+html.mn69-theme[data-mn69-theme="midnight"],
+html.mn69-theme[data-mn69-theme="photo-city"]{
+  --glass-panel:rgba(230,241,255,.08);
+  --glass-tile:rgba(235,245,255,.28);
+  --glass-field:rgba(245,250,255,.56);
+}
+
+/* A single almost-clear backdrop for main sections. Avoid stacking opaque white layers. */
+html.mn69-theme body :is(.box,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,
+ .v736-action-panel,.v736-form-panel,.v768-overview,.v58-table-wrap,.v60-settings details,
+ .v603-settings-inline details,#mn69ThemeUI,#v768DebtListPanel,#v7412ExpenseCategoryEditor,
+ #v7412ExpenseCategoryEditor #categoryDetails,#debtList,#v779TransactionsPanel,
+ #v774AllTransactions,.v817-debt-grid,.v819-overview-grid,.v812-expense-grid,
+ #v818HomeCategorySection,.v812-expense-categories,#customCategories,.emoji-picker,.brand-picker){
+  background:var(--glass-panel)!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  border-color:var(--glass-border)!important;
+}
+/* Containers that otherwise stack 3-4 layers are fully clear. */
+html.mn69-theme body :is(#v7412ExpenseCategoryEditor,#categoryDetails,#v768DebtListPanel,
+ #debtList,#customCategories,.emoji-picker,.brand-picker,#catIconPicker,#catBrandPicker,
+ .v817-debt-grid,.v819-overview-grid,.v812-expense-grid,#v780Cats,#v780Accounts,#v780Debts){
+  background:transparent!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+
+/* Common visual opacity applies to every non-selected summary, record and icon tile. */
+html.mn69-theme body :is(.metric,.v817-debt-tile,.v817-debt-detail,.v819-overview-card,.v819-overview-detail,
+ .v819-overview-summary,.v812-expense-chip,.icon-option,#customCategories .item,
+ #monthSummary .item,#txList .item,#transferList .item,#accountList .item,#debtList .item,
+ #v780Cats .item,#v780Accounts .item,#v780Debts .item,
+ #v755MonthlyAccounts .item,.v818-home-detail .item,
+ #my .v60-settings .item,#my #mn69ThemeUI .mn69-choice){
+  background:var(--glass-tile)!important;
+  border:1px solid var(--glass-border)!important;
+  box-shadow:var(--glass-shadow)!important;
+  backdrop-filter:blur(1px) saturate(102%)!important;
+  -webkit-backdrop-filter:blur(1px) saturate(102%)!important;
+  color:#000!important;
+}
+/* The previously high-specificity debt/editor/summary selectors also obey the SAME variable. */
+html.mn69-theme body #v768DebtListPanel :is(.v817-debt-tile,.v817-debt-detail),
+html.mn69-theme body #v7412ExpenseCategoryEditor :is(.icon-option,#customCategories .item),
+html.mn69-theme body #my #mn69ThemeUI .mn69-choice,
+html.mn69-theme body #v7412TransactionHistory #txList > .item,
+html.mn69-theme body #v780Report :is(#v780Cats,#v780Accounts,#v780Debts) > .item,
+html.mn69-theme body #monthSummary > .item{
+  background:var(--glass-tile)!important;
+  border:1px solid var(--glass-border)!important;
+  box-shadow:var(--glass-shadow)!important;
+  backdrop-filter:blur(1px) saturate(102%)!important;
+  -webkit-backdrop-filter:blur(1px) saturate(102%)!important;
+}
+/* Some record lists use other element types; keep row treatment consistent. */
+html.mn69-theme body :is(#monthSummary,#txList,#transferList,#accountList,#debtList,
+ #v780Cats,#v780Accounts,#v780Debts,#customCategories) > :is(.item,.v818-home-detail,.v817-debt-detail){
+  border-radius:14px!important;
+  margin-bottom:6px!important;
+}
+/* Settings panes have only one small wash, but inputs retain enough contrast. */
+html.mn69-theme body #my :is(.box,.v60-settings details,.v603-settings-inline details,#mn69ThemeUI),
+html.mn69-theme body #v7412ExpenseCategoryEditor{
+  background:var(--glass-panel)!important;
+}
+html.mn69-theme body :is(input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),select,textarea),
+html.mn69-theme body #v7412ExpenseCategoryEditor .icon-option,
+html.mn69-theme body #my #mn69ThemeUI :is(.mn69-tools label,.mn69-reset){
+  border-color:var(--glass-border)!important;
+}
+html.mn69-theme body :is(input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),select,textarea){
+  background:var(--glass-field)!important;
+  color:#08141b!important;
+}
+/* Icon tiles use tile transparency, not input transparency. */
+html.mn69-theme body #v7412ExpenseCategoryEditor .icon-option{
+  background:var(--glass-tile)!important;
+}
+html.mn69-theme body #my #mn69ThemeUI :is(.mn69-tools label,.mn69-reset){
+  background:var(--glass-field)!important;
+}
+/* Bold, legible data on top of photographs. Do not change the existing amount formatting. */
+html.mn69-theme body :is(.v817-debt-tile,.v819-overview-card,.v812-expense-chip,
+ #v7412ExpenseCategoryEditor,.v817-debt-detail) :is(strong,.amount,.v817-debt-balance,
+ .v819-card-value,.v812-chip-amount,.v817-debt-name,.v819-card-name){
+  color:#000!important;
+  opacity:1!important;
+  font-weight:700!important;
+}
+/* Preserve interaction indication without turning selected cards opaque. */
+html.mn69-theme body :is(.v817-debt-tile,.v819-overview-card,.v812-expense-chip,.icon-option)[aria-pressed="true"],
+html.mn69-theme body .icon-option.active{
+  background:var(--glass-tile)!important;
+  outline:2px solid var(--mn-accent)!important;
+  outline-offset:-2px;
+}
+/* Keep the decorative accent lines matching theme; not another background layer. */
+html.mn69-theme body #v768DebtListPanel .v817-debt-tile::before{opacity:.9!important}
+</style>
+
 </body></html>
