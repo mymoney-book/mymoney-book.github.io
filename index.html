@@ -2,7 +2,7 @@
 
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.69 · Theme</title>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><meta content="#10243b" name="theme-color"/><meta content="个人记账与负债管理，本机保存数据" name="description"/><link href="manifest.json?v=7412-neonm1" rel="manifest"/><link href="./mymoney-icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./mymoney-icon-192.png" rel="apple-touch-icon" sizes="192x192"/><title>MyMoney NEXT V8.1.71 · Theme</title>
 <style>
 :root{--green:#176b57;--bg:#f3f6f5;--card:#fff;--text:#182522;--muted:#64736e;--line:#e1e9e5;--red:#bd3d3d;--blue:#275d9c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}header{background:var(--green);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:5}header h1{font-size:22px;margin:0 0 4px}header p{font-size:12px;margin:0;opacity:.85}.wrap{max-width:760px;margin:auto;padding:14px 12px 40px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--text);padding:10px 13px;border-radius:12px;font-size:14px}.tabs button.active{background:var(--green);color:white;border-color:var(--green)}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:12px}.metric,.box{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px}.metric span{font-size:12px;color:var(--muted);display:block}.metric strong{font-size:20px;display:block;margin-top:6px;overflow-wrap:anywhere}.box{margin-bottom:12px}.box h2{font-size:16px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}input,select,textarea{font:inherit;width:100%;border:1px solid #cfdcd5;background:#fff;border-radius:10px;padding:11px;color:var(--text);min-width:0}textarea{min-height:66px;resize:vertical}.field{margin-bottom:10px}.full{grid-column:1/-1}.btn{border:0;border-radius:10px;padding:11px 13px;background:var(--green);color:white;font-weight:600;font-size:14px;cursor:pointer}.btn.secondary{background:#e6efeb;color:var(--green)}.btn.danger{background:#fff0f0;color:var(--red)}.btn.small{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.item{border-top:1px solid var(--line);padding:12px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.item:first-child{border-top:0}.item .name{font-weight:650;font-size:14px}.sub{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}.amount{font-weight:700;white-space:nowrap;text-align:right}.income{color:var(--green)}.expense{color:var(--red)}.empty{color:var(--muted);font-size:13px;padding:8px 0}.hint{font-size:12px;color:var(--muted);line-height:1.6}.notice{background:#fff8df;border:1px solid #f1df9d;border-radius:12px;padding:11px;font-size:12px;line-height:1.5;margin-bottom:12px}.hidden{display:none!important}.month-row{display:flex;gap:10px;align-items:end;margin-bottom:12px}.month-row .field{flex:1;margin:0}.pill{display:inline-block;border-radius:30px;padding:3px 8px;background:#e6efeb;color:var(--green);font-size:11px}.debt-balance{font-size:18px;font-weight:750;margin:5px 0}.progress{height:6px;border-radius:9px;background:#e8eeeb;overflow:hidden;margin:9px 0}.progress span{height:100%;display:block;background:var(--green)}footer{text-align:center;color:var(--muted);font-size:11px;padding:8px}
 @media(min-width:600px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.metric strong{font-size:22px}}
@@ -126,6 +126,33 @@
 .v818-home-detail .item{border:1px solid var(--line);border-radius:15px;padding:13px;margin-bottom:5px;background:var(--card)}
 .v818-home-detail .item:first-child{border-top:1px solid var(--line)}
 .v818-home-detail .item .amount{margin-left:auto}
+
+/* V8.1.71 glass card refresh */
+html.mn69-theme{--mn-panel-shadow:0 14px 32px rgba(17,38,54,.10),0 2px 8px rgba(17,38,54,.05);}
+html.mn69-theme body{background-color:var(--mn-tint)!important;}
+html.mn69-theme :is(.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,.v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,.v819-overview-card,.v58-table-wrap,.notice,.empty,details,.tabs button,.v732-entry-btn,.btn.secondary,input,select,textarea){backdrop-filter:blur(16px) saturate(120%);-webkit-backdrop-filter:blur(16px) saturate(120%);box-shadow:var(--mn-panel-shadow)!important;}
+html.mn69-theme :is(.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,.v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,.v819-overview-card,.v58-table-wrap,.notice,details){position:relative;overflow:hidden;background:color-mix(in srgb, var(--mn-panel) 88%, transparent)!important;border:1px solid var(--mn-stroke)!important;border-radius:18px!important;}
+html.mn69-theme :is(.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,.v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,.v819-overview-card,.v58-table-wrap,.notice,details)::before{content:"";position:absolute;left:10px;top:14px;bottom:14px;width:4px;border-radius:999px;background:linear-gradient(180deg,var(--mn-accent),rgba(255,255,255,.92));opacity:.92;pointer-events:none;}
+html.mn69-theme :is(.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,.v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,.v819-overview-card,.v58-table-wrap,.notice,details) > :first-child{position:relative;}
+html.mn69-theme .box, html.mn69-theme .metric{padding-left:18px!important;}
+html.mn69-theme .tabs{gap:10px;margin-bottom:15px;}
+html.mn69-theme .tabs button{background:color-mix(in srgb, var(--mn-panel) 82%, transparent)!important;border:1px solid var(--mn-stroke)!important;border-radius:14px!important;color:var(--mn-ink)!important;}
+html.mn69-theme .tabs button.active{background:linear-gradient(135deg,var(--mn-accent),color-mix(in srgb, var(--mn-accent) 68%, white))!important;color:#fff!important;border-color:transparent!important;box-shadow:0 10px 24px color-mix(in srgb,var(--mn-accent) 28%, transparent)!important;}
+html.mn69-theme .v732-entry-btn{background:color-mix(in srgb, var(--mn-panel) 84%, transparent)!important;color:var(--mn-ink)!important;border:1px solid var(--mn-stroke)!important;border-radius:16px!important;position:relative;overflow:hidden;}
+html.mn69-theme .v732-entry-btn::before{content:"";position:absolute;left:12px;right:12px;top:0;height:3px;border-radius:0 0 999px 999px;background:linear-gradient(90deg,var(--mn-accent),rgba(255,255,255,.92));opacity:.95;}
+html.mn69-theme .v732-entry-btn.v732-active{background:linear-gradient(135deg,color-mix(in srgb,var(--mn-accent) 92%, white),color-mix(in srgb,var(--mn-accent) 72%, white))!important;color:#fff!important;border-color:transparent!important;box-shadow:0 14px 28px color-mix(in srgb,var(--mn-accent) 32%, transparent)!important;}
+html.mn69-theme .v732-entry-btn.v732-active::before{background:rgba(255,255,255,.82);height:4px;}
+html.mn69-theme #transactions .v736-page-head{padding:16px 18px 16px 22px!important;background:linear-gradient(140deg,color-mix(in srgb, var(--mn-panel) 96%, white 4%),color-mix(in srgb, var(--mn-panel) 72%, var(--mn-accent) 8%))!important;border:1px solid var(--mn-stroke)!important;}
+html.mn69-theme #transactions .v736-page-head::before{left:14px;top:16px;bottom:16px;width:5px;background:linear-gradient(180deg,var(--mn-accent),rgba(255,255,255,.95));}
+html.mn69-theme .v736-eyebrow{background:rgba(42,139,122,.12)!important;color:var(--mn-accent)!important;border:1px solid rgba(42,139,122,.18)!important;}
+html.mn69-theme #transactions .v736-page-head h2{font-size:clamp(21px,2.2vw,26px)!important;letter-spacing:.01em;}
+html.mn69-theme #transactions .v736-page-head p{font-size:12.5px!important;color:var(--mn-soft)!important;}
+html.mn69-theme :is(input,select,textarea){background:color-mix(in srgb, var(--mn-panel) 82%, transparent)!important;border-radius:12px!important;}
+html.mn69-theme .btn.secondary{background:color-mix(in srgb, var(--mn-panel) 80%, transparent)!important;border-radius:12px!important;}
+html.mn69-theme .empty{background:rgba(255,255,255,.38)!important;border:1px dashed var(--mn-stroke)!important;border-radius:14px!important;padding:14px!important;}
+html.mn69-theme [data-theme="dark"] #transactions .v736-page-head, html[data-theme="dark"].mn69-theme #transactions .v736-page-head{background:linear-gradient(140deg,rgba(26,39,56,.84),rgba(32,57,72,.72))!important;}
+html[data-theme="dark"].mn69-theme :is(.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,.v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,.v819-overview-card,.v58-table-wrap,.notice,details,.tabs button,.v732-entry-btn,.btn.secondary,input,select,textarea){box-shadow:0 14px 32px rgba(0,0,0,.28),0 2px 8px rgba(0,0,0,.16)!important;}
+
 </style><link href="v60.css?v=7.0.0" rel="stylesheet"/><script>try{if(JSON.parse(localStorage.getItem("mymoney-v610-security")||"{}").enabled)document.documentElement.classList.add("v610-locked")}catch(e){}</script><link href="v610.css?v=7.0.0" rel="stylesheet"/><link href="v720.css?v=7.2.0-release" rel="stylesheet"/><style>
 .v73-sync-inline{display:inline-flex!important;align-items:center;justify-content:flex-start;gap:9px;cursor:pointer;max-width:100%;width:auto!important;line-height:1.5}
 .v73-sync-inline input[type="checkbox"]{display:inline-block!important;position:static!important;flex:0 0 auto;width:18px!important;height:18px!important;margin:0!important;padding:0!important;min-height:0!important;appearance:auto!important;-webkit-appearance:checkbox!important;vertical-align:middle}
@@ -146,15 +173,15 @@
 @media(max-width:640px){.v764-menu-grid{grid-template-columns:1fr}}
 </style><style>.v782-analysis-section{margin:16px 0;padding:14px;border:1px solid #dce5f1;border-radius:16px}.v782-monthly-insights .v782-analysis-section:first-of-type{border:0;padding:0}.v782-monthly-insights h2{margin:0 0 12px}</style><script>function v7100IsEnglish(){try{const p=JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}');return /^en/i.test(String(p.lang||''))}catch(e){return false}}</script><style id="mn69-theme-style">
 /* V8.1.69 theme extension, display layer only. No financial schema/storage changes. */
-html.mn69-theme{--mn-art:none;--mn-overlay:linear-gradient(140deg,#edf6fc,#f4f6ff);--mn-head:#2459a6;--mn-tint:#f2f6fc;--mn-panel:rgba(255,255,255,.96);--mn-ink:#182d48;--mn-soft:#647891;--mn-stroke:#dbe5f1;--mn-accent:#2459a6;color-scheme:light}
-html.mn69-theme[data-mn69-theme="blue"]{--mn-overlay:linear-gradient(140deg,#eaf4ff,#f4f8ff);--mn-head:#2354a0;--mn-tint:#eaf3fc;--mn-panel:rgba(255,255,255,.96);--mn-ink:#19304d;--mn-soft:#526a87;--mn-stroke:#ccdbed;--mn-accent:#2459a6}
-html.mn69-theme[data-mn69-theme="forest"]{--mn-overlay:linear-gradient(130deg,rgba(8,39,34,.30),rgba(12,55,48,.20));--mn-head:#135e4a;--mn-tint:#e6f3eb;--mn-panel:rgba(248,255,250,.96);--mn-ink:#153a30;--mn-soft:#52776b;--mn-stroke:#bfd8c9;--mn-accent:#176e56}
-html.mn69-theme[data-mn69-theme="ocean"]{--mn-overlay:linear-gradient(135deg,rgba(7,45,85,.20),rgba(14,83,115,.12));--mn-head:#11537d;--mn-tint:#e7f6fc;--mn-panel:rgba(247,253,255,.96);--mn-ink:#10344d;--mn-soft:#4f7589;--mn-stroke:#c1dfeb;--mn-accent:#0d6d91}
-html.mn69-theme[data-mn69-theme="sunset"]{--mn-overlay:linear-gradient(145deg,rgba(95,34,51,.12),rgba(122,62,44,.12));--mn-head:#a14857;--mn-tint:#fff0e9;--mn-panel:rgba(255,251,249,.96);--mn-ink:#4a293c;--mn-soft:#916474;--mn-stroke:#f1c9bf;--mn-accent:#a84e5c}
-html.mn69-theme[data-mn69-theme="lavender"]{--mn-overlay:linear-gradient(135deg,rgba(64,45,120,.12),rgba(126,89,158,.16));--mn-head:#6c51a1;--mn-tint:#f2edff;--mn-panel:rgba(254,251,255,.96);--mn-ink:#3f3059;--mn-soft:#78698b;--mn-stroke:#d9ccec;--mn-accent:#7355aa}
-html.mn69-theme[data-mn69-theme="sand"]{--mn-overlay:linear-gradient(130deg,rgba(123,87,39,.08),rgba(188,136,79,.12));--mn-head:#886139;--mn-tint:#faf0dd;--mn-panel:rgba(255,253,247,.97);--mn-ink:#463722;--mn-soft:#84735e;--mn-stroke:#e7d7be;--mn-accent:#91683d}
-html.mn69-theme[data-mn69-theme="midnight"]{--mn-overlay:linear-gradient(125deg,rgba(9,16,35,.40),rgba(12,22,50,.43));--mn-head:#202e58;--mn-tint:#1f2d48;--mn-panel:rgba(29,41,66,.96);--mn-ink:#f1f5ff;--mn-soft:#b0bfd5;--mn-stroke:#405372;--mn-accent:#8eafff;color-scheme:dark}
-html.mn69-theme[data-mn69-theme="custom"]{--mn-overlay:linear-gradient(135deg,rgba(11,34,57,.26),rgba(11,34,57,.10));--mn-head:#1d5679;--mn-tint:#e7f1f8;--mn-panel:rgba(255,255,255,.95);--mn-ink:#203348;--mn-soft:#57718a;--mn-stroke:#c6d9e8;--mn-accent:#1d668e}
+html.mn69-theme{--mn-art:none;--mn-overlay:linear-gradient(140deg,#edf6fc,#f4f6ff);--mn-head:#2459a6;--mn-tint:#f2f6fc;--mn-panel:color-mix(in srgb, white 62%, var(--mn-accent) 6%);--mn-panel-alpha:.62;--mn-ink:#182d48;--mn-soft:#647891;--mn-stroke:color-mix(in srgb, var(--mn-accent) 18%, white 82%);--mn-accent:#2459a6;color-scheme:light}
+html.mn69-theme[data-mn69-theme="blue"]{--mn-overlay:linear-gradient(140deg,#eaf4ff,#f4f8ff);--mn-head:#2354a0;--mn-tint:#eaf3fc;--mn-panel:rgba(244,250,255,.60);--mn-panel-alpha:.60;--mn-ink:#19304d;--mn-soft:#526a87;--mn-stroke:rgba(107,150,201,.28);--mn-accent:#2459a6}
+html.mn69-theme[data-mn69-theme="forest"]{--mn-overlay:linear-gradient(135deg,rgba(236,245,241,.64),rgba(224,240,234,.42));--mn-head:#275e58;--mn-tint:#e9f2ef;--mn-panel:rgba(244,252,248,.54);--mn-panel-alpha:.54;--mn-ink:#173b37;--mn-soft:#5a746d;--mn-stroke:rgba(93,145,132,.28);--mn-accent:#2a8b7a}
+html.mn69-theme[data-mn69-theme="ocean"]{--mn-overlay:linear-gradient(135deg,rgba(7,45,85,.20),rgba(14,83,115,.12));--mn-head:#11537d;--mn-tint:#e7f6fc;--mn-panel:rgba(243,252,255,.56);--mn-panel-alpha:.56;--mn-ink:#10344d;--mn-soft:#4f7589;--mn-stroke:rgba(92,155,182,.28);--mn-accent:#0d6d91}
+html.mn69-theme[data-mn69-theme="sunset"]{--mn-overlay:linear-gradient(145deg,rgba(95,34,51,.12),rgba(122,62,44,.12));--mn-head:#a14857;--mn-tint:#fff0e9;--mn-panel:rgba(255,248,245,.56);--mn-panel-alpha:.56;--mn-ink:#4a293c;--mn-soft:#916474;--mn-stroke:rgba(197,120,114,.30);--mn-accent:#a84e5c}
+html.mn69-theme[data-mn69-theme="lavender"]{--mn-overlay:linear-gradient(135deg,rgba(64,45,120,.12),rgba(126,89,158,.16));--mn-head:#6c51a1;--mn-tint:#f2edff;--mn-panel:rgba(251,247,255,.58);--mn-panel-alpha:.58;--mn-ink:#3f3059;--mn-soft:#78698b;--mn-stroke:rgba(146,119,186,.28);--mn-accent:#7355aa}
+html.mn69-theme[data-mn69-theme="sand"]{--mn-overlay:linear-gradient(130deg,rgba(123,87,39,.08),rgba(188,136,79,.12));--mn-head:#886139;--mn-tint:#faf0dd;--mn-panel:rgba(255,250,242,.58);--mn-panel-alpha:.58;--mn-ink:#463722;--mn-soft:#84735e;--mn-stroke:rgba(169,136,95,.28);--mn-accent:#91683d}
+html.mn69-theme[data-mn69-theme="midnight"]{--mn-overlay:linear-gradient(125deg,rgba(9,16,35,.40),rgba(12,22,50,.43));--mn-head:#202e58;--mn-tint:#1f2d48;--mn-panel:rgba(33,47,75,.54);--mn-panel-alpha:.54;--mn-ink:#f1f5ff;--mn-soft:#b0bfd5;--mn-stroke:rgba(144,173,230,.22);--mn-accent:#8eafff;color-scheme:dark}
+html.mn69-theme[data-mn69-theme="custom"]{--mn-overlay:linear-gradient(135deg,rgba(11,34,57,.26),rgba(11,34,57,.10));--mn-head:#1d5679;--mn-tint:#e7f1f8;--mn-panel:rgba(248,252,255,.56);--mn-panel-alpha:.56;--mn-ink:#203348;--mn-soft:#57718a;--mn-stroke:rgba(99,144,177,.28);--mn-accent:#1d668e}
 /* Cover entire app rather than the settings panel alone. Content cards remain readable. */
 html.mn69-theme{--green:var(--mn-accent)!important;--bg:var(--mn-tint)!important;--card:var(--mn-panel)!important;--text:var(--mn-ink)!important;--muted:var(--mn-soft)!important;--line:var(--mn-stroke)!important;--blue:var(--mn-accent)!important}
 html.mn69-theme body{background-color:var(--mn-tint)!important;background-image:none!important;color:var(--mn-ink)!important;min-height:100vh;isolation:isolate}
@@ -206,8 +233,56 @@ html.mn69-theme[data-mn69-theme="photo-sunset"]{--mn-overlay:linear-gradient(135
 html.mn69-theme[data-mn69-theme="photo-city"]{--mn-overlay:linear-gradient(135deg,rgba(6,14,38,.48),rgba(8,23,46,.32));--mn-head:#172c50;--mn-tint:#eaf0f8;--mn-panel:rgba(248,251,255,.93);--mn-ink:#1a304d;--mn-soft:#52677f;--mn-stroke:#b9c9de;--mn-accent:#345b91}
 #mn69ThemeUI .mn69-swatch{background-position:center!important;background-size:cover!important}
 </style>
+
+<style id="v8171-header-refresh">
+/* V8.1.71 visual-only update: account/transaction section heading. */
+#transactions .v736-page-head{
+  position:relative;overflow:hidden;display:flex;align-items:center;
+  min-height:86px;padding:17px 23px 17px 26px;margin:0 0 16px;
+  border:1px solid rgba(113,151,171,.25)!important;border-left:4px solid #3d9b91!important;
+  border-radius:16px!important;
+  background:linear-gradient(110deg,rgba(255,255,255,.96),rgba(233,245,246,.92))!important;
+  box-shadow:0 8px 24px rgba(27,62,79,.08)!important;
+  color:#203f4c!important;
+}
+#transactions .v736-page-head::after{
+  content:"";position:absolute;right:-42px;top:-74px;width:190px;height:190px;
+  border:1px solid rgba(42,151,151,.11);border-radius:50%;pointer-events:none;
+  box-shadow:0 0 0 28px rgba(42,151,151,.045),0 0 0 56px rgba(42,151,151,.022);
+}
+#transactions .v736-page-head>div{position:relative;z-index:1;min-width:0}
+#transactions .v736-page-head .v736-eyebrow{
+  display:inline-block;margin-bottom:7px;padding:4px 9px;border-radius:30px;
+  background:rgba(37,138,132,.09)!important;color:#287a79!important;
+  font-size:10px;line-height:1.3;font-weight:750;letter-spacing:.075em;
+}
+#transactions .v736-page-head h2{
+  margin:0 0 6px!important;color:#163b43!important;font-size:clamp(19px,2vw,23px)!important;
+  letter-spacing:.01em;line-height:1.25;
+}
+#transactions .v736-page-head p{margin:0!important;color:#55717b!important;font-size:12px;line-height:1.5}
+html.mn69-theme #transactions .v736-page-head{
+  background:linear-gradient(110deg,var(--mn-panel,rgba(255,255,255,.97)),rgba(230,244,246,.88))!important;
+  color:var(--mn-ink,#203f4c)!important;
+}
+html.mn69-theme #transactions .v736-page-head h2{color:var(--mn-ink,#163b43)!important}
+html[data-theme="dark"] #transactions .v736-page-head{
+  background:linear-gradient(110deg,rgba(28,45,62,.98),rgba(36,66,78,.93))!important;
+  border-color:rgba(130,183,192,.24)!important;color:#f3fafb!important;
+}
+html[data-theme="dark"] #transactions .v736-page-head h2{color:#f3fafb!important}
+html[data-theme="dark"] #transactions .v736-page-head p{color:#c6d8df!important}
+html[data-theme="dark"] #transactions .v736-page-head .v736-eyebrow{
+  background:rgba(123,202,195,.13)!important;color:#a8ebe0!important;
+}
+@media(max-width:650px){
+ #transactions .v736-page-head{min-height:0;padding:14px 16px 15px 17px!important;margin-bottom:12px}
+ #transactions .v736-page-head p{font-size:11px!important}
+ #transactions .v736-page-head::after{right:-110px}
+}
+</style>
 </head>
-<body class="mynext"><header><div class="next-brand"><span aria-hidden="true" class="next-logo"><img alt="" src="./mymoney-icon-192.png" style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover"/></span><div><h1>MyMoney <span class="next-wordmark">NEXT</span></h1><p>PERSONAL FINANCE · MYR</p></div></div><div class="next-header-status"><span class="next-status-dot"></span> 本机安全储存 <span class="next-version">V8.1.69</span></div></header><main class="wrap">
+<body class="mynext"><header><div class="next-brand"><span aria-hidden="true" class="next-logo"><img alt="" src="./mymoney-icon-192.png" style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover"/></span><div><h1>MyMoney <span class="next-wordmark">NEXT</span></h1><p>PERSONAL FINANCE · MYR</p></div></div><div class="next-header-status"><span class="next-status-dot"></span> 本机安全储存 <span class="next-version">V8.1.71</span></div></header><main class="wrap">
 <div class="notice">🔒 数据只保存在当前浏览器/设备。清除浏览器数据或换手机前，请先到「备份」导出 JSON 文件。</div>
 <nav aria-label="主菜单" class="tabs"><button class="active" data-tab="home">首页</button><button data-tab="transactions">记账</button><button data-tab="debts">负债</button><button data-tab="loans">借款管理</button><button data-tab="budget">预算</button><button data-tab="bills">账单与提醒</button><button data-tab="analytics">报表</button><button data-tab="backup">设置与备份</button><button data-tab="my">我的</button></nav>
 <section class="panel active" id="home"><div class="box" id="v754HomeMonthBox" style="margin-bottom:12px;padding:12px"><div style="display:flex;gap:10px;align-items:end;flex-wrap:wrap"><div style="flex:1;min-width:155px"><label for="v754HomeMonth">首页统计月份</label><input aria-label="选择首页统计月份" id="v754HomeMonth" type="month"/></div><button class="btn secondary" id="v754HomeCurrent" style="flex-shrink:0" type="button">返回本月</button></div><div class="hint" id="v754MonthHelp" style="margin-top:7px">自动显示当前月份，可选择以前的月份查看历史记录。</div></div><div class="v603-welcome"><div><small>MYMONEY · 财务总览</small><h2>今天也来管理好每一笔钱</h2><p>你的收入、支出与负债，一眼掌握。</p></div><button aria-label="隐藏或显示首页金额" aria-pressed="false" class="v603-eye" id="v603Privacy" type="button">◉ 隐藏金额</button></div><div class="cards v603-homecards"><div class="metric"><span id="v768OpeningLabel">上月结转账户余额</span><strong id="v768OpeningBalance">RM 0.00</strong></div><div class="metric"><span>本月收入</span><strong id="mIncome">RM 0.00</strong></div><div class="metric"><span>本月总流出（支出＋负债还款＋借款流出）</span><strong id="mExpense">RM 0.00</strong></div><div class="metric"><span>本月可用结余（含结转及借款收付）</span><strong id="mBalance">RM 0.00</strong></div><div class="metric"><span>剩余总负债</span><strong id="debtTotal">RM 0.00</strong></div></div><div class="box"><h2>本月收支概况</h2>
@@ -224,7 +299,7 @@ html.mn69-theme[data-mn69-theme="photo-city"]{--mn-overlay:linear-gradient(135de
 </div>
 <div class="empty hidden v818-home-detail" id="recentList">暂无交易</div>
 </div></div><div class="box v768-overview"><h2>账户余额概览</h2><button type="button" class="btn secondary v768-overview-toggle" aria-expanded="false" aria-controls="v768AccountsContent" data-v768-toggle="v768AccountsContent">显示账户余额概览 ▼</button><div id="v768AccountsContent" hidden style="display:none"><div class="empty" id="homeAccounts">暂无账户</div></div></div><div class="box v768-overview"><h2>负债概览</h2><button type="button" class="btn secondary v768-overview-toggle" aria-expanded="false" aria-controls="v768DebtsContent" data-v768-toggle="v768DebtsContent">显示负债概览 ▼</button><div id="v768DebtsContent" hidden style="display:none"><div class="empty" id="homeDebts">暂无负债</div></div></div></section>
-<section aria-label="账单与提醒" class="panel" id="bills"></section><section aria-label="每月预算" class="panel" id="budget"></section><section class="panel v736-ledger" id="transactions"><div class="v736-page-head"><div><div class="v736-eyebrow">FINANCE OPERATIONS / 记账管理</div><h2>交易、账户与余额</h2><p>统一管理收入、支出、内部转账、账户新增与余额查看</p></div></div><div class="box v736-action-panel"><div class="v736-section-heading"><div><span class="v736-kicker">01 / QUICK ACTIONS</span><h2>新增记录</h2></div><span class="v736-caption">选择操作类型</span></div><div aria-label="选择新增记录或账户管理类型" class="v732-entry-buttons" role="group"><button aria-pressed="false" class="v732-entry-btn" id="v735AccountMode" type="button">▣ 新增账户</button><button aria-pressed="false" class="v732-entry-btn" data-v732-mode="income" type="button">＋ 收入</button><button aria-pressed="true" class="v732-entry-btn" data-v732-mode="expense" type="button">－ 支出</button><button aria-pressed="false" class="v732-entry-btn" data-v732-mode="transfer" type="button">⇄ 内部转账</button><button aria-pressed="false" class="v732-entry-btn" id="v756BalanceMode" type="button">▤ 余额</button></div><select aria-label="交易类型" class="hidden" id="entryMode"><option value="expense">支出</option><option value="income">收入</option><option value="transfer">内部转账</option></select><p aria-live="polite" class="hint" id="v733EntryHint">填写支出金额、日期及类别，保存后会记录为支出。</p></div><div class="box v736-form-panel" id="txEntryWrap"><h2 id="txFormTitle">新增收支记录</h2><form id="txForm"><input id="txId" type="hidden"/><div class="grid"><div class="field hidden"><label for="txType">类型</label><select id="txType"><option value="expense">支出</option><option value="income">收入</option></select></div><div class="field"><label for="txDate">日期</label><input id="txDate" required="" type="date"/></div><div class="field"><label for="txAmount">金额（RM）</label><input id="txAmount" min="0.00000001" placeholder="0.00" required="" step="any" type="number"/></div><div class="field"><label for="txCategory">类别</label><select id="txCategory"><option>餐饮</option><option>交通</option><option>购物</option><option>日常用品</option><option>房租/房贷</option><option>水电网费</option><option>医疗</option><option>薪水</option><option>奖金</option><option>生意收入</option><option>家庭</option><option>其他</option></select></div><div class="field"><label for="txAccount">关联账户</label><select id="txAccount"><option value="">不关联账户（旧版模式）</option></select></div><div class="field"><label for="txPayment">付款方式</label><select id="txPayment"><option>现金</option><option>银行卡</option><option>信用卡</option><option>银行转账</option><option>电子钱包</option><option>其他</option></select></div><div class="field"><label for="txNote">备注（可选）</label><input id="txNote" placeholder="例如：午餐"/></div></div><div class="actions"><button class="btn" type="submit">保存记录</button><button class="btn secondary hidden" id="txCancel" type="button">取消编辑</button></div></form><div class="box hidden" id="v7412ExpenseCategoryEditor"><details id="categoryDetails"><summary><strong>🎨 自定义支出类别与图标</strong></summary><p class="hint">仅供新增支出使用。既有自定义收入类别及历史交易资料仍保留，不会被删除。</p><input id="catType" type="hidden" value="expense"/><div class="grid"><div class="field"><label>类别名称</label><input id="catName" placeholder="例如：停车费"/></div></div><div class="field"><label>选择图标</label><div class="emoji-picker" id="catIconPicker"></div><div class="actions" style="margin-top:10px"><button class="btn secondary small" id="catBrandToggle" type="button">选择品牌图标（银行／电子钱包／购物等）</button><button class="btn secondary small" id="catUploadButton" type="button">上传自己的图标</button><button class="btn secondary small" id="catIconReset" type="button">恢复默认图标</button></div><input accept="image/png,image/jpeg,image/webp" class="hidden" id="catIconFile" type="file"/><div class="emoji-picker hidden" id="catBrandPicker" style="margin-top:10px"></div><div class="hint" id="catIconPreview" style="margin-top:10px">当前图标：🛒</div></div><button class="btn" id="catSave" type="button">新增类别</button><div id="customCategories"></div></details></div></div><div class="box hidden v736-form-panel" id="transferEntryWrap"><h2>新增内部转账</h2><form id="transferForm"><div class="grid">
+<section aria-label="账单与提醒" class="panel" id="bills"></section><section aria-label="每月预算" class="panel" id="budget"></section><section class="panel v736-ledger" id="transactions"><div class="v736-page-head"><div><div class="v736-eyebrow">FINANCE OPERATIONS / 记账管理</div><h2>交易、账户与余额</h2><p>统一管理收入、支出、内部转账、账户新增与余额查看</p></div></div><div class="box v736-action-panel"><div class="v736-section-heading"><div><span class="v736-kicker">01 / QUICK ACTIONS</span><h2>新增记录</h2></div><span class="v736-caption">选择操作类型</span></div><div aria-label="选择新增记录或账户管理类型" class="v732-entry-buttons" role="group"><button aria-pressed="false" class="v732-entry-btn" id="v735AccountMode" type="button">▣ 新增账户</button><button aria-pressed="false" class="v732-entry-btn" data-v732-mode="income" type="button">＋ 收入</button><button aria-pressed="true" class="v732-entry-btn" data-v732-mode="expense" type="button">－ 支出</button><button aria-pressed="false" class="v732-entry-btn" data-v732-mode="transfer" type="button">⇄ 内部转账</button><button aria-pressed="false" class="v732-entry-btn" id="v756BalanceMode" type="button">▤ 余额</button><button aria-pressed="false" class="v732-entry-btn" id="v8169GoQuickMode" type="button">◈ GO+ 每日收益估算</button></div><select aria-label="交易类型" class="hidden" id="entryMode"><option value="expense">支出</option><option value="income">收入</option><option value="transfer">内部转账</option></select><p aria-live="polite" class="hint" id="v733EntryHint">填写支出金额、日期及类别，保存后会记录为支出。</p></div><div class="box v736-form-panel" id="txEntryWrap"><h2 id="txFormTitle">新增收支记录</h2><form id="txForm"><input id="txId" type="hidden"/><div class="grid"><div class="field hidden"><label for="txType">类型</label><select id="txType"><option value="expense">支出</option><option value="income">收入</option></select></div><div class="field"><label for="txDate">日期</label><input id="txDate" required="" type="date"/></div><div class="field"><label for="txAmount">金额（RM）</label><input id="txAmount" min="0.00000001" placeholder="0.00" required="" step="any" type="number"/></div><div class="field"><label for="txCategory">类别</label><select id="txCategory"><option>餐饮</option><option>交通</option><option>购物</option><option>日常用品</option><option>房租/房贷</option><option>水电网费</option><option>医疗</option><option>薪水</option><option>奖金</option><option>生意收入</option><option>家庭</option><option>其他</option></select></div><div class="field"><label for="txAccount">关联账户</label><select id="txAccount"><option value="">不关联账户（旧版模式）</option></select></div><div class="field"><label for="txPayment">付款方式</label><select id="txPayment"><option>现金</option><option>银行卡</option><option>信用卡</option><option>银行转账</option><option>电子钱包</option><option>其他</option></select></div><div class="field"><label for="txNote">备注（可选）</label><input id="txNote" placeholder="例如：午餐"/></div></div><div class="actions"><button class="btn" type="submit">保存记录</button><button class="btn secondary hidden" id="txCancel" type="button">取消编辑</button></div></form><div class="box hidden" id="v7412ExpenseCategoryEditor"><details id="categoryDetails"><summary><strong>🎨 自定义支出类别与图标</strong></summary><p class="hint">仅供新增支出使用。既有自定义收入类别及历史交易资料仍保留，不会被删除。</p><input id="catType" type="hidden" value="expense"/><div class="grid"><div class="field"><label>类别名称</label><input id="catName" placeholder="例如：停车费"/></div></div><div class="field"><label>选择图标</label><div class="emoji-picker" id="catIconPicker"></div><div class="actions" style="margin-top:10px"><button class="btn secondary small" id="catBrandToggle" type="button">选择品牌图标（银行／电子钱包／购物等）</button><button class="btn secondary small" id="catUploadButton" type="button">上传自己的图标</button><button class="btn secondary small" id="catIconReset" type="button">恢复默认图标</button></div><input accept="image/png,image/jpeg,image/webp" class="hidden" id="catIconFile" type="file"/><div class="emoji-picker hidden" id="catBrandPicker" style="margin-top:10px"></div><div class="hint" id="catIconPreview" style="margin-top:10px">当前图标：🛒</div></div><button class="btn" id="catSave" type="button">新增类别</button><div id="customCategories"></div></details></div></div><div class="box hidden v736-form-panel" id="transferEntryWrap"><h2>新增内部转账</h2><form id="transferForm"><div class="grid">
 <div class="field"><label for="transferFrom">转出账户</label><select id="transferFrom" required=""></select></div>
 <div class="field"><label for="transferTo">转入账户</label><select id="transferTo" required=""></select></div>
 <div class="field"><label for="transferAmount">金额（RM）</label><input id="transferAmount" min="0.01" required="" step="0.01" type="number"/></div>
@@ -246,7 +321,15 @@ html.mn69-theme[data-mn69-theme="photo-city"]{--mn-overlay:linear-gradient(135de
 </div>
 </div>
 <div class="hidden" id="v756BalanceView">
-<div class="box" id="v8146GoPlusBox" style="margin-top:12px">
+
+<div class="box"><h2>余额</h2><p class="hint">这里会显示全部账户当前余额，以及各银行／钱包／现金账户的独立余额。</p><div id="accountTotals"></div><button type="button" class="btn secondary" data-v779-toggle="v779AccountListPanel" aria-expanded="false">显示账户清单 ▼</button><div id="v779AccountListPanel" style="display:none"><div class="empty" id="accountList">暂无账户</div></div></div>
+<div class="box"><h2>银行账户独立月度结转</h2><button type="button" class="btn secondary" data-v779-toggle="v779MonthlyPanel" aria-expanded="false">显示月度明细 ▼</button><div id="v779MonthlyPanel" style="display:none"><div class="box" id="v755MonthlyAccounts" style="margin-top:14px;padding:13px;background:var(--card)"><h2>余额 · 银行账户独立月度结转</h2>
+<p class="hint">每个账户独立显示：上月结转、本月收入、本月支出、内部转账、负债还款、收款到账及月底余额。结转只用于查看，不会新增重复收入。</p>
+<div class="grid"><div class="field"><label for="v755Account">选择账户</label><select id="v755Account"><option value="">全部账户</option></select></div><div class="field"><label for="v755Month">结算月份</label><input id="v755Month" type="month"/></div></div>
+<div class="actions" style="margin-bottom:10px"><button class="btn secondary small" id="v755Prev" type="button">← 上个月</button><button class="btn secondary small" id="v755Current" type="button">返回本月</button><button class="btn secondary small" id="v755Next" type="button">下个月 →</button></div>
+<div aria-live="polite" class="hint" id="v755MonthlyResult">正在加载结转数据…</div></div></div></div>
+</div>
+<div class="box" id="v8146GoPlusBox" style="display:none;margin-top:12px">
  <div class="v8149-go-header" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
  <h2 id="v8146Title" style="margin:0">GO+ 每日收益估算 / GO+ Daily Return Estimator</h2>
  <button type="button" class="btn secondary small" id="v8149GoToggle" aria-controls="v8149GoContent" aria-expanded="true">隐藏 ▲</button>
@@ -279,18 +362,11 @@ html.mn69-theme[data-mn69-theme="photo-city"]{--mn-overlay:linear-gradient(135de
   <label style="display:flex;align-items:center;gap:9px;margin:10px 0;font-size:13px;color:var(--text)"><input id="v8147Enable" type="checkbox" style="width:auto;min-width:18px"/><span id="v8147EnableLabel">启用自动估算收益，并加入 TNG 账户</span></label>
   <p class="hint" id="v8147AutoStatus" aria-live="polite">尚未启用自动入账。</p>
   <button type="button" class="btn secondary" id="v8147Run">检查并补算每日收益</button>
-  <p class="hint" id="v8147AutoWarning" style="margin-top:8px">首次启用从当天开始，最早在次日打开应用时入账。即使每日收益低于 RM0.01，也会按实际估算小数金额逐日入账。关闭网页期间无法在后台运行；再次打开时补算。仅估算，不等于官方实际收益。</p>
+  <p class="hint" id="v8147AutoWarning" style="margin-top:8px">首次启用当天即可登记当天的预计收益；同一天不会重复入账。即使每日收益低于 RM0.01，也会按实际估算小数金额逐日入账。关闭网页期间无法在后台运行；再次打开时补算。仅估算，不等于官方实际收益。</p>
  </div>
  </div>
 </div>
 
-<div class="box"><h2>余额</h2><p class="hint">这里会显示全部账户当前余额，以及各银行／钱包／现金账户的独立余额。</p><div id="accountTotals"></div><button type="button" class="btn secondary" data-v779-toggle="v779AccountListPanel" aria-expanded="false">显示账户清单 ▼</button><div id="v779AccountListPanel" style="display:none"><div class="empty" id="accountList">暂无账户</div></div></div>
-<div class="box"><h2>银行账户独立月度结转</h2><button type="button" class="btn secondary" data-v779-toggle="v779MonthlyPanel" aria-expanded="false">显示月度明细 ▼</button><div id="v779MonthlyPanel" style="display:none"><div class="box" id="v755MonthlyAccounts" style="margin-top:14px;padding:13px;background:var(--card)"><h2>余额 · 银行账户独立月度结转</h2>
-<p class="hint">每个账户独立显示：上月结转、本月收入、本月支出、内部转账、负债还款、收款到账及月底余额。结转只用于查看，不会新增重复收入。</p>
-<div class="grid"><div class="field"><label for="v755Account">选择账户</label><select id="v755Account"><option value="">全部账户</option></select></div><div class="field"><label for="v755Month">结算月份</label><input id="v755Month" type="month"/></div></div>
-<div class="actions" style="margin-bottom:10px"><button class="btn secondary small" id="v755Prev" type="button">← 上个月</button><button class="btn secondary small" id="v755Current" type="button">返回本月</button><button class="btn secondary small" id="v755Next" type="button">下个月 →</button></div>
-<div aria-live="polite" class="hint" id="v755MonthlyResult">正在加载结转数据…</div></div></div></div>
-</div>
 <div class="box" id="v7412TransactionHistory"><h2 id="v7412RecordTitle">收入记录</h2><button type="button" class="btn secondary" data-v779-toggle="v779TransactionsPanel" aria-expanded="false">显示记录 ▼</button><div id="v812ExpenseCategories" class="v812-expense-categories hidden">
   <div class="v812-expense-top"><strong id="v812CategoriesTitle">按类别查看支出</strong><button type="button" class="btn secondary small" id="v812ShowAllExpenses">全部支出</button></div>
   <div class="v8145-expense-account-filter" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 14px">
@@ -853,7 +929,7 @@ function render(){renderLoans();refreshDebtTypes();v58refreshHistory();renderAcc
 for(const l of data.loans||[]){if(!l.accountId||!l.date?.startsWith(m))continue;if(l.direction==='borrow')loanMovement.borrowIn+=Number(l.amount||0);else loanMovement.lendOut+=Number(l.amount||0)}
 for(const p of data.loanPayments||[]){if(!p.accountId||!p.date?.startsWith(m))continue;const l=(data.loans||[]).find(x=>x.id===p.loanId);if(!l)continue;if(l.direction==='borrow')loanMovement.borrowPaid+=Number(p.amount||0);else loanMovement.lendReceived+=Number(p.amount||0)}
 const loanNet=loanMovement.borrowIn+loanMovement.lendReceived-loanMovement.lendOut-loanMovement.borrowPaid;const outflow=baseOutflow+loanMovement.lendOut+loanMovement.borrowPaid;$('mExpense').textContent=v8161HomeMoney(outflow);$('mBalance').textContent=v8161HomeMoney(priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived);
-$('monthSummary').innerHTML=`<div class="item"><div>上月结转账户余额</div><strong>${money(priorAccountBalance)}</strong></div><div class="item"><div>所选月份收入</div><strong>${money(t.income)}</strong></div><div class="item"><div>所选月份普通支出</div><strong>${money(t.expense)}</strong></div><div class="item"><div>所选月份负债还款</div><strong>${money(repayment)}</strong></div><div class="item"><div>所选月份总流出</div><strong>${money(outflow)}</strong></div><div class="item"><div>借入到账（关联账户）</div><strong>${money(loanMovement.borrowIn)}</strong></div><div class="item"><div>借出款项（关联账户）</div><strong>${money(loanMovement.lendOut)}</strong></div><div class="item"><div>借入归还（关联账户）</div><strong>${money(loanMovement.borrowPaid)}</strong></div><div class="item"><div>借出收回（关联账户）</div><strong>${money(loanMovement.lendReceived)}</strong></div><div class="item"><div>所选月份结余（含借款收付）</div><strong class="${priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived>=0?'income':'expense'}">${money(priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived)}</strong></div><p class="hint">${v7100IsEnglish() ? 'Monthly total outflow includes ordinary expenses, debt repayments, loans given from linked accounts, and repayments of borrowed funds from linked accounts. Counting both credit card purchases as expenses and their repayments as outflows may double-count spending. Only linked-account loan cash flows affect account balances; unlinked loans do not. This closing balance is a cash-flow estimate, not accounting profit.' : '本月总流出包含普通支出、所有负债还款，以及本月关联账户的借出款项与借入归还。如信用卡消费已记入普通支出，再将还款计入总流出可能重复计算；本表借款收付仅统计关联账户的流水；没有关联账户的借款不会计入账户结余。结余属于现金流估算，不是会计利润。'}</p>`;const recent=[
+$('monthSummary').innerHTML=`<div class="item"><div>上月结转账户余额</div><strong>${money(priorAccountBalance)}</strong></div><div class="item"><div>所选月份收入</div><strong>${money(t.income)}</strong></div><div class="item"><div>所选月份普通支出</div><strong>${money(t.expense)}</strong></div><div class="item"><div>所选月份负债还款</div><strong>${money(repayment)}</strong></div><div class="item"><div>所选月份总流出</div><strong>${money(outflow)}</strong></div><div class="item"><div>借入到账</div><strong>${money(loanMovement.borrowIn)}</strong></div><div class="item"><div>借出款项</div><strong>${money(loanMovement.lendOut)}</strong></div><div class="item"><div>借入归还</div><strong>${money(loanMovement.borrowPaid)}</strong></div><div class="item"><div>借出收回</div><strong>${money(loanMovement.lendReceived)}</strong></div><div class="item"><div>所选月份结余</div><strong class="${priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived>=0?'income':'expense'}">${money(priorAccountBalance+t.income-outflow+loanMovement.borrowIn+loanMovement.lendReceived)}</strong></div><p class="hint">${v7100IsEnglish() ? 'Monthly total outflow includes ordinary expenses, debt repayments, loans given from linked accounts, and repayments of borrowed funds from linked accounts. Counting both credit card purchases as expenses and their repayments as outflows may double-count spending. Only linked-account loan cash flows affect account balances; unlinked loans do not. This closing balance is a cash-flow estimate, not accounting profit.' : '本月总流出包含普通支出、所有负债还款，以及本月关联账户的借出款项与借入归还。如信用卡消费已记入普通支出，再将还款计入总流出可能重复计算；本表借款收付仅统计关联账户的流水；没有关联账户的借款不会计入账户结余。结余属于现金流估算，不是会计利润。'}</p>`;const recent=[
   ...data.transactions.filter(x=>typeof x.date==='string'&&x.date.startsWith(m)).map(x=>({kind:'transaction',date:x.date,record:x})),
   ...data.payments.filter(p=>typeof p.date==='string'&&p.date.startsWith(m)).map(p=>({kind:'repayment',date:p.date,record:p})),
   ...(data.loans||[]).filter(l=>typeof l.date==='string'&&l.date.startsWith(m)).map(l=>({kind:'loan',date:l.date,record:l})),
@@ -1626,7 +1702,7 @@ window.__mymoneyGoPlusLedger={
  }
 };
 
-load();initLoans();refreshDebtTypes();setDebtView('create');resetTx();resetDebt();$('payDate').value=today();$('transferDate').value=today();$('analysisMonth').value=monthNow();initV5();initDebtIcons();refreshCategories();render();v753InitCard();if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js?v=8169-go-today1').then(r=>r.update()).catch(()=>{});
+load();initLoans();refreshDebtTypes();setDebtView('create');resetTx();resetDebt();$('payDate').value=today();$('transferDate').value=today();$('analysisMonth').value=monthNow();initV5();initDebtIcons();refreshCategories();render();v753InitCard();if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js?v=8170-go-newrecord').then(r=>r.update()).catch(()=>{});
 })();
 </script><script defer="" src="v60.js?v=7.4.12-titlefix1"></script><script defer="" src="v604.js?v=7.1.4"></script><script defer="" src="v608.js?v=7.2.0-official2"></script><script defer="" src="v610.js?v=7.1.4"></script><link href="v620.css?v=7.0.0" rel="stylesheet"/><script defer="" src="v620.js?v=7.1.4"></script><link href="v650.css?v=7.1.0" rel="stylesheet"/><script defer="" src="v650.js?v=7.1.4"></script><script defer="" src="v660.js?v=8.1.10-budget-fix"></script><script defer="" src="v670.js?v=7.1.4"></script><script defer="" src="v690.js?v=7.1.4"></script><script defer="" src="v710.js?v=7.1.4"></script><script defer="" src="v715.js?v=7.1.5"></script><script defer="" src="v716.js?v=7.1.8"></script><script defer="" src="v7111.js?v=7.1.11"></script><script defer="" src="v7112.js?v=7.1.12"></script><script defer="" src="v7113.js?v=7.1.14"></script><script defer="" src="v7115.js?v=7.1.16"></script>
 <script defer="" src="v7116.js?v=7.1.16"></script><script defer="" src="v720.js?v=8.1.12-budget-save"></script><script defer="" src="v730.js?v=7.3.0-test3"></script><script defer="" src="v731csv.js?v=7.3.0-csv1"></script>
@@ -2692,16 +2768,16 @@ const pairs=[
  ['所选月份普通支出','Selected Month Expenses Only'],['所选MonthExpenses Only','Selected Month Expenses Only'],
  ['所选月份负债还款','Selected Month Debt Repayments'],['所选MonthDebt Repayments','Selected Month Debt Repayments'],
  ['所选月份总流出','Selected Month Total Outflow'],['所选Month总流出','Selected Month Total Outflow'],
- ['借入到账（关联账户）','Borrowed Funds Received (Linked Account)'],
+ ['借入到账','Borrowed Funds Received (Linked Account)'],
  ['Borrowed Funds到账（Linked Account）','Borrowed Funds Received (Linked Account)'],
  ['Borrowed Funds到账（Linked Account）','Borrowed Funds Received (Linked Account)'],
- ['借出款项（关联账户）','Loans Given (Linked Account)'],
+ ['借出款项','Loans Given (Linked Account)'],
  ['Loans Given款项（Linked Account）','Loans Given (Linked Account)'],
- ['借入归还（关联账户）','Borrowed Funds Repaid (Linked Account)'],
+ ['借入归还','Borrowed Funds Repaid (Linked Account)'],
  ['Borrowed FundsRepaid（Linked Account）','Borrowed Funds Repaid (Linked Account)'],
- ['借出收回（关联账户）','Loans Repaid to You (Linked Account)'],
+ ['借出收回','Loans Repaid to You (Linked Account)'],
  ['Loans Given收回（Linked Account）','Loans Repaid to You (Linked Account)'],
- ['所选月份结余（含借款收付）','Selected Month Closing Balance (Including Loan Cash Flows)'],
+ ['所选月份结余','Selected Month Closing Balance (Including Loan Cash Flows)'],
  ['所选MonthClosing Balance (Including Loan Cash Flows)','Selected Month Closing Balance (Including Loan Cash Flows)'],
  ['Loans Given款项','Loans Given'],
  ['当前月份：','Current Month: '],['查看历史月份：','Viewing Historical Month: '],
@@ -3878,10 +3954,10 @@ const fixed = new Map(Object.entries({
 '所选月份总流出':'Jumlah Aliran Keluar Bulan Dipilih',
 '所选月份期末余额（含借款现金流）':'Baki Akhir Bulan Dipilih (Termasuk Aliran Tunai Pinjaman)',
 '上月结转账户余额':'Baki Akaun Dibawa dari Bulan Sebelumnya',
-'借入到账（关联账户）':'Wang Pinjaman Diterima (Akaun Berkaitan)',
-'借出款项（关联账户）':'Pinjaman Diberikan (Akaun Berkaitan)',
-'借入归还（关联账户）':'Bayaran Balik Wang Dipinjam (Akaun Berkaitan)',
-'借出收回（关联账户）':'Bayaran Balik Pinjaman Diberikan (Akaun Berkaitan)',
+'借入到账':'Wang Pinjaman Diterima (Akaun Berkaitan)',
+'借出款项':'Pinjaman Diberikan (Akaun Berkaitan)',
+'借入归还':'Bayaran Balik Wang Dipinjam (Akaun Berkaitan)',
+'借出收回':'Bayaran Balik Pinjaman Diberikan (Akaun Berkaitan)',
 '显示全部交易 ▼':'Papar Semua Transaksi ▼',
 '隐藏本月收支概况 ▲':'Sembunyikan Ringkasan Bulanan ▲',
 '显示本月收支概况 ▼':'Paparkan Ringkasan Bulanan ▼'
@@ -4461,7 +4537,7 @@ function ui(){const prefs=document.querySelector('#my #v60Prefs');if(!prefs)retu
  const act=document.createElement('div');act.className='mn69-adjust-actions';const reset=document.createElement('button');reset.type='button';reset.className='mn69-reset';reset.textContent='恢复背景默认效果';
  reset.addEventListener('click',()=>{imageAdjust={...ADJUST_DEFAULT};applyAdjust(true);labelStatus('背景亮度、模糊和透明度已恢复默认设置。')});act.appendChild(reset);adjust.appendChild(act);
  panel.appendChild(adjust);
- statusEl=document.createElement('p');statusEl.className='mn69-note';statusEl.setAttribute('role','status');statusEl.textContent='图片只保存在当前设备的主题资料库，不上传网络。';panel.appendChild(statusEl);
+ statusEl=document.createElement('p');statusEl.className='mn69-note';statusEl.setAttribute('role','status');statusEl.textContent='';panel.appendChild(statusEl);
  legacy.insertAdjacentElement('afterend',panel);
  grid.addEventListener('click',e=>{const b=e.target.closest('[data-mn69-choice]');if(!b)return;apply(b.dataset.mn69Choice,true);if(theme==='custom'&&!currentImageUrl)labelStatus('请先上传图片，或保留当前自定义主题等待图片载入。')});
  inp.addEventListener('change',async()=>{const file=inp.files&&inp.files[0];if(!file)return;
@@ -4479,6 +4555,349 @@ async function init(){loadAdjust();applyAdjust(false);let saved=null;try{saved=l
  try{const file=await getFile();if(file)useBlob(file);if(theme==='custom'&&!file)labelStatus('自定义背景图片未找到，请重新上传。')}catch(_){if(theme==='custom')labelStatus('无法读取自定义背景，其他主题仍可使用。')}
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+
+<script id="v8171-go-quick-entry">
+/* V8.1.71 rebuilt from original V8.1.69: GO+ panel lives only under New Record. */
+(function(){
+ 'use strict';
+ function init(){
+  const quick=document.getElementById('v8169GoQuickMode');
+  const balance=document.getElementById('v756BalanceMode');
+  const balanceView=document.getElementById('v756BalanceView');
+  const panel=document.getElementById('v8146GoPlusBox');
+  const content=document.getElementById('v8149GoContent');
+  const toggle=document.getElementById('v8149GoToggle');
+  if(!quick||!balance||!balanceView||!panel)return;
+  function lang(){try{const p=JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}');return /^en/i.test(p.lang||'')?'en':/^ms/i.test(p.lang||'')?'ms':'zh'}catch(_){return 'zh'}}
+  function label(){const l=lang();quick.textContent=l==='en'?'◈ GO+ Daily Return Estimator':l==='ms'?'◈ Anggaran Pulangan Harian GO+':'◈ GO+ 每日收益估算';}
+  function closeGo(){panel.style.display='none';quick.classList.remove('v732-active');quick.setAttribute('aria-pressed','false');}
+  label();closeGo();
+  quick.addEventListener('click',function(){
+    // Reuse existing navigation to hide transaction/account forms, then hide the balance view.
+    balance.click();
+    balanceView.classList.add('hidden');
+    panel.style.display='block';
+    if(content && content.hidden && toggle)toggle.click();
+    else if(content && getComputedStyle(content).display==='none' && toggle)toggle.click();
+    balance.classList.remove('v732-active');balance.setAttribute('aria-pressed','false');
+    quick.classList.add('v732-active');quick.setAttribute('aria-pressed','true');
+    const hint=document.getElementById('v733EntryHint');
+    if(hint)hint.textContent=lang()==='en'?'GO+ estimator and daily auto-credit. Estimated returns are not confirmed TNG payouts.':lang()==='ms'?'Anggaran GO+ dan kredit automatik harian; bukan bayaran sebenar TNG.':'GO+ 预计收益与每日自动入账；估算金额不等于 TNG 官方实际到账。';
+    if(window.__v8146GoPlus)window.__v8146GoPlus.refreshAccounts();
+    setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),70);
+  });
+  document.querySelectorAll('#v735AccountMode,#v756BalanceMode,.v732-entry-btn[data-v732-mode]').forEach(b=>b.addEventListener('click',closeGo));
+  document.addEventListener('change',e=>{if(/lang|language/i.test((e.target?.id||'')+' '+(e.target?.name||'')))setTimeout(label,20)});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+
+<style id="v8171-faint-photo-glass">
+/* Visual-only: more translucent, theme-aware glass cards. No ledger code. */
+html.mn69-theme {
+  --glass-card: rgba(255,255,255,.28);
+  --glass-subcard: rgba(255,255,255,.33);
+  --glass-input: rgba(255,255,255,.50);
+}
+html.mn69-theme[data-mn69-theme="blue"]{--glass-card:rgba(229,242,255,.29);--glass-subcard:rgba(233,244,255,.35);--glass-input:rgba(245,250,255,.53)}
+html.mn69-theme[data-mn69-theme="forest"]{--glass-card:rgba(224,247,237,.24);--glass-subcard:rgba(233,250,243,.31);--glass-input:rgba(243,252,247,.51)}
+html.mn69-theme[data-mn69-theme="ocean"]{--glass-card:rgba(219,242,255,.25);--glass-subcard:rgba(230,247,255,.32);--glass-input:rgba(242,251,255,.52)}
+html.mn69-theme[data-mn69-theme="sunset"]{--glass-card:rgba(255,228,219,.27);--glass-subcard:rgba(255,239,232,.34);--glass-input:rgba(255,249,245,.53)}
+html.mn69-theme[data-mn69-theme="lavender"]{--glass-card:rgba(240,226,255,.27);--glass-subcard:rgba(246,238,255,.33);--glass-input:rgba(253,249,255,.53)}
+html.mn69-theme[data-mn69-theme="sand"]{--glass-card:rgba(250,234,202,.28);--glass-subcard:rgba(255,244,224,.35);--glass-input:rgba(255,251,242,.53)}
+html.mn69-theme[data-mn69-theme="midnight"]{--glass-card:rgba(20,34,59,.38);--glass-subcard:rgba(25,42,68,.43);--glass-input:rgba(29,45,69,.58)}
+html.mn69-theme[data-mn69-theme="custom"]{--glass-card:rgba(227,240,250,.26);--glass-subcard:rgba(235,245,252,.33);--glass-input:rgba(248,252,255,.52)}
+
+html.mn69-theme :is(.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,.v792-report-section,
+  .v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,.v819-overview-card,
+  .v58-table-wrap,.notice,.v60-settings details) {
+  background:var(--glass-card)!important;
+  backdrop-filter:blur(3px) saturate(115%)!important;
+  -webkit-backdrop-filter:blur(3px) saturate(115%)!important;
+  border-color:var(--mn-stroke)!important;
+  box-shadow:0 8px 24px rgba(14,36,53,.075)!important;
+}
+html.mn69-theme :is(.tabs button:not(.active),.v732-entry-btn:not(.v732-active),.empty,
+  .v58-panel .item,.box .item) {
+  background:var(--glass-subcard)!important;
+  backdrop-filter:blur(2px) saturate(112%)!important;
+  -webkit-backdrop-filter:blur(2px) saturate(112%)!important;
+}
+html.mn69-theme :is(input,select,textarea,.btn.secondary) {
+  background:var(--glass-input)!important;
+  backdrop-filter:blur(2px)!important;
+  -webkit-backdrop-filter:blur(2px)!important;
+}
+html.mn69-theme #transactions .v736-page-head{
+  background:linear-gradient(115deg,var(--glass-card),var(--glass-subcard))!important;
+}
+html.mn69-theme :is(.metric strong,.box h2,.v736-page-head h2){
+  text-shadow:0 1px 2px rgba(255,255,255,.18);
+}
+html.mn69-theme :is(.box,.metric,.v736-page-head)::before {
+  opacity:.94!important;
+}
+html.mn69-theme[data-mn69-theme="midnight"] :is(.box,.metric,.v736-page-head){
+  color:var(--mn-ink)!important;
+}
+</style>
+
+
+<style id="v8171-home-month-darktext">
+/* Improve readability on Home month selector card */
+#v754HomeMonthBox label{color:#24433d!important;font-weight:700!important;}
+#v754HomeMonthBox .hint,#v754MonthHelp{color:#355751!important;font-weight:600!important;opacity:1!important;}
+#v754HomeMonthBox input[type="month"]{color:#1e3434!important;font-weight:700!important;}
+#v754HomeMonthBox input[type="month"]::-webkit-datetime-edit,
+#v754HomeMonthBox input[type="month"]::-webkit-datetime-edit-text,
+#v754HomeMonthBox input[type="month"]::-webkit-datetime-edit-month-field,
+#v754HomeMonthBox input[type="month"]::-webkit-datetime-edit-year-field{color:#1e3434!important;}
+#v754HomeMonthBox .btn.secondary,#v754HomeCurrent{color:#1f4039!important;font-weight:700!important;}
+html[data-theme="dark"] #v754HomeMonthBox label{color:#e7f4ee!important;}
+html[data-theme="dark"] #v754HomeMonthBox .hint,html[data-theme="dark"] #v754MonthHelp{color:#d3e7df!important;}
+html[data-theme="dark"] #v754HomeMonthBox input[type="month"],html[data-theme="dark"] #v754HomeMonthBox .btn.secondary,html[data-theme="dark"] #v754HomeCurrent{color:#f2fbf7!important;}
+</style>
+
+<style id="v8171-global-dark-readable-text">
+/* V8.1.71 visual-only typography pass. Keep all ledger and storage functions unchanged. */
+html.mn69-theme {
+  --mn-ink:#18323d!important;
+  --mn-soft:#3d5964!important;
+  --text:#18323d!important;
+  --muted:#3d5964!important;
+  color-scheme:light!important;
+}
+/* Midnight keeps its midnight photograph, with pale glass panels to support dark text. */
+html.mn69-theme[data-mn69-theme="midnight"] {
+  --mn-panel:rgba(237,242,253,.65)!important;
+  --glass-card:rgba(236,243,253,.68)!important;
+  --glass-subcard:rgba(240,245,253,.72)!important;
+  --glass-input:rgba(249,251,255,.87)!important;
+  --mn-stroke:rgba(111,136,172,.52)!important;
+  --mn-ink:#172b45!important;
+  --mn-soft:#405369!important;
+}
+/* Dark theme also uses a pale text surface, avoiding dark-on-dark collisions. */
+html[data-theme="dark"].mn69-theme:not([data-mn69-theme="midnight"]) {
+  --glass-card:rgba(244,248,252,.65)!important;
+  --glass-subcard:rgba(247,250,253,.70)!important;
+  --glass-input:rgba(250,252,255,.85)!important;
+}
+html.mn69-theme body,
+html.mn69-theme :is(.panel,.box,.metric,.v58-panel,.v750-card,.v782-analysis-section,
+ .v792-report-section,.v736-page-head,.v736-action-panel,.v736-form-panel,.v768-overview,
+ .v819-overview-card,.v58-table-wrap,.v60-settings,details,.item,.field,.sub,.hint,
+ .empty,.notice,.v58-table,.v603-welcome,.v736-section-heading,.v736-kicker,
+ .v736-caption,.v736-eyebrow,label,summary,small,footer,table,td,th,
+ h1,h2,h3,h4,h5,h6,p,span,strong,li,div) {
+  color:var(--mn-ink)!important;
+}
+/* De-emphasized descriptions stay readable, never low-opacity light gray. */
+html.mn69-theme :is(.sub,.hint,.empty,.metric span,.v58-muted,.v736-caption,
+ .v736-page-head p,.v736-eyebrow,.v736-kicker,footer,
+ #v754MonthHelp,.v603-welcome p,.v603-welcome small) {
+  color:var(--mn-soft)!important;
+  opacity:1!important;
+}
+html.mn69-theme :is(input,select,textarea,option,output,button,.btn,.v732-entry-btn,.tabs button) {
+  color:var(--mn-ink)!important;
+  opacity:1!important;
+}
+html.mn69-theme :is(input,select,textarea)::placeholder {color:#465e68!important;opacity:1!important;}
+html.mn69-theme :is(input,select,textarea)::-webkit-input-placeholder {color:#465e68!important;opacity:1!important;}
+html.mn69-theme input[type="month"]::-webkit-datetime-edit,
+html.mn69-theme input[type="date"]::-webkit-datetime-edit,
+html.mn69-theme input::-webkit-datetime-edit-text,
+html.mn69-theme input::-webkit-datetime-edit-month-field,
+html.mn69-theme input::-webkit-datetime-edit-day-field,
+html.mn69-theme input::-webkit-datetime-edit-year-field {color:var(--mn-ink)!important;}
+/* Contrast-safe colored state cues instead of pastel text. */
+html.mn69-theme :is(.income,.positive){color:#135e4b!important;}
+html.mn69-theme :is(.expense,.negative){color:#9c292f!important;}
+/* Use pale accent surfaces so active/primary button labels can also stay dark. */
+html.mn69-theme :is(.tabs button.active,.v732-entry-btn.v732-active,
+ .btn:not(.secondary):not(.danger),button.v60-theme) {
+  background:color-mix(in srgb,var(--mn-accent) 23%, white 77%)!important;
+  color:var(--mn-ink)!important;
+  border:1px solid color-mix(in srgb,var(--mn-accent) 52%,white)!important;
+}
+html.mn69-theme :is(.tabs button.active,.v732-entry-btn.v732-active,
+ .btn:not(.secondary):not(.danger),button.v60-theme) :is(span,strong,small) {color:var(--mn-ink)!important;}
+/* Previously dark header and welcome banner become light-glass surfaces. */
+html.mn69-theme header,
+html.mn69-theme .v603-welcome {
+  background:linear-gradient(125deg,rgba(244,250,252,.85),rgba(222,239,237,.74))!important;
+  color:var(--mn-ink)!important;
+  border:1px solid var(--mn-stroke)!important;
+  backdrop-filter:blur(9px)!important;
+  -webkit-backdrop-filter:blur(9px)!important;
+}
+html.mn69-theme :is(header,.v603-welcome) :is(h1,h2,p,small,span,strong,div){color:var(--mn-ink)!important;opacity:1!important;}
+html.mn69-theme .v603-welcome :is(p,small){color:var(--mn-soft)!important;}
+/* Delete buttons: maintain dark-on-light treatment. */
+html.mn69-theme .btn.danger {background:rgba(255,232,232,.83)!important;color:#92272d!important;}
+/* Home overview top caption and period selector stay dark in all theme variants. */
+html.mn69-theme #v754HomeMonthBox :is(label,.hint,button,input),
+html.mn69-theme #v754MonthHelp {color:#1b3942!important;opacity:1!important;}
+/* Pale glass on a very dark wallpaper improves contrast without hiding the image fully. */
+html.mn69-theme[data-mn69-theme="midnight"] :is(.box,.metric,.v58-panel,.v750-card,
+ .v782-analysis-section,.v792-report-section,.v736-page-head,.v736-action-panel,
+ .v736-form-panel,.v768-overview,.v819-overview-card,.v58-table-wrap,.notice,details) {
+  background:var(--glass-card)!important;
+}
+html.mn69-theme #transactions .v736-page-head h2 {color:var(--mn-ink)!important;}
+html.mn69-theme #transactions .v736-page-head p {color:var(--mn-soft)!important;}
+</style>
+
+
+<style id="v8171-pure-black-text">
+/* V8.1.71 purely visual, universal black text for all light-glass themes. */
+html.mn69-theme {
+  --mn-ink:#000000!important;
+  --mn-soft:#000000!important;
+  --text:#000000!important;
+  --muted:#000000!important;
+  color-scheme:light!important;
+}
+html.mn69-theme[data-mn69-theme="midnight"] {
+  --mn-ink:#000000!important;
+  --mn-soft:#000000!important;
+  --glass-card:rgba(244,248,255,.74)!important;
+  --glass-subcard:rgba(246,250,255,.78)!important;
+  --glass-input:rgba(255,255,255,.88)!important;
+}
+/* Apply true black to text even if older components have inline colors. */
+html.mn69-theme body,
+html.mn69-theme body :is(h1,h2,h3,h4,h5,h6,p,div,span,small,strong,b,em,i,label,
+  th,td,li,a,summary,button,.btn,output,input,textarea,select,option,legend,caption,
+  .income,.expense,.positive,.negative,.hint,.sub,.empty,.amount,.metric,.box,
+  .v736-eyebrow,.v736-kicker,.v736-caption,.v58-muted,header,footer) {
+  color:#000000!important;
+  -webkit-text-fill-color:#000000!important;
+  opacity:1!important;
+}
+html.mn69-theme body :is(input,textarea,select)::placeholder,
+html.mn69-theme body :is(input,textarea,select)::-webkit-input-placeholder {
+  color:#000000!important;
+  -webkit-text-fill-color:#000000!important;
+  opacity:1!important;
+}
+html.mn69-theme body input::-webkit-datetime-edit,
+html.mn69-theme body input::-webkit-datetime-edit-text,
+html.mn69-theme body input::-webkit-datetime-edit-month-field,
+html.mn69-theme body input::-webkit-datetime-edit-day-field,
+html.mn69-theme body input::-webkit-datetime-edit-year-field {
+  color:#000000!important;
+  -webkit-text-fill-color:#000000!important;
+}
+/* Buttons, active tabs and dangerous actions use pale backgrounds with black labels. */
+html.mn69-theme :is(.tabs button.active,.v732-entry-btn.v732-active,
+  .btn:not(.secondary),.btn.danger,button.v60-theme) {
+  background:color-mix(in srgb,var(--mn-accent) 16%,white 84%)!important;
+  border-color:color-mix(in srgb,var(--mn-accent) 42%,white 58%)!important;
+  color:#000000!important;
+  -webkit-text-fill-color:#000000!important;
+}
+html.mn69-theme .btn.danger {
+  background:rgba(255,227,227,.90)!important;
+  border-color:rgba(183,85,85,.34)!important;
+}
+html.mn69-theme :is(.tabs button.active,.v732-entry-btn.v732-active,.btn,.v603-eye,button) :is(span,small,strong,b) {
+  color:#000000!important;
+  -webkit-text-fill-color:#000000!important;
+}
+/* Preserve background visibility but give dense text areas a light contrast base. */
+html.mn69-theme :is(.v603-welcome,header) {
+  background:linear-gradient(120deg,rgba(246,251,252,.80),rgba(237,248,246,.70))!important;
+}
+html.mn69-theme :is(.v736-page-head,.box,.metric,.v58-panel,.v750-card) {
+  text-shadow:none!important;
+}
+</style>
+
+
+<style id="v8171-white-on-blue-controls">
+/* Specific visual exceptions to global black text: white on dark-blue backgrounds. */
+html.mn69-theme .v603-welcome {
+  background:linear-gradient(110deg,#15314e,#245481)!important;
+  border-color:rgba(204,226,245,.23)!important;
+  color:#ffffff!important;
+}
+html.mn69-theme .v603-welcome :is(h1,h2,h3,p,small,span,strong,b,div),
+html.mn69-theme .v603-welcome #v603Privacy,
+html.mn69-theme .v603-welcome #v603Privacy :is(span,strong,b,small){
+  color:#ffffff!important;-webkit-text-fill-color:#ffffff!important;
+  opacity:1!important;
+}
+html.mn69-theme .v603-welcome #v603Privacy {
+  background:rgba(21,47,78,.68)!important;
+  border:1px solid rgba(255,255,255,.64)!important;
+}
+/* PIN setup / privacy toggles in the My page. Other buttons stay black. */
+html.mn69-theme #v610Panel #v610Actions button[data-action],
+html.mn69-theme #v610Panel #v610Actions button[data-action] :is(span,strong,small,b){
+  color:#ffffff!important;-webkit-text-fill-color:#ffffff!important;
+  background:#245a9a!important;border-color:#245a9a!important;
+  opacity:1!important;
+}
+html.mn69-theme #v610Panel #v610Actions button[data-action]:hover {
+  background:#194b87!important;
+}
+</style>
+<script id="mn69-theme-i18n">
+/* V8.1.71: translate theme UI only; do not touch ledger/state or theme media. */
+(function(){'use strict';
+ const title={
+  zh:{intro:'🎨 页面主题与背景',description:'选择后整个 App 即时换色。财务数据不会被修改。',upload:'📷 上传自定义背景',remove:'移除自定义图片',adjust:'🖼️ 背景调整',about:'只调整背景图片，不会模糊、变暗或淡化财务金额、文字和按钮。',brightness:'背景亮度',blur:'背景模糊度',opacity:'背景透明度（图片可见度）',reset:'恢复背景默认效果'},
+  en:{intro:'🎨 App Theme & Background',description:'Select a theme to change the entire app instantly. Your financial data will not be modified.',upload:'📷 Upload Custom Background',remove:'Remove Custom Image',adjust:'🖼️ Background Adjustments',about:'These settings affect only the background image, not the brightness, sharpness or opacity of financial amounts, text and buttons.',brightness:'Background Brightness',blur:'Background Blur',opacity:'Background Opacity (Image Visibility)',reset:'Restore Default Background Settings'},
+  ms:{intro:'🎨 Tema & Latar Belakang Aplikasi',description:'Pilih tema untuk menukar rupa seluruh aplikasi serta-merta. Data kewangan anda tidak akan diubah.',upload:'📷 Muat Naik Latar Belakang Sendiri',remove:'Buang Imej Sendiri',adjust:'🖼️ Pelarasan Latar Belakang',about:'Tetapan ini hanya mengubah imej latar belakang, bukan kecerahan, ketajaman atau kelegapan amaun kewangan, teks dan butang.',brightness:'Kecerahan Latar Belakang',blur:'Kabur Latar Belakang',opacity:'Kelegapan Latar Belakang (Keterlihatan Imej)',reset:'Pulihkan Tetapan Asal Latar Belakang'}
+ };
+ const choices={
+ blue:['蓝白经典','Classic Blue & White','Biru Putih Klasik'],forest:['森林绿','Forest Green','Hijau Hutan'],ocean:['海洋蓝','Ocean Blue','Biru Laut'],sunset:['日落暖橙','Sunset Orange','Jingga Senja'],lavender:['薰衣草','Lavender','Lavender'],sand:['奶油沙金','Cream & Sand','Krim & Pasir'],midnight:['午夜深蓝','Midnight Blue','Biru Tengah Malam'],
+ 'photo-forest':['📷 雨林溪流','📷 Rainforest Stream','📷 Sungai Hutan Hujan'],'photo-beach':['📷 海洋沙滩','📷 Ocean Beach','📷 Pantai Laut'],'photo-sunset':['📷 夕阳山峦','📷 Sunset Mountains','📷 Pergunungan Senja'],'photo-city':['📷 城市夜景','📷 City at Night','📷 Bandar Waktu Malam'],custom:['我的图片','My Picture','Gambar Saya']
+ };
+ const statuses=[
+ ['背景调整已应用，但未能保存设置；财务记录没有修改。','Background adjustment applied but could not be saved. Financial records were not changed.','Pelarasan latar belakang digunakan tetapi gagal disimpan. Rekod kewangan tidak diubah.'],
+ ['主题已保存；不修改财务记录。','Theme saved. Financial records were not changed.','Tema disimpan. Rekod kewangan tidak diubah.'],
+ ['主题已切换，但浏览器未能保存主题设置；财务资料不受此操作影响。','Theme changed, but your browser could not save the setting. Financial data was not affected.','Tema ditukar, tetapi pelayar gagal menyimpan tetapan. Data kewangan tidak terjejas.'],
+ ['背景亮度、模糊和透明度已恢复默认设置。','Background brightness, blur and opacity have been reset.','Kecerahan, kekaburan dan kelegapan latar belakang dipulihkan.'],
+ ['请先上传图片，或保留当前自定义主题等待图片载入。','Upload an image first or wait for your saved custom image to load.','Muat naik imej dahulu atau tunggu imej tersimpan dimuatkan.'],
+ ['请选择 JPG / PNG / WEBP 图片，大小不超过 8 MB。','Choose a JPG, PNG or WEBP image no larger than 8 MB.','Pilih imej JPG, PNG atau WEBP tidak melebihi 8 MB.'],
+ ['正在保存自定义背景…','Saving custom background…','Menyimpan latar belakang sendiri…'],
+ ['自定义背景已保存到本机；账本没有修改。','Custom background saved on this device. Your ledger was not changed.','Latar belakang disimpan pada peranti ini. Lejar tidak diubah.'],
+ ['图片可以暂时显示，但保存失败。关闭浏览器后图片可能丢失，请尝试较小的图片。','Image is displayed temporarily but could not be saved. It may disappear after closing the browser; try a smaller image.','Imej dipaparkan sementara tetapi gagal disimpan. Imej mungkin hilang selepas pelayar ditutup; cuba imej lebih kecil.'],
+ ['自定义图片已移除，已恢复蓝白主题。财务记录未修改。','Custom image removed; Classic Blue & White restored. Financial records unchanged.','Imej sendiri dibuang; tema Biru Putih Klasik dipulihkan. Rekod kewangan tidak diubah.'],
+ ['无法移除图片，请检查浏览器储存权限。','Could not remove image. Check browser storage permissions.','Imej tidak dapat dibuang. Semak kebenaran storan pelayar.'],
+ ['自定义背景图片未找到，请重新上传。','Custom background was not found. Please upload it again.','Imej latar belakang sendiri tidak dijumpai. Sila muat naik semula.'],
+ ['无法读取自定义背景，其他主题仍可使用。','Could not load custom background. Other themes remain available.','Latar belakang sendiri gagal dibaca. Tema lain masih boleh digunakan.']
+ ];
+ const order={zh:0,en:1,ms:2};
+ function locale(){try{const v=String(JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}').lang||document.documentElement.lang||'zh');return /^en/i.test(v)?'en':/^(ms|bm|my)/i.test(v)?'ms':'zh';}catch(_){return /^en/i.test(document.documentElement.lang)?'en':/^(ms|bm)/i.test(document.documentElement.lang)?'ms':'zh'}}
+ function set(el,value){if(el && el.textContent!==value)el.textContent=value}
+ function update(){const panel=document.getElementById('mn69ThemeUI');if(!panel)return;const lang=locale(),t=title[lang];
+  set(panel.querySelector(':scope > div:first-child strong'),t.intro);
+  set(panel.querySelector(':scope > div:first-child .mn69-note'),t.description);
+  panel.querySelectorAll('[data-mn69-choice]').forEach(btn=>{const item=choices[btn.dataset.mn69Choice];if(item)set(btn.querySelector('.mn69-choice-label'),item[order[lang]])});
+  set(panel.querySelector('label[for="mn69ImageFile"]'),t.upload);
+  const toolButtons=panel.querySelectorAll('.mn69-tools button');if(toolButtons.length)set(toolButtons[0],t.remove);
+  set(panel.querySelector('.mn69-adjust-title'),t.adjust);
+  set(panel.querySelector('.mn69-adjust > .mn69-note'),t.about);
+  for(const key of ['brightness','blur','opacity']){
+   const control=panel.querySelector('label[for="mn69Adjust_'+key+'"]');if(control){set(control.querySelector('.mn69-control-head span'),t[key]);const input=control.querySelector('input');if(input&&input.getAttribute('aria-label')!==t[key])input.setAttribute('aria-label',t[key])}
+  }
+  set(panel.querySelector('.mn69-adjust-actions button'),t.reset);
+  const status=panel.querySelector('[role="status"]');if(status){const entry=statuses.find(row=>row.includes(status.textContent));if(entry)set(status,entry[order[lang]])}
+ }
+ let queued=false;function queue(){if(queued)return;queued=true;setTimeout(()=>{queued=false;update()},0)}
+ function bind(){const panel=document.getElementById('mn69ThemeUI');if(!panel){setTimeout(bind,100);return;}
+  update();const observer=new MutationObserver(queue);observer.observe(panel,{childList:true,characterData:true,subtree:true});
+  const languageObserver=new MutationObserver(queue);languageObserver.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+  document.addEventListener('change',queue,true);document.addEventListener('click',queue,true);window.addEventListener('storage',queue);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 })();
 </script>
 </body></html>

@@ -1,5 +1,5 @@
-/* MyMoney NEXT V8.1.69 - network-first pages to avoid stale interface */
-const CACHE='mymoney-next-v8169-go-today-pages';
+/* MyMoney NEXT V8.1.71 - network-first pages to avoid stale interface */
+const CACHE='mymoney-next-v8171-theme-no-hint-20261122';
 self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil((async()=>{
   // Retire old page caches so an offline navigation cannot reopen an outdated UI.
