@@ -455,7 +455,7 @@ html.mn69-theme #mn69ThemeUI .mn69-adjust-actions .mn69-reset {
 
  <div id="v8147AutoPanel" style="border-top:1px solid var(--line);margin-top:18px;padding-top:14px">
   <h3 id="v8147AutoTitle" style="margin:0 0 8px">GO+ 自动每日收益入账 / Daily Auto-Credit</h3>
-  <p class="hint" id="v8147AutoExplain">启用后，收益按设定年化率估算，并作为收入自动加入所选 TNG 账户；每日结算在下次打开 MyMoney 时补入。未连接 TNG 官方余额或实时利率，金额可能与实际不同。请避免重复手动录入相同收益。</p>
+  <p class="hint" id="v8147AutoExplain">启用后，每天马来西亚时间 00:00 结算前一天的预计收益；关闭网页期间，下次打开自动补算。未连接 TNG 官方余额或实时利率，金额可能与实际不同。请避免重复手动录入相同收益。</p>
   <label for="v8147AutoAccount" id="v8147AccountLabel">选择要自动增加余额的 TNG 账户（必须选择）</label>
   <select id="v8147AutoAccount" style="margin-bottom:10px"><option value="">请选择账户</option></select>
   <label for="v8147AutoRate" id="v8147RateLabel">每日收益估算使用的年化收益率 (%)</label>
@@ -463,7 +463,7 @@ html.mn69-theme #mn69ThemeUI .mn69-adjust-actions .mn69-reset {
   <label style="display:flex;align-items:center;gap:9px;margin:10px 0;font-size:13px;color:var(--text)"><input id="v8147Enable" type="checkbox" style="width:auto;min-width:18px"/><span id="v8147EnableLabel">启用自动估算收益，并加入 TNG 账户</span></label>
   <p class="hint" id="v8147AutoStatus" aria-live="polite">尚未启用自动入账。</p>
   <button type="button" class="btn secondary" id="v8147Run">检查并补算每日收益</button>
-  <p class="hint" id="v8147AutoWarning" style="margin-top:8px">首次启用当天即可登记当天的预计收益；同一天不会重复入账。即使每日收益低于 RM0.01，也会按实际估算小数金额逐日入账。关闭网页期间无法在后台运行；再次打开时补算。仅估算，不等于官方实际收益。</p>
+  <p class="hint" id="v8147AutoWarning" style="margin-top:8px">启用当天开始累计，次日马来西亚时间 00:00 结算前一天收益；同一天不会重复入账。低于 RM0.01 的收益也按小数逐日入账；网页关闭期间下次打开补算。仅估算，不等于官方实际收益。</p>
  </div>
  </div>
 </div>
@@ -3938,14 +3938,20 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 'use strict';
 const $=id=>document.getElementById(id),KEY='mymoney-go-plus-auto-v1';
 const txt={
- zh:['GO+ 自动每日收益入账','启用后，按设定的年化率估算收益，并作为收入加入选定 TNG 账户。关闭网页后无法在后台执行；下次打开时自动补算；当天记入的是全天估算收益，不是官方实际到账。实际收益可能不同。','选择要自动增加余额的 TNG 账户（必须选择）','每日收益估算使用的年化收益率 (%)','启用自动估算收益，并加入 TNG 账户','尚未启用自动入账。','检查并入账至今天','首次启用从当天开始，当天打开应用即可入账。低于 RM0.01 的收益也会按小数金额逐日入账。仅为估算，谨防与官方收益重复记账。','请选择有效的 TNG 账户。','已启用：今天的全天预计收益可当日入账。','已补算至 ','已记录 ',' 天；新增 ',' 笔收益，合计 RM','无新收益可入账。','已暂停自动入账。','账户或收益率改变前请先关闭自动入账，再重新启用（从当天重新开始）。','因超过 365 天未使用而暂停补算，请核对后重启。'],
- en:['GO+ Estimated Daily Auto-Credit','Estimated daily returns are posted as Income to the selected TNG account using the configured annualised rate. The app cannot run while closed; missed days are processed next time you open it. Today’s credit estimates a full day, not actual credited earnings. Actual returns may differ.','Choose the TNG account to receive estimated returns (Required)','Annualised rate for estimated daily returns (%)','Enable estimated daily earnings and add to TNG balance','Automatic credit is disabled.','Check and Credit Through Today','Starts today when enabled; today’s estimated full-day return can be credited immediately. Amounts below RM0.01 are also credited daily with fractional precision. Estimates may differ from official returns; avoid double posting.','Select a valid TNG account.','Enabled. Today’s estimated full-day return can be posted now.','Processed through ','Processed ',' days; added ',' income entries totalling RM','No new earnings to credit.','Automatic credit paused.','Disable and re-enable before changing the linked account or rate.','More than 365 days pending. Review and restart.'],
- ms:['Kredit Automatik Anggaran Pulangan Harian GO+','Pulangan harian dianggarkan berdasarkan kadar tahunan yang ditetapkan dan direkod sebagai Pendapatan ke akaun TNG pilihan. Aplikasi tidak berjalan semasa ditutup; hari tertinggal dikira apabila dibuka semula. Kredit hari ini ialah anggaran sehari penuh, bukan pulangan sebenar. Pulangan sebenar mungkin berbeza.','Pilih akaun TNG untuk menerima pulangan anggaran (Wajib)','Kadar tahunan untuk anggaran pulangan harian (%)','Aktifkan anggaran pulangan harian dan tambah ke baki TNG','Kredit automatik belum diaktifkan.','Semak dan Kredit Hingga Hari Ini','Bermula pada hari pengaktifan; anggaran pulangan sehari penuh boleh dikreditkan pada hari yang sama. Pulangan bawah RM0.01 juga dikreditkan setiap hari dengan ketepatan perpuluhan. Jangan rekod pulangan dua kali.','Sila pilih akaun TNG yang sah.','Diaktifkan. Anggaran pulangan hari ini boleh dikreditkan sekarang.','Dikemas kini hingga ','Diproses ',' hari; tambah ',' rekod pendapatan berjumlah RM','Tiada pulangan baharu untuk dikreditkan.','Kredit automatik dijeda.','Nyahaktif dan aktifkan semula sebelum menukar akaun atau kadar.','Lebih 365 hari tertunggak. Sila semak dan mula semula.']
+ zh:['GO+ 自动每日收益入账','每天马来西亚时间 00:00 结算前一天的 GO+ 预计收益，并作为收入加入所选 TNG 账户。网页关闭时不能后台结算，下次打开后会补算。估算收益不是 TNG 官方实际到账。','选择要自动增加余额的 TNG 账户（必须选择）','每日收益估算使用的年化收益率 (%)','启用自动估算收益，并加入 TNG 账户','尚未启用自动入账。','检查并结算已结束的日期','启用后从当天开始累计，每天马来西亚时间 00:00 结算前一天收益；关闭期间下次打开补算。收益低于 RM0.01 也会保留小数。请勿与官方收益重复入账。','请选择有效的 TNG 账户。','已启用：将于马来西亚时间 00:00 结算前一天收益。','已补算至 ','已记录 ',' 天；新增 ',' 笔收益，合计 RM','无新收益可入账。','已暂停自动入账。','账户或收益率改变前请先关闭自动入账，再重新启用（从当天重新开始）。','因超过 365 天未使用而暂停补算，请核对后重启。'],
+ en:['GO+ Estimated Daily Auto-Credit','At 00:00 Malaysia time, the estimated return for the preceding completed day is posted as Income to the chosen TNG account. When the app is closed, missed days are settled next time it opens. This is not an official TNG payout.','Choose the TNG account to receive estimated returns (Required)','Annualised rate for estimated daily returns (%)','Enable estimated daily earnings and add to TNG balance','Automatic credit is disabled.','Settle Completed Days','Starts accruing today. At 00:00 Malaysia time, the preceding day is settled. Missed days are caught up when the app reopens. Fractional returns below RM0.01 are retained. Avoid double posting.','Select a valid TNG account.','Enabled. The previous day is settled at 00:00 Malaysia time.','Processed through ','Processed ',' days; added ',' income entries totalling RM','No new earnings to credit.','Automatic credit paused.','Disable and re-enable before changing the linked account or rate.','More than 365 days pending. Review and restart.'],
+ ms:['Kredit Automatik Anggaran Pulangan Harian GO+','Pada 00:00 waktu Malaysia, pulangan anggaran bagi hari sebelumnya dikira sebagai Pendapatan ke akaun TNG pilihan. Hari tertinggal akan dikira apabila aplikasi dibuka semula. Ini bukan bayaran rasmi TNG.','Pilih akaun TNG untuk menerima pulangan anggaran (Wajib)','Kadar tahunan untuk anggaran pulangan harian (%)','Aktifkan anggaran pulangan harian dan tambah ke baki TNG','Kredit automatik belum diaktifkan.','Kira Hari yang Telah Tamat','Bermula pada hari diaktifkan. Pada 00:00 waktu Malaysia, pulangan hari sebelumnya dikira. Hari tertinggal dikira apabila aplikasi dibuka semula. Pulangan bawah RM0.01 dikekalkan. Elakkan rekod berganda.','Sila pilih akaun TNG yang sah.','Diaktifkan. Pulangan hari sebelumnya dikira pada 00:00 waktu Malaysia.','Dikemas kini hingga ','Diproses ',' hari; tambah ',' rekod pendapatan berjumlah RM','Tiada pulangan baharu untuk dikreditkan.','Kredit automatik dijeda.','Nyahaktif dan aktifkan semula sebelum menukar akaun atau kadar.','Lebih 365 hari tertunggak. Sila semak dan mula semula.']
 };
 const ids=['v8147AutoTitle','v8147AutoExplain','v8147AccountLabel','v8147RateLabel','v8147EnableLabel',null,'v8147Run','v8147AutoWarning'];
 function lang(){try{let s=String(JSON.parse(localStorage.getItem('mymoney-v604-preferences')||'{}').lang||'');return /^en/i.test(s)?'en':/^(ms|bm)/i.test(s)?'ms':'zh'}catch(_){return 'zh'}}
 function tr(i){return txt[lang()][i]}
-function localDay(date=new Date()){return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0')}
+function localDay(date=new Date()){
+ // Asia/Kuala_Lumpur uses UTC+08:00; obtain calendar fields explicitly.
+ const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kuala_Lumpur',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date);
+ const part=t=>parts.find(p=>p.type===t)?.value;
+ return part('year')+'-'+part('month')+'-'+part('day');
+}
+function lastCompletedDay(){return offset(localDay(),-1)}
 function offset(ymd,n){const [y,m,d]=ymd.split('-').map(Number),dt=new Date(Date.UTC(y,m-1,d+n));return dt.toISOString().slice(0,10)}
 function safeLoad(){try{let x=JSON.parse(localStorage.getItem(KEY)||'{}');return x&&typeof x==='object'?x:{}}catch(_){return {}}}
 function store(c){localStorage.setItem(KEY,JSON.stringify(c))}
@@ -3961,7 +3967,7 @@ function process(){
  if(busy)return;
  const c=safeLoad(),api=ledger();if(!c.enabled||!api||!validAccount(c.accountId))return;
  const rate=Number(c.rate),acct=String(c.accountId);if(!Number.isFinite(rate)||rate<0||rate>100)return;
- const todayKey=localDay();let last=c.lastDate||offset(c.startDate,-1);
+ const cutoff=lastCompletedDay();let last=c.lastDate||offset(c.startDate,-1);
  const maxDays=366;let count=0,date=offset(last,1),entries=[];
  // Previous versions held fractional-cent income outside the ledger; credit it once on upgrade.
  const historicPending=Math.max(0,Number(c.pending||0));
@@ -3970,14 +3976,14 @@ function process(){
   if(!api.snapshot().transactions.some(x=>x.id===id))
    entries.push({id,type:'income',date:last,amount:Math.round(historicPending*1e8)/1e8,category:'利息',payment:'电子钱包',accountId:acct,note:'GO+ Estimated Return (previous fractional balance)',goPlusEstimated:true});
  }
- if(last>=todayKey&&!entries.length){status(tr(14));return}
+ if(last>=cutoff&&!entries.length){status(tr(14));return}
  busy=true;
  try{
-  // Compute the full-day estimate at the previous day's balance, including any earlier simulated credits.
-  // Include today now; a single deterministic daily ID prevents posting it twice.
-  // Include new credits from the same catch-up run when computing later days.
+  // At 00:00 Malaysia time, settle only days that have fully ended.
+  // The transaction is dated to the earning day, never pre-credited that morning.
+  // Deterministic daily IDs preserve the previous version's duplicate protection.
   let creditedThisRun=entries.reduce((sum,item)=>sum+item.amount,0);
-  while(date<=todayKey&&count<maxDays){
+  while(date<=cutoff&&count<maxDays){
    const prev=offset(date,-1);
    const balance=Math.max(0,Number(api.balanceAt(acct,prev)||0)+creditedThisRun);
    const daily=Math.round(balance*rate/100/365*1e8)/1e8;
@@ -3992,20 +3998,29 @@ function process(){
   const created=api.post(entries);
   c.lastDate=last;c.pending=0;store(c);
   const amount=entries.reduce((v,e)=>v+e.amount,0);
-  status(tr(11)+count+tr(12)+created+tr(13)+amount.toFixed(4)+(date<=todayKey?' · '+tr(16):''));
+  status(tr(11)+count+tr(12)+created+tr(13)+amount.toFixed(4)+(date<=cutoff?' · '+tr(16):''));
  }catch(err){status(String(err.message||err))}finally{busy=false;}
 }
 function toggle(){let c=safeLoad();if(!$('v8147Enable').checked){c.enabled=false;store(c);syncUI();return}
  let accountId=$('v8147AutoAccount').value,rate=Number($('v8147AutoRate').value);
  if(!validAccount(accountId)||!Number.isFinite(rate)||rate<0||rate>100){$('v8147Enable').checked=false;status(tr(8));return}
- // Activation starts today; post today once immediately, never assume historical interest.
+ // Start earning today, but do not post until tomorrow's midnight.
+ // Existing auto-posted dates remain untouched when upgrading an enabled setup.
  c={enabled:true,accountId,rate,startDate:localDay(),lastDate:offset(localDay(),-1),pending:0};store(c);syncUI();process();
+}
+let midnightTimer=null;
+function armMidnight(){
+ if(midnightTimer!==null)clearTimeout(midnightTimer);
+ // Kuala Lumpur midnight is always 16:00 UTC of the preceding day (UTC+8).
+ const now=Date.now(),dayMs=86400000,klOffset=8*3600000;
+ const next=Math.floor((now+klOffset)/dayMs+1)*dayMs-klOffset;
+ midnightTimer=setTimeout(()=>{process();armMidnight()},Math.max(1,next-now+250));
 }
 function init(){if(!$('v8147AutoPanel'))return;syncUI();$('v8147Enable').addEventListener('change',toggle);$('v8147Run').addEventListener('click',process);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)process()});window.addEventListener('focus',process);
  document.addEventListener('change',e=>{if(/lang|language/i.test(String(e.target?.id||'')+' '+String(e.target?.name||'')))setTimeout(syncUI,50)});
  window.addEventListener('mymoney-v73-update',()=>{if(!busy)process()});
- setTimeout(process,100);window.__v8147GoPlusAuto={process,read:safeLoad};}
+ setTimeout(process,100);armMidnight();window.__v8147GoPlusAuto={process,read:safeLoad,lastCompletedDay};}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
