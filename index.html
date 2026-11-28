@@ -622,6 +622,7 @@ html.mn69-theme #mn69ThemeUI .mn69-adjust-actions .mn69-reset {
 </div>
 <div class="box v750-section v764-hide-panel" id="v764Panel-late">
 <h2><span class="v761-locked-heading">⏰ Late Payment Charges · 逾期费用自动计算</span></h2>
+<div class="field full" style="margin:12px 0"><label for="v751LateCard">选择信用卡 / Select Credit Card</label><select id="v751LateCard"><option value="">请选择信用卡</option></select></div>
 <p class="hint"><span class="v761-safe-copy">以下使用本张信用卡保存的银行规则。输入 Statement Date、Due Date 和 Minimum Payment；自动依据已登记还款判断是否达到最低还款，并预计迟还费。每一期账单分别保存，不同银行的最低付款、宽限期与计罚基数可能不同，请核对正式条款。</span></p>
 <div class="grid">
 <div class="field"><label for="v751StatementDate">Statement Date（账单日期）</label><input id="v751StatementDate" type="date"/></div>
@@ -1214,7 +1215,7 @@ function v750RenderCredit(){
   const cards=v750Cards(), total=cards.reduce((s,d)=>s+balance(d),0), payments=data.payments.filter(p=>cards.some(d=>d.id===p.debtId));
   $('v750CreditSummary').innerHTML=`<div class="metric"><span>信用卡数量</span><strong>${cards.length}</strong></div><div class="metric"><span>信用卡总剩余欠款</span><strong>${money(total)}</strong></div><div class="metric"><span>已登记还款合计</span><strong>${money(payments.reduce((s,p)=>s+Number(p.amount||0),0))}</strong></div>`;
   $('v750CardList').innerHTML=cards.length?cards.map(d=>`<div class="v750-card"><div class="name">${iconMarkup(d.icon||'💳')} ${esc(d.name)}</div><div class="v750-money">${money(balance(d))}</div><div class="v750-details">原始欠款：${money(d.original)} · 已还本金：${money(paid(d.id))} · ${v7100IsEnglish()?'Annual Interest Rate':'年利率'}: ${Number(d.annualRate||0)}% · ${lt('原定月供','Scheduled Monthly Payment','Bayaran Bulanan yang Dijadualkan')}: ${money(v58monthly(d))}</div><div class="actions" style="margin-top:9px"><button type="button" class="btn secondary small" data-v750-payment="${esc(d.id)}">登记还款</button><button type="button" class="btn secondary small" data-v750-plan="${esc(d.id)}">查看还款计划</button><button type="button" class="btn secondary small" data-v750-edit="${esc(d.id)}">编辑负债</button><button type="button" class="btn secondary small" data-v752-config="${esc(d.id)}">编辑银行规则</button></div></div>`).join(''):'没有识别到信用卡类别。若 CIMB 已存在于负债清单，请先检查并编辑原记录的「负债类别」为信用卡，不要再新增一笔相同负债。';
-  for(const id of ['v750PayCard','v750EstimateCard','v751Card']){const sel=$(id),chosen=sel.value;sel.innerHTML='<option value="">请选择信用卡</option>'+cards.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join('');sel.value=cards.some(d=>d.id===chosen)?chosen:(id==='v751Card'&&cards.length?cards[0].id:'');if(id==='v751Card'&&sel.value!==chosen&&sel.value)v751SelectCard(sel.value);}
+  for(const id of ['v750PayCard','v750EstimateCard','v751Card','v751LateCard']){const sel=$(id),chosen=sel.value;sel.innerHTML='<option value="">请选择信用卡</option>'+cards.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join('');sel.value=cards.some(d=>d.id===chosen)?chosen:((id==='v751Card'||id==='v751LateCard')&&cards.length?cards[0].id:'');if(id==='v751Card'&&sel.value!==chosen&&sel.value)v751SelectCard(sel.value);} if($('v751Card').value&&$('v751LateCard').value!==$('v751Card').value)$('v751LateCard').value=$('v751Card').value;
   const account=$('v750PayAccount'), accountOld=account.value;
   account.innerHTML='<option value="">选择账户</option>'+data.accounts.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}（${moneyForAccount(accountBalance(a.id),a)}）</option>`).join('');account.value=data.accounts.some(a=>a.id===accountOld)?accountOld:'';
   $('v750PaymentHistory').innerHTML=payments.length?[...payments].sort((a,b)=>String(b.date).localeCompare(String(a.date))).map(p=>{const d=cards.find(x=>x.id===p.debtId);return `<div class="item"><div><strong>${esc(d?.name||'已删除信用卡')}</strong><div class="sub">${esc(p.date)} · 本金：${money(p.principal===undefined?p.amount:p.principal)} · 利息：${money(p.interest||0)} · ${p.accountId?esc(accountName(p.accountId)):'不关联账户'}</div></div><strong>${money(p.amount)}</strong></div>`}).join(''):'暂无信用卡还款记录';
@@ -1299,6 +1300,9 @@ function v751Settings(d){const c=(data.creditCardSettings||{})[d.id]||{};const i
 function v751SavedStatement(d){return (data.creditCardStatements||[]).filter(x=>x.debtId===d.id).sort((a,b)=>b.statementDate.localeCompare(a.statementDate))[0]||null}
 function v751SelectCard(id){
  const d=v750Cards().find(c=>c.id===id);if(!d)return;
+ // A single card powers insurance, official statement, late-fee calculation and audit.
+ $('v751Card').value=String(id);
+ $('v751LateCard').value=String(id);
  const cfg=v751Settings(d),st=v751SavedStatement(d);
  $('v751PremiumEnabled').checked=cfg.insuranceEnabled!==false;
  $('v751PremiumRate').value=cfg.premiumRate;$('v751RateLate').value=cfg.lateRate;
@@ -1376,6 +1380,7 @@ function v751RenderHistory(){
  $('v751StatementHistory').innerHTML=stmts.length?stmts.map(x=>`<div class="item"><div><strong>${esc(x.statementDate)}</strong><div class="sub">${v8123Label('截止：','Due: ')}${esc(x.dueDate)} · ${v8123Label('最低应还 ','Minimum Payment Due: ')}${money(x.minimumDue)} · ${v8123Label('账单 ','Statement Balance: ')}${money(x.statementBalance)}</div><button type="button" class="btn secondary small" data-v751-load-stmt="${esc(x.id)}">${v8123Label('查看／编辑','View / Edit')}</button> <button type="button" class="btn danger small" data-v751-del-stmt="${esc(x.id)}">${v8123Label('删除','Delete')}</button></div></div>`).join(''):v8123Label('尚未保存账单。','No saved statements.');
 }
 $('v751Card').addEventListener('change',()=>v751SelectCard($('v751Card').value));
+$('v751LateCard').addEventListener('change',()=>v751SelectCard($('v751LateCard').value));
 $('v751AsOf').value=today();
 for(const key of ['v751PremiumEnabled','v751PremiumRate','v751ProjectedFinance','v751PremiumBase','v751StatementDate','v751DueDate','v751StatementBalance','v751MinimumDue','v751EligibleBase','v751AsOf','v751Holiday'])$(key).addEventListener('input',v751Recalc);
 $('v751SaveInsurance').addEventListener('click',()=>{
@@ -1385,7 +1390,7 @@ $('v751SaveInsurance').addEventListener('click',()=>{
  data.creditCardSettings[d.id]={...v751Settings(d),insuranceEnabled:$('v751PremiumEnabled').checked,premiumRate:rate};save();alert('保险设置已保存；每次进入信用卡管理会自动估算，本次没有增加实际费用。');
 });
 $('v751SaveStatement').addEventListener('click',()=>{
- const d=v751Card();if(!d)return alert('请先选择信用卡。');
+ const d=v751Card();if(!d||$('v751LateCard').value!==String(d.id))return alert('请先在本页选择信用卡。');
  const st=v751FormStatement();if(!st)return alert('请填写有效的账单日、还款日、账单余额和最低还款。');
  const rate=Number($('v751PremiumRate').value);if(!Number.isFinite(rate)||rate<0||rate>10)return alert('请输入有效保险费率。');
  data.creditCardSettings[d.id]={...v751Settings(d),insuranceEnabled:$('v751PremiumEnabled').checked,premiumRate:rate};
@@ -1833,11 +1838,14 @@ function v753Render(){const d=v753Selected();if(!d)return;
  const forecastLimit=$('v753ForecastDate').value||today();
  const effectiveEnd=cycle.end;
  const finance=effectiveEnd>=cycle.start?v761Finance(d,cycle.start,effectiveEnd,rate):null;
- const interest=finance?finance.amount:0,days=finance?finance.days:0;
- const premium=cfg.insuranceEnabled?v753R(Math.max(0,closing+interest)*Number(cfg.premiumRate||0)/100):0;
+ // V8.1.73 fee consistency: every displayed forecast must come from the
+ // same rolling-cycle calculation as the month-end projected total.
+ // The ledger-only `closing` does not include previous months' projected fees.
+ const interest=monthProjection?monthProjection.financeAmount:(finance?finance.amount:0),days=finance?finance.days:0;
+ const insuranceEstimateBase=monthProjection?Math.max(0,v753R(monthProjection.recorded+interest)):Math.max(0,v753R(closing+interest));
+ const premium=monthProjection?monthProjection.premium:(cfg.insuranceEnabled?v753R(insuranceEstimateBase*Number(cfg.premiumRate||0)/100):0);
  const st=(data.creditCardStatements||[]).find(x=>x.debtId===d.id&&x.statementDate===v753Date(ym,v753Cfg(d).day));
- const late=st&&forecastLimit>=st.dueDate?v751EstimateLate(st,forecastLimit).charge:0;
- const projected=v753R(closing+interest+premium+late);
+ const late=monthProjection?monthProjection.late:(st&&forecastLimit>=st.dueDate?v751EstimateLate(st,forecastLimit).charge:0);
  const bills=(data.creditCardStatements||[]).filter(x=>x.debtId===d.id&&x.statementDate===v753Date(ym,v753Cfg(d).day));
   const v8118English=v7100IsEnglish();
   const official=bills[0]||null;
@@ -1847,7 +1855,7 @@ function v753Render(){const d=v753Selected();if(!d)return;
   const mismatch=official?v753R(closing-bankBalance):null;
   // Read-only variance audit. Estimates remain separate from confirmed bank charges.
   // Never write these comparisons back into debt, payments or fee journals.
-  const insuranceEstimateBase=Math.max(0,closing+interest);
+  // The audit and the numbered rows share the same forecast premium base.
   const auditPercent=Number(cfg.premiumRate||0);
   const feeAuditRows=[
    {kind:'finance',title:v7100IsEnglish()?'Finance Charges':'Finance Charges／利息',forecast:interest,actual:officialFinance,method:v7100IsEnglish()?`Forecast: ${money(finance?.closing||0)} × ${rate.toFixed(3)}% × 30 / 365`:`预计公式：${money(finance?.closing||0)} × ${rate.toFixed(3)}% × 30 / 365`},
@@ -1863,6 +1871,11 @@ function v753Render(){const d=v753Selected();if(!d)return;
   // When there is a projection, reuse its per-cycle opening and payment split.
   const repaymentRemaining=monthProjection?monthProjection.remaining:Math.max(0,v753R(opening+otherOpening-v753R(payments+separateInterest+unclassifiedRepayment)));
   const estimateTotal=monthProjection?monthProjection.estimate:v753R(closing+interest+premium+late);
+  // Row 11 (without an official statement) = Row 6 + Row 7 + any separately
+  // confirmed fees + the SAME forecasts shown in Rows 8/9/10.
+  // Confirmed fees are already in the recorded ledger and must not be double-posted.
+  const forecastCheck=v753R(repaymentRemaining+purchases+(monthProjection?monthProjection.confirmedFees:actualFees)+interest+premium+late);
+  const forecastConsistent=Math.abs(forecastCheck-estimateTotal)<0.011;
   // Prefer verified, period-specific statement fees for DISPLAY only. Never auto-post fees.
   // Official statement balance already includes its fees: never add them twice.
   const displayedInterest=officialFinance!==null?v753R(officialFinance):interest;
@@ -1919,13 +1932,16 @@ function v753Render(){const d=v753Selected();if(!d)return;
    'Opening baseline: initial card debt recorded in MyMoney, not a verified statement from an earlier month.':
    '期初起点：使用 MyMoney 最初登记的信用卡欠款余额；不是凭空推算上上个月的银行结单。'):'';
   const monthTitle=v8118English?`${ym} · Monthly Credit Card Statement`:`${Number(ym.slice(0,4))}年${Number(ym.slice(5,7))}月 · 信用卡月度明细`;
+  const feeConsistencyNote=official?'':(v8118English?
+   `Forecast breakdown: remaining ${money(repaymentRemaining)} + new purchases ${money(purchases)} + recorded confirmed fees ${money(monthProjection?monthProjection.confirmedFees:actualFees)} + estimated finance charges ${money(interest)} + estimated insurance ${money(premium)} + estimated late fees ${money(late)} = ${money(estimateTotal)}.${forecastConsistent?'':' Please review this period: the projection and line-item total differ.'}`:
+   `预计余额核对：还款后余额 ${money(repaymentRemaining)} ＋ 新消费 ${money(purchases)} ＋ 已确认入账费用 ${money(monthProjection?monthProjection.confirmedFees:actualFees)} ＋ 预计利息 ${money(interest)} ＋ 预计保险 ${money(premium)} ＋ 预计迟还费 ${money(late)} ＝ ${money(estimateTotal)}。${forecastConsistent?'':'注意：本月预测与明细合计存在差异，请核对记录。'}`);
   const notes=v8118English?
    'Row 1 carries forward the preceding month’s balance (or its saved official statement). The first available period uses the initial recorded card debt as its opening baseline; older unrecorded periods cannot be reconstructed. Row 6 equals row 1 plus new opening debt minus principal, interest and unallocated repayment components (rows 2–4). Row 5 is their sum and is NOT deducted a second time. Row 11 includes purchases and estimated charges, which are not automatically posted to actual debt records.':
    '第1项承接上个月第11项预计应还余额；若上个月有正式银行结单，优先用正式余额。首次有记录的月份使用最初登记的信用卡欠款作为起点；没有记录的更早月份无法自动推算。第6项＝第1项＋本月新登记的期初负债－第2项本金还款－第3项利息还款－第4项其他还款差额；第5项只是第2至4项的合计，不再重复扣除。第11项包含新增消费和预计费用，预测费用仅供参考、不自动入账。';
   const rowMarkup=rows=>rows.map(([label,val])=>`<div class="line"><span>${esc(label)}</span><b>${val<0?'−':''}${money(Math.abs(val))}</b></div>`).join('');
   $('v753Result').innerHTML=`<div class="v8172-month-heading"><strong>${esc(monthTitle)}</strong><span>${esc(d.name)}</span></div><div class="v751-small">${v8118Period}</div>`+
   rowMarkup(statementRows)+feeAuditMarkup+
-  `<p class="v751-small v8172-month-note">${esc(notes)}${seedExplanation?' '+esc(seedExplanation):''} ${esc(feeExplanation)}</p>`+
+  `<p class="v751-small v8172-month-note">${esc(notes)}${seedExplanation?' '+esc(seedExplanation):''} ${esc(feeExplanation)}${feeConsistencyNote?' '+esc(feeConsistencyNote):''}</p>`+
   (official?`<div class="v8172-reconciliation-heading">${v8118English?'Official Bank Statement Reconciliation':'银行正式账单核对'}</div>`+rowMarkup([...officialLines,...referenceLines])+`<p class="v751-small">${sourceNote}</p>`:'');
  const purchasesList=(data.creditCardPurchases||[]).filter(x=>x.debtId===d.id).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,30);
  $('v753Purchases').innerHTML=purchasesList.length?purchasesList.map(x=>`<div class="item"><div><b>${esc(x.note||'信用卡消费')}</b><div class="sub">${esc(x.date)}</div><button class="btn danger small" data-v753-del="${esc(x.id)}" type="button">删除错误记录</button></div><strong>${money(x.amount)}</strong></div>`).join(''):'暂无另外登记的信用卡消费。';
