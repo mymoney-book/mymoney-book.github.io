@@ -393,6 +393,16 @@ html.mn69-theme #mn69ThemeUI .mn69-adjust-actions .mn69-reset {
 #v753Result .v8172-reconciliation-heading{font-size:15px;font-weight:800;margin:16px 0 7px;border-top:1px solid rgba(165,195,222,.45);padding-top:14px}
 @media(max-width:480px){#v753Result .line{font-size:12px;gap:8px}#v753Result .line b{font-size:12px}}
 </style>
+<style id="v8173-fee-audit-style">
+.v8173-fee-audit{border:1px solid rgba(179,211,241,.40);border-radius:14px;padding:12px;margin-top:16px;background:rgba(19,51,83,.23)}
+.v8173-fee-audit h3{margin:0 0 10px}
+.v8173-fee-audit-head,.v8173-fee-audit-row{display:grid;grid-template-columns:minmax(110px,2fr) repeat(3,minmax(75px,1fr));gap:8px;align-items:center;padding:8px 4px}
+.v8173-fee-audit-head{font-size:12px;font-weight:800;border-bottom:1px solid rgba(180,210,236,.5)}
+.v8173-fee-audit-row{font-weight:650;border-bottom:1px solid rgba(180,210,236,.18)}
+.v8173-fee-audit-head span:not(:first-child),.v8173-fee-audit-row span:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+.v8173-fee-audit-method{font-size:12px;line-height:1.5;margin:4px 4px 10px;opacity:.92}
+@media(max-width:520px){.v8173-fee-audit{padding:8px}.v8173-fee-audit-head,.v8173-fee-audit-row{font-size:11px;grid-template-columns:minmax(76px,1.45fr) repeat(3,minmax(48px,1fr));gap:3px;padding:6px 2px}.v8173-fee-audit-row span{overflow-wrap:anywhere}}
+</style>
 </head>
 <body class="mynext"><header><div class="next-brand"><span aria-hidden="true" class="next-logo"><img alt="" src="./mymoney-icon-192.png" style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover"/></span><div><h1>MyMoney <span class="next-wordmark">NEXT</span></h1><p>PERSONAL FINANCE · MYR</p></div></div><div class="next-header-status"><span class="next-status-dot"></span> 本机安全储存 <span class="next-version">V8.1.72</span></div></header><main class="wrap">
 <div class="notice">🔒 数据只保存在当前浏览器/设备。清除浏览器数据或换手机前，请先到「备份」导出 JSON 文件。</div>
@@ -1835,6 +1845,17 @@ function v753Render(){const d=v753Selected();if(!d)return;
   const officialFinance=official&&official.officialFinance!=null?Number(official.officialFinance):null;
   const officialInsurance=official&&official.officialInsurance!=null?Number(official.officialInsurance):null;
   const mismatch=official?v753R(closing-bankBalance):null;
+  // Read-only variance audit. Estimates remain separate from confirmed bank charges.
+  // Never write these comparisons back into debt, payments or fee journals.
+  const insuranceEstimateBase=Math.max(0,closing+interest);
+  const auditPercent=Number(cfg.premiumRate||0);
+  const feeAuditRows=[
+   {kind:'finance',title:v7100IsEnglish()?'Finance Charges':'Finance Charges／利息',forecast:interest,actual:officialFinance,method:v7100IsEnglish()?`Forecast: ${money(finance?.closing||0)} × ${rate.toFixed(3)}% × 30 / 365`:`预计公式：${money(finance?.closing||0)} × ${rate.toFixed(3)}% × 30 / 365`},
+   {kind:'premium',title:v7100IsEnglish()?'Credit Protector / Insurance':'Credit Protector／保险费',forecast:premium,actual:officialInsurance,method:v7100IsEnglish()?`Forecast: ${money(insuranceEstimateBase)} × ${auditPercent.toFixed(2)}%; actual insurable balance may differ`:`预计公式：${money(insuranceEstimateBase)} × ${auditPercent.toFixed(2)}%；银行实际计费基数可能不同`}
+  ];
+  const feeAuditMarkup=`<div class="v8173-fee-audit"><h3>${v7100IsEnglish()?'Estimated vs. Actual Bank Fees':'预计费用与银行实际费用核对'}</h3><div class="v8173-fee-audit-head"><span>${v7100IsEnglish()?'Item':'项目'}</span><span>${v7100IsEnglish()?'Estimated':'预计'}</span><span>${v7100IsEnglish()?'Official':'正式'}</span><span>${v7100IsEnglish()?'Difference':'差额'}</span></div>`+
+   feeAuditRows.map(x=>`<div class="v8173-fee-audit-row"><span>${esc(x.title)}</span><span>${money(x.forecast)}</span><span>${x.actual===null?'—':money(x.actual)}</span><span>${x.actual===null?'—':money(v753R(x.actual-x.forecast))}</span></div><p class="v8173-fee-audit-method">${esc(x.method)}</p>`).join('')+
+   `<p class="v8173-fee-audit-method">${v7100IsEnglish()?'Official amounts appear only when entered and saved in the bank statement editor. Difference is actual minus estimate. No amounts in this table are automatically charged or deducted.':'正式金额仅在本月已保存对应银行账单费用时显示；差额＝银行实际－程序预计。以上核对结果不会自动增加欠款、扣款或重新计费。'}</p></div>`;
 
   // The eleven rows below are presentation-only. Keep raw repayments and debt entries intact.
   // Payment allocation is taken only from recorded repayment components; the missing split is not guessed.
@@ -1903,7 +1924,7 @@ function v753Render(){const d=v753Selected();if(!d)return;
    '第1项承接上个月第11项预计应还余额；若上个月有正式银行结单，优先用正式余额。首次有记录的月份使用最初登记的信用卡欠款作为起点；没有记录的更早月份无法自动推算。第6项＝第1项＋本月新登记的期初负债－第2项本金还款－第3项利息还款－第4项其他还款差额；第5项只是第2至4项的合计，不再重复扣除。第11项包含新增消费和预计费用，预测费用仅供参考、不自动入账。';
   const rowMarkup=rows=>rows.map(([label,val])=>`<div class="line"><span>${esc(label)}</span><b>${val<0?'−':''}${money(Math.abs(val))}</b></div>`).join('');
   $('v753Result').innerHTML=`<div class="v8172-month-heading"><strong>${esc(monthTitle)}</strong><span>${esc(d.name)}</span></div><div class="v751-small">${v8118Period}</div>`+
-  rowMarkup(statementRows)+
+  rowMarkup(statementRows)+feeAuditMarkup+
   `<p class="v751-small v8172-month-note">${esc(notes)}${seedExplanation?' '+esc(seedExplanation):''} ${esc(feeExplanation)}</p>`+
   (official?`<div class="v8172-reconciliation-heading">${v8118English?'Official Bank Statement Reconciliation':'银行正式账单核对'}</div>`+rowMarkup([...officialLines,...referenceLines])+`<p class="v751-small">${sourceNote}</p>`:'');
  const purchasesList=(data.creditCardPurchases||[]).filter(x=>x.debtId===d.id).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,30);
