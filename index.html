@@ -1700,12 +1700,18 @@ function v8172RollingMonth(d,ym){
  // For very old cards, use the recorded opening ledger as the safe baseline instead of estimating decades of fees.
  let count=0,scan=first;while(scan<ym&&count<240){scan=v8172NextMonth(scan);count++}
  if(count===240&&scan<ym)first=v753Prev(ym);
- let carry=0,previous=null;
+ let carry=0,previous=null,seededOpening=false;
  if(first===v753Prev(ym)&&count===240)carry=Math.max(0,v753R(v753Ledger(d,v753AddDays(v753Cycle(d,first).start,-1)).reduce((a,e)=>a+e.amount,0)));
  for(let month=first;month<=ym;month=v8172NextMonth(month)){
    const cy=v753Cycle(d,month),ev=v753Ledger(d,cy.end).filter(e=>e.date>=cy.start);
    const sum=kind=>v753R(ev.filter(e=>e.type===kind).reduce((a,e)=>a+e.amount,0));
-   const newDebt=sum('opening'),purchases=sum('purchase'),confirmedFees=sum('fee');
+   // The initial liability is a baseline for the first observed billing cycle,
+   // not an additional charge to be stacked on top of the next month's forecast.
+   // It appears exactly once in the rolling view, with no change to stored debt.
+   const initialInCycle=!seededOpening && inception && inception>=cy.start && inception<=cy.end;
+   if(initialInCycle){carry=Math.max(0,v753R(carry+Number(d.original||0)));seededOpening=true;}
+   const newDebt=v753R(sum('opening')-(initialInCycle?Number(d.original||0):0));
+   const purchases=sum('purchase'),confirmedFees=sum('fee');
    const payments=(data.payments||[]).filter(x=>x.debtId===d.id&&x.date>=cy.start&&x.date<=cy.end);
    // A payment consists of principal, interest and any unallocated remainder.
    // Subtract the whole bank-debited amount exactly once, not principal alone,
@@ -1730,7 +1736,7 @@ function v8172RollingMonth(d,ym){
    const late=official&&queryDate>=official.dueDate?v751EstimateLate(official,queryDate).charge:0;
    const estimate=v753R(recorded+financeAmount+premium+late);
    const closing=official&&Number.isFinite(Number(official.statementBalance))?Math.max(0,v753R(Number(official.statementBalance))):estimate;
-   previous={month,opening:carry,newDebt,paid,repaymentParts,remaining,purchases,confirmedFees,recorded,financeAmount,premium,late,estimate,closing,official,fin};
+   previous={month,opening:carry,newDebt,initialInCycle,paid,repaymentParts,remaining,purchases,confirmedFees,recorded,financeAmount,premium,late,estimate,closing,official,fin};
    carry=closing;
  }
  return previous;
@@ -1767,7 +1773,7 @@ function v753Render(){const d=v753Selected();if(!d)return;
   const officialInsurance=official&&official.officialInsurance!=null?Number(official.officialInsurance):null;
   const mismatch=official?v753R(closing-bankBalance):null;
 
-  // The twelve rows below are presentation-only. Keep raw repayments and debt entries intact.
+  // The eleven rows below are presentation-only. Keep raw repayments and debt entries intact.
   // Payment allocation is taken only from recorded repayment components; the missing split is not guessed.
   // Row 6 reflects principal + interest + other payment allocation, once.
   // When there is a projection, reuse its per-cycle opening and payment split.
@@ -1781,11 +1787,10 @@ function v753Render(){const d=v753Selected();if(!d)return;
    ['5. Actual Repayment Total (Bank Debit)',-repaymentTotal],
    ['6. Remaining Forecast Balance After Repayment',repaymentRemaining],
    ['7. New Credit Card Purchases This Month',purchases],
-   ['8. Estimated Interest Base',finance?finance.closing:0],
-   ['9. Estimated Finance Charges (30 Days)',interest],
-   ['10. Estimated Insurance Premium',premium],
-   ['11. Estimated Late Payment Fee',late],
-   ['12. Estimated Amount Due This Month (Including Projected Charges)',estimateTotal]
+      ['8. Estimated Finance Charges (30 Days)',interest],
+   ['9. Estimated Insurance Premium',premium],
+   ['10. Estimated Late Payment Fee',late],
+   ['11. Estimated Amount Due This Month (Including Projected Charges)',estimateTotal]
   ]:[
    ['1. 上个月预计应还总额（结转）',opening],
    ['2. 还款（本金）',-payments],
@@ -1794,11 +1799,10 @@ function v753Render(){const d=v753Selected();if(!d)return;
    ['5. 本期还款总额（实际扣款）',-repaymentTotal],
    ['6. 还款剩余余额（预计结转口径）',repaymentRemaining],
    ['7. 本期新增信用卡消费',purchases],
-   ['8. 预计计息基数',finance?finance.closing:0],
-   ['9. 预计 Finance Charges（30天）',interest],
-   ['10. 预计保险费',premium],
-   ['11. 预计迟还费',late],
-   ['12. 本月预计应还总额（含预计费用）',estimateTotal]
+      ['8. 预计 Finance Charges（30天）',interest],
+   ['9. 预计保险费',premium],
+   ['10. 预计迟还费',late],
+   ['11. 本月预计应还总额（含预计费用）',estimateTotal]
   ];
   const officialLines=official?(v8118English?
    [['Official Bank Statement Balance',bankBalance],['Recorded Balance Minus Official Bank Statement (To Reconcile)',mismatch]]:
@@ -1811,19 +1815,22 @@ function v753Render(){const d=v753Selected();if(!d)return;
   `Statement Period: ${esc(cycle.start)} to ${esc(cycle.end)} · ${official?'Bank Due Date':'Estimated Due Date'}: ${esc(official?.dueDate||cycle.due)}${bills.length?' · Official Bank Statement Saved':' · Official Statement Not Yet Saved'} · Forecast Date: ${esc(forecastLimit)} · Estimated Period: ${finance?esc(finance.startDate)+' to '+esc(finance.endDate):'Not Started'} (${days} calendar days, fixed 30-day basis) · Annual Interest Rate: ${rate.toFixed(3)}%`:
   `结算周期：${esc(cycle.start)} 至 ${esc(cycle.end)} · ${official?'银行到期日':'预计到期'}：${esc(official?.dueDate||cycle.due)}${bills.length?' · 已有正式账单':' · 尚未核对正式账单'} · 预测查询日期：${esc(forecastLimit)} · 本期估算区间：${finance?esc(finance.startDate)+' 至 '+esc(finance.endDate):'本期尚未开始'}（自然日${days}天，固定30天基准） · 年利率：${rate.toFixed(3)}%`;
  const v8118Notes=v8118English?
-  'When an official Statement Balance has been saved, interest is calculated using that statement balance minus principal repayments recorded after the statement date. Otherwise, the actual recorded balance is used as a temporary estimate. Estimated interest, insurance and late-payment charges are for reference only and are not automatically posted as debts. The next cycle carries forward the actual recorded balance without adding estimated fees again. If balances differ, the bank’s official statement takes precedence.':
-  '有保存正式 Statement Balance 时，利息按该账单金额扣减账单日后的已登记本金还款计算；没有正式账单则采用实际记录余额作临时估算。预测利息、保险和迟还费只是参考，不自动生成新负债；下期从实际记录余额结转，不会重复加上预测费用。银行实际账单余额如有差异，以银行正式账单为准。';
+  'When an official Statement Balance has been saved, interest is calculated using that statement balance minus principal repayments recorded after the statement date. Otherwise, the actual recorded balance is used as a temporary estimate. Estimated interest, insurance and late-payment charges are for reference only and are not automatically posted as debts. The next cycle carries forward the projected closing amount unless an official bank statement exists. If balances differ, the bank’s official statement takes precedence.':
+  '有保存正式 Statement Balance 时，利息按该账单金额扣减账单日后的已登记本金还款计算；没有正式账单则采用实际记录余额作临时估算。预测利息、保险和迟还费只是参考，不自动生成新负债；下期承接本期预计应还总额；如有正式结单，则优先以银行结单金额为准。银行实际账单余额如有差异，以银行正式账单为准。';
   const sourceNote=official?(v8118English?
    'Bank official statement balance takes precedence for this period. Forecast charges are hidden; official Finance Charges and insurance entered above are references, not automatically posted again. The internal ledger difference requires reconciliation; repayment allocation is never guessed.':
    '本期已有银行正式账单：以银行结单余额为准，隐藏本期估算费用。填写的银行实际利息与保险费只用于核对，不会重复入账。系统余额差额需逐笔核对；程序不会猜测本金、利息及费用分配。'):v8118Notes;
+  const seedExplanation=monthProjection?.initialInCycle?(v8118English?
+   'Opening baseline: initial card debt recorded in MyMoney, not a verified statement from an earlier month.':
+   '期初起点：使用 MyMoney 最初登记的信用卡欠款余额；不是凭空推算上上个月的银行结单。'):'';
   const monthTitle=v8118English?`${ym} · Monthly Credit Card Statement`:`${Number(ym.slice(0,4))}年${Number(ym.slice(5,7))}月 · 信用卡月度明细`;
   const notes=v8118English?
-   'Row 1 carries forward the previous month’s estimated amount due (or its official statement balance if saved). Row 6 equals row 1 plus new opening debt minus principal, interest and unallocated repayment components (rows 2–4). Row 5 is their sum and is NOT deducted a second time. Row 12 includes purchases and estimated charges, which are not automatically posted to actual debt records.':
-   '第1项结转上个月第12项预计应还余额；若上个月有正式银行结单，则优先用正式余额。第6项＝第1项＋本月新登记的期初负债－第2项本金还款－第3项利息还款－第4项其他还款差额；第5项只是第2至4项的合计，不再重复扣除。第12项包含新增消费和预计费用，预测费用仅供参考、不自动入账。';
+   'Row 1 carries forward the preceding month’s balance (or its saved official statement). The first available period uses the initial recorded card debt as its opening baseline; older unrecorded periods cannot be reconstructed. Row 6 equals row 1 plus new opening debt minus principal, interest and unallocated repayment components (rows 2–4). Row 5 is their sum and is NOT deducted a second time. Row 11 includes purchases and estimated charges, which are not automatically posted to actual debt records.':
+   '第1项承接上个月第11项预计应还余额；若上个月有正式银行结单，优先用正式余额。首次有记录的月份使用最初登记的信用卡欠款作为起点；没有记录的更早月份无法自动推算。第6项＝第1项＋本月新登记的期初负债－第2项本金还款－第3项利息还款－第4项其他还款差额；第5项只是第2至4项的合计，不再重复扣除。第11项包含新增消费和预计费用，预测费用仅供参考、不自动入账。';
   const rowMarkup=rows=>rows.map(([label,val])=>`<div class="line"><span>${esc(label)}</span><b>${val<0?'−':''}${money(Math.abs(val))}</b></div>`).join('');
   $('v753Result').innerHTML=`<div class="v8172-month-heading"><strong>${esc(monthTitle)}</strong><span>${esc(d.name)}</span></div><div class="v751-small">${v8118Period}</div>`+
   rowMarkup(statementRows)+
-  `<p class="v751-small v8172-month-note">${esc(notes)}</p>`+
+  `<p class="v751-small v8172-month-note">${esc(notes)}${seedExplanation?' '+esc(seedExplanation):''}</p>`+
   (official?`<div class="v8172-reconciliation-heading">${v8118English?'Official Bank Statement Reconciliation':'银行正式账单核对'}</div>`+rowMarkup([...officialLines,...referenceLines])+`<p class="v751-small">${sourceNote}</p>`:'');
  const purchasesList=(data.creditCardPurchases||[]).filter(x=>x.debtId===d.id).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,30);
  $('v753Purchases').innerHTML=purchasesList.length?purchasesList.map(x=>`<div class="item"><div><b>${esc(x.note||'信用卡消费')}</b><div class="sub">${esc(x.date)}</div><button class="btn danger small" data-v753-del="${esc(x.id)}" type="button">删除错误记录</button></div><strong>${money(x.amount)}</strong></div>`).join(''):'暂无另外登记的信用卡消费。';
