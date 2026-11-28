@@ -382,6 +382,17 @@ html.mn69-theme #mn69ThemeUI .mn69-adjust-actions .mn69-reset {
   -webkit-text-fill-color:#b71c1c !important;
 }
 </style>
+<style id="v8172-monthly-12-line-layout">
+#v753Result .v8172-month-heading{display:flex;flex-direction:column;gap:3px;margin:0 0 10px;padding:12px 14px;border-radius:16px;background:rgba(95,151,195,.22);border:1px solid rgba(170,206,235,.40)}
+#v753Result .v8172-month-heading strong{font-size:19px;font-weight:800}
+#v753Result .v8172-month-heading span{font-size:13px;opacity:.93}
+#v753Result .line{display:flex;justify-content:space-between;align-items:start;gap:12px;padding:11px 3px;border-bottom:1px solid rgba(165,195,222,.35);border-radius:4px}
+#v753Result .line span{flex:1;min-width:0;line-height:1.45}
+#v753Result .line b{flex-shrink:0;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+#v753Result .v8172-month-note{padding:12px;border:1px solid rgba(165,195,222,.28);border-radius:12px;margin:12px 0;line-height:1.65}
+#v753Result .v8172-reconciliation-heading{font-size:15px;font-weight:800;margin:16px 0 7px;border-top:1px solid rgba(165,195,222,.45);padding-top:14px}
+@media(max-width:480px){#v753Result .line{font-size:12px;gap:8px}#v753Result .line b{font-size:12px}}
+</style>
 </head>
 <body class="mynext"><header><div class="next-brand"><span aria-hidden="true" class="next-logo"><img alt="" src="./mymoney-icon-192.png" style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover"/></span><div><h1>MyMoney <span class="next-wordmark">NEXT</span></h1><p>PERSONAL FINANCE · MYR</p></div></div><div class="next-header-status"><span class="next-status-dot"></span> 本机安全储存 <span class="next-version">V8.1.72</span></div></header><main class="wrap">
 <div class="notice">🔒 数据只保存在当前浏览器/设备。清除浏览器数据或换手机前，请先到「备份」导出 JSON 文件。</div>
@@ -1710,20 +1721,44 @@ function v753Render(){const d=v753Selected();if(!d)return;
   const officialInsurance=official&&official.officialInsurance!=null?Number(official.officialInsurance):null;
   const mismatch=official?v753R(closing-bankBalance):null;
 
-  const baseLines=v8118English?
-   [['Previous Cycle Carryover Balance',opening],['New Credit Card Purchases This Cycle',purchases],['Repayment - Principal (Recorded)',-payments],['Repayment - Interest (Recorded)',-separateInterest],['Other / Unallocated Repayment Difference',-unclassifiedRepayment],['Repayment - Total Bank Outflow',-repaymentTotal],['Confirmed Actual Charges Posted',actualFees],['New Opening Debts This Cycle',otherOpening],['Internal Recorded Balance (Principal and Posted Charges)',closing]]:
-   [['上期结转余额',opening],['本期新增信用卡消费',purchases],['还款（本金，已记录）',-payments],['还款（利息，已记录）',-separateInterest],['其他／尚未分配的还款差额',-unclassifiedRepayment],['本期还款总额（实际扣款）',-repaymentTotal],['已确认并入账的实际费用',actualFees],['本期新增期初负债',otherOpening],['系统内部记录余额（本金及已入账费用）',closing]];
-  const estimateLines=v8118English?
-   [['Interest Base (Projection)',finance?finance.closing:0],['Estimated Finance Charges (30 Days)',interest],['Estimated Insurance Premium',premium],['Estimated Late Payment Charges',late],['Projected Carryover (Not Posted)',projected]]:
-   [['预计计息基数',finance?finance.closing:0],['预计 Finance Charges（30天）',interest],['预计保险费',premium],['预计迟还费',late],['预计结转总额（不入账）',projected]];
+  // The twelve rows below are presentation-only. Keep raw repayments and debt entries intact.
+  // Payment allocation is taken only from recorded repayment components; the missing split is not guessed.
+  const repaymentRemaining=Math.max(0,v753R(opening+otherOpening-payments));
+  const estimateTotal=v753R(closing+interest+premium+late);
+  const statementRows=v8118English?[
+   ['1. Balance After Last Month’s Repayment',opening],
+   ['2. Repayment (Principal)',-payments],
+   ['3. Repayment (Interest)',-separateInterest],
+   ['4. Other / Unallocated Repayment Difference',-unclassifiedRepayment],
+   ['5. Actual Repayment Total (Bank Debit)',-repaymentTotal],
+   ['6. Remaining Balance After Repayment (Recorded Principal Basis)',repaymentRemaining],
+   ['7. New Credit Card Purchases This Month',purchases],
+   ['8. Estimated Interest Base',finance?finance.closing:0],
+   ['9. Estimated Finance Charges (30 Days)',interest],
+   ['10. Estimated Insurance Premium',premium],
+   ['11. Estimated Late Payment Fee',late],
+   ['12. Estimated Amount Due This Month (Including Projected Charges)',estimateTotal]
+  ]:[
+   ['1. 上个月还款后的余额',opening],
+   ['2. 还款（本金）',-payments],
+   ['3. 还款（利息）',-separateInterest],
+   ['4. 其他／尚未分配的还款差额',-unclassifiedRepayment],
+   ['5. 本期还款总额（实际扣款）',-repaymentTotal],
+   ['6. 还款剩余余额（按已登记本金）',repaymentRemaining],
+   ['7. 本期新增信用卡消费',purchases],
+   ['8. 预计计息基数',finance?finance.closing:0],
+   ['9. 预计 Finance Charges（30天）',interest],
+   ['10. 预计保险费',premium],
+   ['11. 预计迟还费',late],
+   ['12. 本月预计应还总额（含预计费用）',estimateTotal]
+  ];
   const officialLines=official?(v8118English?
-   [['BANK OFFICIAL Statement Balance (Authoritative)',bankBalance],['Internal Recorded Balance Minus Bank Statement (Reconciliation)',mismatch]]:
-   [['银行正式 Statement Balance（以银行为准）',bankBalance],['系统余额与银行账单差额（待核对）',mismatch]]):[];
+   [['Official Bank Statement Balance',bankBalance],['Recorded Balance Minus Official Bank Statement (To Reconcile)',mismatch]]:
+   [['银行正式 Statement Balance（以银行为准）',bankBalance],['系统余额与正式账单差额（待核对）',mismatch]]):[];
   const referenceLines=official?[
-    ...(officialFinance===null?[]:[[v8118English?'Bank Statement Finance Charges (Reference Only)':'银行账单 Finance Charges（仅供核对）',officialFinance]]),
-    ...(officialInsurance===null?[]:[[v8118English?'Bank Statement Insurance Premium (Reference Only)':'银行账单保险费（仅供核对）',officialInsurance]])
+   ...(officialFinance===null?[]:[[v8118English?'Bank Finance Charges (Official Reference)':'银行实际 Finance Charges（核对用）',officialFinance]]),
+   ...(officialInsurance===null?[]:[[v8118English?'Bank Insurance Premium (Official Reference)':'银行实际保险费（核对用）',officialInsurance]])
   ]:[];
-  const v8118Lines=[...baseLines,...officialLines,...referenceLines,...(official?[]:estimateLines)];
  const v8118Period=v8118English?
   `Statement Period: ${esc(cycle.start)} to ${esc(cycle.end)} · ${official?'Bank Due Date':'Estimated Due Date'}: ${esc(official?.dueDate||cycle.due)}${bills.length?' · Official Bank Statement Saved':' · Official Statement Not Yet Saved'} · Forecast Date: ${esc(forecastLimit)} · Estimated Period: ${finance?esc(finance.startDate)+' to '+esc(finance.endDate):'Not Started'} (${days} calendar days, fixed 30-day basis) · Annual Interest Rate: ${rate.toFixed(3)}%`:
   `结算周期：${esc(cycle.start)} 至 ${esc(cycle.end)} · ${official?'银行到期日':'预计到期'}：${esc(official?.dueDate||cycle.due)}${bills.length?' · 已有正式账单':' · 尚未核对正式账单'} · 预测查询日期：${esc(forecastLimit)} · 本期估算区间：${finance?esc(finance.startDate)+' 至 '+esc(finance.endDate):'本期尚未开始'}（自然日${days}天，固定30天基准） · 年利率：${rate.toFixed(3)}%`;
@@ -1733,9 +1768,15 @@ function v753Render(){const d=v753Selected();if(!d)return;
   const sourceNote=official?(v8118English?
    'Bank official statement balance takes precedence for this period. Forecast charges are hidden; official Finance Charges and insurance entered above are references, not automatically posted again. The internal ledger difference requires reconciliation; repayment allocation is never guessed.':
    '本期已有银行正式账单：以银行结单余额为准，隐藏本期估算费用。填写的银行实际利息与保险费只用于核对，不会重复入账。系统余额差额需逐笔核对；程序不会猜测本金、利息及费用分配。'):v8118Notes;
-  $('v753Result').innerHTML=`<strong>${esc(ym)} · ${esc(d.name)}</strong><div class="v751-small">${v8118Period}</div>`+
- v8118Lines.map(([label,val])=>`<div class="line"><span>${esc(label)}</span><b>${val<0?'−':''}${money(Math.abs(val))}</b></div>`).join('')+
- `<p class="v751-small">${sourceNote}</p>`;
+  const monthTitle=v8118English?`${ym} · Monthly Credit Card Statement`:`${Number(ym.slice(0,4))}年${Number(ym.slice(5,7))}月 · 信用卡月度明细`;
+  const notes=v8118English?
+   'Rows 2–4 are repayment allocations; row 5 is their total and MUST NOT be deducted again. Row 6 uses recorded principal only. Row 12 is an estimated balance payable, NOT money already paid; forecast fees are NOT posted. Confirmed fees and new opening debts remain included in the ledger balance. If the official statement differs, use the official balance and reconcile, without changing historical records.':
+   '第2至4项为还款分配，第5项是合计，不能再次从余额扣减。第6项按已登记本金计算，不代表银行实际分配。第12项是预计应还余额，并非已经扣款；预计费用不会自动入账。系统余额仍包含已确认费用与本期新增期初负债。正式账单如有差异，应以银行账单核对，不会覆盖历史记录。';
+  const rowMarkup=rows=>rows.map(([label,val])=>`<div class="line"><span>${esc(label)}</span><b>${val<0?'−':''}${money(Math.abs(val))}</b></div>`).join('');
+  $('v753Result').innerHTML=`<div class="v8172-month-heading"><strong>${esc(monthTitle)}</strong><span>${esc(d.name)}</span></div><div class="v751-small">${v8118Period}</div>`+
+  rowMarkup(statementRows)+
+  `<p class="v751-small v8172-month-note">${esc(notes)}</p>`+
+  (official?`<div class="v8172-reconciliation-heading">${v8118English?'Official Bank Statement Reconciliation':'银行正式账单核对'}</div>`+rowMarkup([...officialLines,...referenceLines])+`<p class="v751-small">${sourceNote}</p>`:'');
  const purchasesList=(data.creditCardPurchases||[]).filter(x=>x.debtId===d.id).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,30);
  $('v753Purchases').innerHTML=purchasesList.length?purchasesList.map(x=>`<div class="item"><div><b>${esc(x.note||'信用卡消费')}</b><div class="sub">${esc(x.date)}</div><button class="btn danger small" data-v753-del="${esc(x.id)}" type="button">删除错误记录</button></div><strong>${money(x.amount)}</strong></div>`).join(''):'暂无另外登记的信用卡消费。';
 }
