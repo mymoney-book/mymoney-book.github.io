@@ -1211,10 +1211,42 @@ $('v8173LinkExisting').addEventListener('click',()=>{
  if($('v751Card'))$('v751Card').value=String(d.id);
  $('v8173LinkFeedback').textContent='已关联现有记录：'+String(d.name||'负债')+'。没有新增欠款。';
 });
+/* V8.1.73: Display-only balance reconciliation. An official bank statement
+   is a snapshot including its billed fees. Only transactions strictly AFTER
+   the statement date adjust that snapshot; do not re-add its insurance or interest.
+   This never changes the debt ledger or localStorage records. */
+function v8173StatementCardBalance(d,asOf){
+ const cutoff=asOf||today();
+ const stored=(data.creditCardStatements||[]).filter(x=>
+  String(x.debtId)===String(d.id) && /^\d{4}-\d{2}-\d{2}$/.test(String(x.statementDate||'')) &&
+  x.statementDate<=cutoff && x.statementBalance!==null && x.statementBalance!=='' &&
+  Number.isFinite(Number(x.statementBalance)) && Number(x.statementBalance)>=0)
+  .sort((a,b)=>b.statementDate.localeCompare(a.statementDate));
+ const raw=balance(d);
+ if(!stored.length) return {amount:raw,recorded:raw,kind:'recorded',date:null,delta:0};
+ const st=stored[0];
+ const after=date=>typeof date==='string' && date>st.statementDate && date<=cutoff;
+ const purchases=(data.creditCardPurchases||[]).filter(x=>String(x.debtId)===String(d.id)&&after(x.date))
+  .reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const repayments=(data.payments||[]).filter(x=>String(x.debtId)===String(d.id)&&after(x.date))
+  .reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const postedFees=(data.creditCardFees||[]).filter(x=>String(x.debtId)===String(d.id)&&after(x.statementDate||x.date))
+  .reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const extra=v813Extras(d).filter(x=>after(x.date)).reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const delta=v753R(purchases-repayments+postedFees+extra);
+ return {amount:Math.max(0,v753R(Number(st.statementBalance)+delta)),recorded:raw,
+  kind:'official',date:st.statementDate,statementBalance:Number(st.statementBalance),delta};
+}
+/* Display-only: calendar-month total actually paid, including principal, interest and any unallocated portion. */
+function v8173CurrentMonthActualPayments(debtId,month){
+ const target=month||monthNow();
+ return (data.payments||[]).filter(p=>String(p.debtId)===String(debtId)&&String(p.date||'').slice(0,7)===target)
+  .reduce((sum,p)=>sum+(Number.isFinite(Number(p.amount))?Number(p.amount):0),0);
+}
 function v750RenderCredit(){
-  const cards=v750Cards(), total=cards.reduce((s,d)=>s+balance(d),0), payments=data.payments.filter(p=>cards.some(d=>d.id===p.debtId));
-  $('v750CreditSummary').innerHTML=`<div class="metric"><span>信用卡数量</span><strong>${cards.length}</strong></div><div class="metric"><span>信用卡总剩余欠款</span><strong>${money(total)}</strong></div><div class="metric"><span>已登记还款合计</span><strong>${money(payments.reduce((s,p)=>s+Number(p.amount||0),0))}</strong></div>`;
-  $('v750CardList').innerHTML=cards.length?cards.map(d=>`<div class="v750-card"><div class="name">${iconMarkup(d.icon||'💳')} ${esc(d.name)}</div><div class="v750-money">${money(balance(d))}</div><div class="v750-details">${v7100IsEnglish()?'Recorded total debt including purchases, excluding unposted projected fees':'已记录总欠款（含新增消费，不含未入账预计费用）'}</div><div class="v750-details">原始欠款：${money(d.original)} · 已还本金：${money(paid(d.id))} · ${v7100IsEnglish()?'Annual Interest Rate':'年利率'}: ${Number(d.annualRate||0)}% · ${lt('原定月供','Scheduled Monthly Payment','Bayaran Bulanan yang Dijadualkan')}: ${money(v58monthly(d))}</div><div class="actions" style="margin-top:9px"><button type="button" class="btn secondary small" data-v750-payment="${esc(d.id)}">登记还款</button><button type="button" class="btn secondary small" data-v750-plan="${esc(d.id)}">查看还款计划</button><button type="button" class="btn secondary small" data-v750-edit="${esc(d.id)}">编辑负债</button><button type="button" class="btn secondary small" data-v752-config="${esc(d.id)}">编辑银行规则</button></div></div>`).join(''):'没有识别到信用卡类别。若 CIMB 已存在于负债清单，请先检查并编辑原记录的「负债类别」为信用卡，不要再新增一笔相同负债。';
+  const cards=v750Cards(), total=cards.reduce((s,d)=>s+v8173StatementCardBalance(d).amount,0), payments=data.payments.filter(p=>cards.some(d=>d.id===p.debtId));
+  $('v750CreditSummary').innerHTML=`<div class="metric"><span>信用卡数量</span><strong>${cards.length}</strong></div><div class="metric"><span>信用卡显示总欠款（正式账单优先）</span><strong>${money(total)}</strong></div><div class="metric"><span>已登记还款合计</span><strong>${money(payments.reduce((s,p)=>s+Number(p.amount||0),0))}</strong></div>`;
+  $('v750CardList').innerHTML=cards.length?cards.map(d=>`<div class="v750-card"><div class="name">${iconMarkup(d.icon||'💳')} ${esc(d.name)}</div><div class="v750-money">${money(v8173StatementCardBalance(d).amount)}</div><div class="v750-details">${v8173StatementCardBalance(d).kind==='official'?(v7100IsEnglish()?'Official statement '+esc(v8173StatementCardBalance(d).date)+' plus actual activity since statement (fees included, no duplicate charges)':'银行正式结单 '+esc(v8173StatementCardBalance(d).date)+' ＋结单后已记录变动（已含实际费用，不重复加费）'):(v7100IsEnglish()?'Recorded debt only; no official statement saved':'尚未保存正式账单：显示已记录欠款（不含未入账预计费用）')}</div><div class="v750-details">${v7100IsEnglish()?'Recorded ledger balance':'账本已记录欠款'}：${money(balance(d))}</div><div class="v750-details">原始欠款：${money(d.original)} · ${lt('还款总额','Total repayments','Jumlah bayaran balik')}：${money(v8173CurrentMonthActualPayments(d.id))} · ${v7100IsEnglish()?'Annual Interest Rate':'年利率'}: ${Number(d.annualRate||0)}% · ${lt('原定月供','Scheduled Monthly Payment','Bayaran Bulanan yang Dijadualkan')}: ${money(v58monthly(d))}</div><div class="actions" style="margin-top:9px"><button type="button" class="btn secondary small" data-v750-payment="${esc(d.id)}">登记还款</button><button type="button" class="btn secondary small" data-v750-plan="${esc(d.id)}">查看还款计划</button><button type="button" class="btn secondary small" data-v750-edit="${esc(d.id)}">编辑负债</button><button type="button" class="btn secondary small" data-v752-config="${esc(d.id)}">编辑银行规则</button></div></div>`).join(''):'没有识别到信用卡类别。若 CIMB 已存在于负债清单，请先检查并编辑原记录的「负债类别」为信用卡，不要再新增一笔相同负债。';
   for(const id of ['v750PayCard','v750EstimateCard','v751Card','v751LateCard']){const sel=$(id),chosen=sel.value;sel.innerHTML='<option value="">请选择信用卡</option>'+cards.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join('');sel.value=cards.some(d=>d.id===chosen)?chosen:((id==='v751Card'||id==='v751LateCard')&&cards.length?cards[0].id:'');if(id==='v751Card'&&sel.value!==chosen&&sel.value)v751SelectCard(sel.value);} if($('v751Card').value&&$('v751LateCard').value!==$('v751Card').value)$('v751LateCard').value=$('v751Card').value;
   const account=$('v750PayAccount'), accountOld=account.value;
   account.innerHTML='<option value="">选择账户</option>'+data.accounts.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}（${moneyForAccount(accountBalance(a.id),a)}）</option>`).join('');account.value=data.accounts.some(a=>a.id===accountOld)?accountOld:'';
@@ -1395,7 +1427,7 @@ $('v751SaveStatement').addEventListener('click',()=>{
  const rate=Number($('v751PremiumRate').value);if(!Number.isFinite(rate)||rate<0||rate>10)return alert('请输入有效保险费率。');
  data.creditCardSettings[d.id]={...v751Settings(d),insuranceEnabled:$('v751PremiumEnabled').checked,premiumRate:rate};
  const i=data.creditCardStatements.findIndex(x=>x.id===st.id);if(i<0)data.creditCardStatements.push(st);else data.creditCardStatements[i]=st;
- save();v751RenderHistory();alert('本期账单及保险设置已保存（预计费用未入账）。');
+ save();v750RenderCredit();v751RenderHistory();alert('本期账单已保存；信用卡卡片已按正式账单余额及之后交易更新，预计费用未重复入账。');
 });
 $('v751NewStatement').addEventListener('click',()=>{
  const d=v751Card();if(!d)return alert('请选择信用卡。');
