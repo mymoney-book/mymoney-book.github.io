@@ -12,3 +12,10 @@
 
 /* Stage 6: read-only monthly, category and annual comparisons */
 .v720-table-wrap{overflow-x:auto;max-width:100%}.v720-table{width:100%;border-collapse:collapse;font-size:13px;min-width:430px}.v720-table th,.v720-table td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line,#ddd);white-space:nowrap}.v720-table th{font-weight:650}.v720-current{font-weight:700;background:rgba(125,125,125,.08)}.v720-negative{color:#d44b4b}.v720-unmatched-row strong{white-space:nowrap}
+
+/* V8.1.80: separate budget function buttons */
+#budget #v8180BudgetViewBar {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0;}
+#budget #v8180BudgetViewBar .v8180-budget-view-btn {width:100%;min-height:46px;white-space:normal;line-height:1.35;font-weight:700;border-radius:12px;}
+#budget #v8180BudgetViewBar .v8180-budget-view-btn.active {background:rgba(63,147,207,.36);border-color:rgba(128,201,247,.85);box-shadow:inset 0 0 0 1px rgba(128,201,247,.35);}
+#budget .v8180-budget-hidden {display:none!important;}
+@media(max-width:650px){#budget #v8180BudgetViewBar{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}}

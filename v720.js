@@ -102,6 +102,50 @@ const fmt=n=>'RM '+Number(n||0).toLocaleString('en-MY',{minimumFractionDigits:2,
 const now=new Date();let month=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
 root.innerHTML='<div class="box"><h2 id="v720Title"></h2><div class="v720-tools"><label><span id="v720MonthLabel"></span><input id="v720Month" type="month"></label><label><span id="v720TotalLabel"></span><input id="v720Total" type="number" min="0" step="0.01" inputmode="decimal"></label></div><p class="hint" id="v720Hint"></p><div class="actions"><button type="button" class="btn" id="v720Save"></button><button type="button" class="btn secondary" id="v720Copy"></button></div><p id="v720Status" class="hint" role="status"></p><p id="v8110CarryStatus" class="hint"></p></div><div class="box"><div class="v720-grid" id="v720Summary"></div></div><div class="box"><h2 id="v720CatTitle"></h2><div id="v8111RestoreBox" style="display:none;margin:8px 0 14px;padding:10px;border:1px solid #d3e3f5;border-radius:10px"><p id="v8111RestoreHint" class="hint" style="margin:0 0 8px"></p><button type="button" class="btn secondary" id="v8111Restore"></button></div><div id="v8111BudgetImportBox" hidden style="display:none!important"><p class="hint" id="v8111ImportHelp" style="margin:0 0 8px"></p><input id="v8111ImportFile" type="file" accept=".json,application/json" style="max-width:380px"/><button type="button" class="btn secondary" id="v8111Import" style="margin:6px 0 0"></button></div><div id="v720Categories"></div><div class="actions" style="margin:12px 0 4px;align-items:center"><button type="button" class="btn" id="v8112SaveCategories"></button><span class="hint" id="v8112SaveState" role="status"></span></div><div id="v720Unbudgeted" class="v720-unbudgeted" hidden style="display:none!important"></div><div class="v720-add"><label for="v720NewName" id="v720NewLabel"></label><div class="v720-add-row"><input id="v720NewName" type="text" maxlength="60" list="v720Suggested"><datalist id="v720Suggested"></datalist><button type="button" class="btn secondary" id="v720Add"></button></div></div><p class="hint" id="v720Backup"></p></div><div class="box"><h2 id="v720MonthlyTitle"></h2><p class="hint" id="v720CompareHint"></p><div class="v720-table-wrap"><table class="v720-table"><thead id="v720MonthlyHead"></thead><tbody id="v720MonthlyBody"></tbody></table></div></div><div class="box"><h2 id="v720CompareTitle"></h2><div class="v720-table-wrap"><table class="v720-table"><thead id="v720CategoryHead"></thead><tbody id="v720CategoryBody"></tbody></table></div><h3 id="v720OverTitle"></h3><div id="v720OverList"></div></div><div class="box"><h2 id="v720AnnualTitle"></h2><div class="v720-grid" id="v720AnnualSummary"></div><p class="hint" id="v720CoverageHint"></p></div>';
 $('v720Month').value=month;
+// V8.1.80: Four independent budget views. Keep settings/summary visible,
+// and preserve the existing budget draft and storage logic when switching views.
+const budgetViewPanels={
+ categories:$('v720CatTitle').closest('.box'),
+ monthly:$('v720MonthlyTitle').closest('.box'),
+ compare:$('v720CompareTitle').closest('.box'),
+ annual:$('v720AnnualTitle').closest('.box')
+};
+const budgetViewBar=document.createElement('div');
+budgetViewBar.id='v8180BudgetViewBar';
+budgetViewBar.setAttribute('role','group');
+budgetViewBar.setAttribute('aria-label','预算功能切换 / Budget sections');
+const budgetViewButtons={};
+let budgetActiveView='categories';
+for(const key of Object.keys(budgetViewPanels)){
+ const button=document.createElement('button');
+ button.type='button';button.className='btn secondary v8180-budget-view-btn';
+ button.dataset.budgetView=key;
+ button.setAttribute('aria-controls',budgetViewPanels[key].id||'v8180BudgetPanel'+key);
+ if(!budgetViewPanels[key].id)budgetViewPanels[key].id='v8180BudgetPanel'+key;
+ button.addEventListener('click',()=>activateBudgetView(key));
+ budgetViewBar.appendChild(button);budgetViewButtons[key]=button;
+}
+budgetViewPanels.categories.before(budgetViewBar);
+function activateBudgetView(key){
+ if(!budgetViewPanels[key])return;
+ budgetActiveView=key;
+ for(const [name,panel] of Object.entries(budgetViewPanels)){
+  const active=name===key;
+  panel.classList.toggle('v8180-budget-hidden',!active);
+  panel.hidden=!active;
+  budgetViewButtons[name].classList.toggle('active',active);
+  budgetViewButtons[name].setAttribute('aria-pressed',String(active));
+ }
+}
+function updateBudgetViewButtons(){
+ budgetViewButtons.categories.textContent=tx('cat');
+ budgetViewButtons.monthly.textContent=tx('monthlyCompare');
+ budgetViewButtons.compare.textContent=tx('categoryCompare');
+ budgetViewButtons.annual.textContent=tx('annualSummary')+' · '+month.slice(0,4);
+ activateBudgetView(budgetActiveView);
+}
+updateBudgetViewButtons();
+
 let draft=null;let dirty=false;let draftTotal=null;
 function categories(){const transactions=ledger().filter(x=>x.type==='expense'&&typeof x.date==='string'&&x.date.startsWith(month));const used={};for(const t of transactions){const name=String(t.category||tx('uncat'));used[name]=(used[name]||0)+(Number(t.amount)||0)}const config=read()[month]||{};if(!draft||draft.month!==month)draft={month,names:Object.keys(config.categories||{}),values:{...(config.categories||{})}};return {used,config,keys:draft.names}}
 // Missing categories from an earlier month may be offered for recovery without overwriting current limits.
@@ -208,7 +252,7 @@ $('v720OverList').innerHTML=exceeded.length?exceeded.map(([name,limit])=>'<div c
 $('v720AnnualTitle').textContent=tx('annualSummary')+' · '+year;let annualBudget=0,annualSpent=0,budgetedMonths=0;
 for(let i=1;i<=12;i++){const ym=year+'-'+String(i).padStart(2,'0');annualSpent+=totalsByMonth(ym).spent;const b=budgets[ym];if(b&&budgetTotal(b)>0){annualBudget+=budgetTotal(b);budgetedMonths++}}
 $('v720AnnualSummary').innerHTML=[[tx('annualBudget'),budgetedMonths?fmt(annualBudget):tx('budgetNotSet')],[tx('annualSpent'),fmt(annualSpent)],[tx('budgetedMonths'),tx('coverageValue').replace('{n}',String(budgetedMonths))]].map(([label,value])=>'<div class="v720-card"><small>'+esc(label)+'</small><strong>'+esc(value)+'</strong></div>').join('');
-$('v720CoverageHint').textContent=tx('coverageHint');
+$('v720CoverageHint').textContent=tx('coverageHint');updateBudgetViewButtons();
 }
 function save(){
  const totalEl=$('v720Total'),v=totalEl.value.trim(),total=v===''?0:Number(v);
