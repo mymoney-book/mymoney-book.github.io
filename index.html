@@ -1691,9 +1691,55 @@ function v761Finance(d,startDate,endDate,rate){
  return {amount:v753R(base*Number(rate||0)*30/36500),days,basisDays:30,
   opening:base,closing:base,startDate,endDate,statementDate:null,statementBalance:null,paid:0,source:'estimated'};
 }
+/* V8.1.72: read-only monthly estimated carry-forward. Never writes forecasts to data. */
+function v8172NextMonth(ym){const [y,m]=ym.split('-').map(Number);return new Date(Date.UTC(y,m,1)).toISOString().slice(0,7)}
+function v8172RollingMonth(d,ym){
+ const cfg=v753Cfg(d), inception=/^\d{4}-\d{2}-\d{2}$/.test(d.date||'')?d.date:null;
+ let first=inception?inception.slice(0,7):ym;
+ if(inception&&inception>=v753Date(first,cfg.day))first=v8172NextMonth(first);
+ // For very old cards, use the recorded opening ledger as the safe baseline instead of estimating decades of fees.
+ let count=0,scan=first;while(scan<ym&&count<240){scan=v8172NextMonth(scan);count++}
+ if(count===240&&scan<ym)first=v753Prev(ym);
+ let carry=0,previous=null;
+ if(first===v753Prev(ym)&&count===240)carry=Math.max(0,v753R(v753Ledger(d,v753AddDays(v753Cycle(d,first).start,-1)).reduce((a,e)=>a+e.amount,0)));
+ for(let month=first;month<=ym;month=v8172NextMonth(month)){
+   const cy=v753Cycle(d,month),ev=v753Ledger(d,cy.end).filter(e=>e.date>=cy.start);
+   const sum=kind=>v753R(ev.filter(e=>e.type===kind).reduce((a,e)=>a+e.amount,0));
+   const newDebt=sum('opening'),purchases=sum('purchase'),confirmedFees=sum('fee');
+   const payments=(data.payments||[]).filter(x=>x.debtId===d.id&&x.date>=cy.start&&x.date<=cy.end);
+   // A payment consists of principal, interest and any unallocated remainder.
+   // Subtract the whole bank-debited amount exactly once, not principal alone,
+   // and do not subtract interest again after subtracting the total.
+   const repaymentParts=payments.reduce((a,e)=>{
+     const amount=Math.max(0,Number(e.amount)||0);
+     const interest=Math.max(0,Number(e.interest)||0);
+     const principal=e.principal===undefined?Math.max(0,amount-interest):Math.max(0,Number(e.principal)||0);
+     a.total+=amount;a.principal+=principal;a.interest+=interest;
+     a.unallocated+=amount-principal-interest;
+     return a;
+   },{total:0,principal:0,interest:0,unallocated:0});
+   const paid=v753R(repaymentParts.total);
+   const remaining=Math.max(0,v753R(carry+newDebt-v753R(repaymentParts.principal+repaymentParts.interest+repaymentParts.unallocated)));
+   const recorded=Math.max(0,v753R(remaining+purchases+confirmedFees));
+   const official=(data.creditCardStatements||[]).find(x=>x.debtId===d.id&&x.statementDate===v753Date(month,cfg.day))||null;
+   const fin=v761Finance(d,cy.start,cy.end,Number(d.annualRate||0));
+   const financeAmount=fin?fin.amount:0;
+   const settings=v751Settings(d);
+   const premium=settings.insuranceEnabled?v753R(Math.max(0,recorded+financeAmount)*Number(settings.premiumRate||0)/100):0;
+   const queryDate=$('v753ForecastDate')?.value||today();
+   const late=official&&queryDate>=official.dueDate?v751EstimateLate(official,queryDate).charge:0;
+   const estimate=v753R(recorded+financeAmount+premium+late);
+   const closing=official&&Number.isFinite(Number(official.statementBalance))?Math.max(0,v753R(Number(official.statementBalance))):estimate;
+   previous={month,opening:carry,newDebt,paid,repaymentParts,remaining,purchases,confirmedFees,recorded,financeAmount,premium,late,estimate,closing,official,fin};
+   carry=closing;
+ }
+ return previous;
+}
 function v753Render(){const d=v753Selected();if(!d)return;
  const ym=$('v753Month').value||today().slice(0,7),cycle=v753Cycle(d,ym),all=v753Ledger(d,cycle.end),previous=v753Ledger(d,v753AddDays(cycle.start,-1));
- const total=arr=>v753R(arr.reduce((s,x)=>s+x.amount,0));const opening=Math.max(0,total(previous));
+ const total=arr=>v753R(arr.reduce((s,x)=>s+x.amount,0));
+ const monthProjection=v8172RollingMonth(d,ym);
+ const opening=monthProjection?monthProjection.opening:Math.max(0,total(previous));
  const current=all.filter(x=>x.date>=cycle.start&&x.date<=cycle.end);
  const sumType=t=>v753R(current.filter(x=>x.type===t).reduce((s,x)=>s+x.amount,0));
  const purchases=sumType('purchase'),payments=-sumType('payment'),actualFees=sumType('fee');
@@ -1723,15 +1769,17 @@ function v753Render(){const d=v753Selected();if(!d)return;
 
   // The twelve rows below are presentation-only. Keep raw repayments and debt entries intact.
   // Payment allocation is taken only from recorded repayment components; the missing split is not guessed.
-  const repaymentRemaining=Math.max(0,v753R(opening+otherOpening-payments));
-  const estimateTotal=v753R(closing+interest+premium+late);
+  // Row 6 reflects principal + interest + other payment allocation, once.
+  // When there is a projection, reuse its per-cycle opening and payment split.
+  const repaymentRemaining=monthProjection?monthProjection.remaining:Math.max(0,v753R(opening+otherOpening-v753R(payments+separateInterest+unclassifiedRepayment)));
+  const estimateTotal=monthProjection?monthProjection.estimate:v753R(closing+interest+premium+late);
   const statementRows=v8118English?[
-   ['1. Balance After Last Month’s Repayment',opening],
+   ['1. Previous Month’s Amount Due (Carried Forward)',opening],
    ['2. Repayment (Principal)',-payments],
    ['3. Repayment (Interest)',-separateInterest],
    ['4. Other / Unallocated Repayment Difference',-unclassifiedRepayment],
    ['5. Actual Repayment Total (Bank Debit)',-repaymentTotal],
-   ['6. Remaining Balance After Repayment (Recorded Principal Basis)',repaymentRemaining],
+   ['6. Remaining Forecast Balance After Repayment',repaymentRemaining],
    ['7. New Credit Card Purchases This Month',purchases],
    ['8. Estimated Interest Base',finance?finance.closing:0],
    ['9. Estimated Finance Charges (30 Days)',interest],
@@ -1739,12 +1787,12 @@ function v753Render(){const d=v753Selected();if(!d)return;
    ['11. Estimated Late Payment Fee',late],
    ['12. Estimated Amount Due This Month (Including Projected Charges)',estimateTotal]
   ]:[
-   ['1. 上个月还款后的余额',opening],
+   ['1. 上个月预计应还总额（结转）',opening],
    ['2. 还款（本金）',-payments],
    ['3. 还款（利息）',-separateInterest],
    ['4. 其他／尚未分配的还款差额',-unclassifiedRepayment],
    ['5. 本期还款总额（实际扣款）',-repaymentTotal],
-   ['6. 还款剩余余额（按已登记本金）',repaymentRemaining],
+   ['6. 还款剩余余额（预计结转口径）',repaymentRemaining],
    ['7. 本期新增信用卡消费',purchases],
    ['8. 预计计息基数',finance?finance.closing:0],
    ['9. 预计 Finance Charges（30天）',interest],
@@ -1770,8 +1818,8 @@ function v753Render(){const d=v753Selected();if(!d)return;
    '本期已有银行正式账单：以银行结单余额为准，隐藏本期估算费用。填写的银行实际利息与保险费只用于核对，不会重复入账。系统余额差额需逐笔核对；程序不会猜测本金、利息及费用分配。'):v8118Notes;
   const monthTitle=v8118English?`${ym} · Monthly Credit Card Statement`:`${Number(ym.slice(0,4))}年${Number(ym.slice(5,7))}月 · 信用卡月度明细`;
   const notes=v8118English?
-   'Rows 2–4 are repayment allocations; row 5 is their total and MUST NOT be deducted again. Row 6 uses recorded principal only. Row 12 is an estimated balance payable, NOT money already paid; forecast fees are NOT posted. Confirmed fees and new opening debts remain included in the ledger balance. If the official statement differs, use the official balance and reconcile, without changing historical records.':
-   '第2至4项为还款分配，第5项是合计，不能再次从余额扣减。第6项按已登记本金计算，不代表银行实际分配。第12项是预计应还余额，并非已经扣款；预计费用不会自动入账。系统余额仍包含已确认费用与本期新增期初负债。正式账单如有差异，应以银行账单核对，不会覆盖历史记录。';
+   'Row 1 carries forward the previous month’s estimated amount due (or its official statement balance if saved). Row 6 equals row 1 plus new opening debt minus principal, interest and unallocated repayment components (rows 2–4). Row 5 is their sum and is NOT deducted a second time. Row 12 includes purchases and estimated charges, which are not automatically posted to actual debt records.':
+   '第1项结转上个月第12项预计应还余额；若上个月有正式银行结单，则优先用正式余额。第6项＝第1项＋本月新登记的期初负债－第2项本金还款－第3项利息还款－第4项其他还款差额；第5项只是第2至4项的合计，不再重复扣除。第12项包含新增消费和预计费用，预测费用仅供参考、不自动入账。';
   const rowMarkup=rows=>rows.map(([label,val])=>`<div class="line"><span>${esc(label)}</span><b>${val<0?'−':''}${money(Math.abs(val))}</b></div>`).join('');
   $('v753Result').innerHTML=`<div class="v8172-month-heading"><strong>${esc(monthTitle)}</strong><span>${esc(d.name)}</span></div><div class="v751-small">${v8118Period}</div>`+
   rowMarkup(statementRows)+
