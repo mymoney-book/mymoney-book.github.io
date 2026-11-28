@@ -1137,10 +1137,20 @@ document.querySelectorAll('[data-debt-view]').forEach(b=>b.addEventListener('cli
 
 /* V7.5.0: standalone card tab using existing d.type='信用卡', data.payments, accounts.
    No new localStorage root; old backup, import and account/debt ledger stay compatible. */
-/* V8.1.72 compatibility: recognize historic language variants without editing saved debts. */
+/* V8.1.72 recognition repair: all card tools share one read-only filter.
+   Existing debt records are neither migrated nor duplicated. */
 function v8172IsCreditCard(d){
- const kind=String(d?.type??'').normalize('NFKC').trim().replace(/\s+/g,' ').toLowerCase();
- return kind==='信用卡'||kind==='credit card'||kind==='credit-card'||kind==='kad kredit';
+ if(!d||typeof d!=='object')return false;
+ const clean=v=>String(v??'').normalize('NFKC').replace(/\s+/g,' ').trim().toLowerCase();
+ const kind=clean(d.type),name=clean(d.name),mode=clean(d.interestMode);
+ // Recognize legacy Chinese, English and Malay labels, including compact variants.
+ if(/(?:信用卡|信用咭|credit[\s\-_.]*card|kad[\s\-_.]*kredit)/i.test(kind))return true;
+ // A debt already configured for credit-card interest also belongs in these selectors.
+ if(mode==='credit')return true;
+ // Older imports sometimes stored 'CIMB · Credit Card' as the name, but used
+ // '个人借款' as its category. This fallback does not modify the stored category.
+ if(/(?:信用卡|信用咭|credit[\s\-_.]*card|kad[\s\-_.]*kredit)/i.test(name))return true;
+ return false;
 }
 function v750Cards(){return data.debts.filter(v8172IsCreditCard)}
 function v750RenderCredit(){
