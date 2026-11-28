@@ -45,19 +45,17 @@ el('v780Cats').innerHTML=Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([name,
 el('v780Accounts').innerHTML=acc.map(a=>{
 // Resolve each account closing balance using its native account entries and loan-linked movements.
 function balanceAt(a){let v=num(a.opening),id=a.id,end=yr+'-12-31';for(const x of tx)if(x.accountId===id&&x.date<=end)v+=(x.type==='income'?1:-1)*num(x.amount);for(const p of debtPays)if(p.accountId===id&&p.date<=end)v-=num(p.amount);for(const t of ts)if(t.date<=end){if(t.from===id)v-=num(t.amount);if(t.to===id)v+=num(t.amount)}for(const l of loans)if(l.accountId===id&&l.date<=end)v+=(l.direction==='borrow'?1:-1)*num(l.amount);for(const p of loanPays)if(p.accountId===id&&p.date<=end){let l=loans.find(x=>x.id===p.loanId);if(l)v+=(l.direction==='borrow'?-1:1)*num(p.amount)}for(const p of recPays)if(p.accountId===id&&p.date<=end)v+=num(p.amount);return v}
-return `<div class="item"><div>${esc(a.name)} <span class="pill">${esc(a.type||'账户')}</span></div><strong>${fmt(balanceAt(a))}</strong></div>`}).join('')||'<p class="hint">没有账户。</p>';
+return `<div class="item"><span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700">${esc(a.name)} <span class="pill">${esc(a.type||'账户')}</span></span><strong>${fmt(balanceAt(a))}</strong></div>`}).join('')||'<p class="hint">没有账户。</p>';
+// V8.1.77: use the same read-only historical debt balance as the app.
+// For cards, confirmed statement balances take precedence, and later real payments
+// and purchases are applied once. No finance estimate is posted automatically.
 const debtRows=(data.debts||[]).map(d=>{
-let b=num(d.original),end=yr+'-12-31';
-for(const x of (d.additionalCharges||[]))if(x.date<=end)b+=num(x.amount);
-if(d.type==='信用卡'){
-for(const x of (data.creditCardPurchases||[]))if(x.debtId===d.id&&x.date<=end)b+=num(x.amount);
-for(const x of (data.creditCardFees||[]))if(x.debtId===d.id&&(x.statementDate||x.date)<=end)b+=num(x.amount);
-}
-for(const p of debtPays)if(p.debtId===d.id&&p.date<=end)b-=num(p.principal??p.amount);
-return `${esc(d.name)}：${fmt(Math.max(0,b))}`;
+ const end=yr+'-12-31';
+ const amount=window.__mymoneyDebtBalanceAt?.(d.id,end);
+ return {label:esc(d.name),amount:amount==null?0:num(amount)};
 });
-const loanRows=loans.map(l=>{let b=num(l.amount)-sum(loanPays.filter(p=>p.loanId===l.id&&p.date<=yr+'-12-31').map(p=>p.amount));return `${l.direction==='borrow'?'借入':'借出'} · ${esc(l.person||l.name||'未命名')}：${fmt(Math.max(0,b))}`});
-el('v780Debts').innerHTML=[...debtRows,...loanRows].map(v=>`<div class="item">${v}</div>`).join('')||'<p class="hint">没有相关记录。</p>';
+const loanRows=loans.map(l=>{let b=num(l.amount)-sum(loanPays.filter(p=>p.loanId===l.id&&p.date<=yr+'-12-31').map(p=>p.amount));return {label:`${l.direction==='borrow'?'借入':'借出'} · ${esc(l.person||l.name||'未命名')}`,amount:Math.max(0,b)}});
+el('v780Debts').innerHTML=[...debtRows,...loanRows].map(v=>`<div class="item"><span style="font-weight:700">${v.label}</span><strong>${fmt(v.amount)}</strong></div>`).join('')||'<p class="hint">没有相关记录。</p>';
 el('v780Explain').textContent='统计口径：只计入已关联账户的收支与借款流水；未关联账户的记录保留在原始明细。账户余额与现金流不是会计利润。信用卡费用与债务余额请以原始负债模块及银行正式账单核对。单独筛选账户时，内部转账只算该账户的转入／转出。';
 }
 function init(){const data=window.__mymoneyReportSnapshot?.();const y=el('v780Year'),a=el('v780Account');if(!y||!a)return;const curr=String(new Date().getFullYear()),years=new Set([curr]);if(data)for(const list of [data.transactions,data.payments,data.transfers,data.loans,data.loanPayments,data.receivablePayments])for(const x of list||[])if(/^\d{4}/.test(x.date||''))years.add(x.date.slice(0,4));y.innerHTML=[...years].sort().reverse().map(v=>`<option value="${v}">${v}年</option>`).join('');a.innerHTML='<option value="all">全部账户</option>'+(!data?'':(data.accounts||[]).map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join(''));y.addEventListener('change',draw);a.addEventListener('change',draw);el('v780Csv').addEventListener('click',()=>{const fields=['month','opening','income','expense','debtRepay','borrowIn','lendOut','borrowRepay','lendBack','receivableIn','transferIn','transferOut','closing'];const csv='\ufeff'+[fields.join(','),...last.map(r=>fields.map(k=>JSON.stringify(r[k]??'')).join(','))].join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const link=document.createElement('a');link.href=url;link.download=`MyMoney_年度详细报表_${y.value}.csv`;link.click();URL.revokeObjectURL(url)});draw();window.addEventListener('mymoney-v73-update',draw);}
